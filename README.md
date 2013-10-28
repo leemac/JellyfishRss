@@ -3,7 +3,7 @@ JellyfishRss
 
 Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable.
 
-##Minimum Requirements (MVP)
+###Minimum Requirements (MVP)
 
 + Mark as read for a particular user
 + Mark as favorite for a particular user
@@ -16,7 +16,7 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable.
 + Email/Share
 + Poll feeds at set interval
 
-##Future Features
+###Future Features
 
 + 100% Open Source
 + Ignore posts with specific terms (Giveaway, Prizes). Choose your own or select pre-crafted filters.
@@ -29,6 +29,6 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable.
 + Easily export your data.
 + Mobile Friendly 
 
-##License
+###License
 
 Jellyfish Rss is licensed under the MIT license. A link back to this project is appreciated but not required.
