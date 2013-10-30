@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^$', IndexView.as_view(), name='index-view'),
     url(r'^login/', LoginView.as_view(), name='login-view'),
     url(r'^about/', AboutView.as_view(), name='about-view'),
+    url('', include('django.contrib.auth.urls')),
 
     # url(r'^rss/', include('rss.foo.urls')),
 
@@ -22,4 +23,4 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-)
+) 
