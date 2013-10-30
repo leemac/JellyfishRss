@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<title>
+			Jellyfish
+		</title>
+	</head>
+
+	<body>
+		<header>
+			<a href="{% url 'index-view' %}">
+				Jellyfish RSS
+			</a>
+		</header>
+		<content>
+			{% block content %}
+			{% endblock %}
+		</content>
+	</body>
+</html>
