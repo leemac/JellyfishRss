@@ -1,9 +1,25 @@
 JellyfishRss
 ============
 
-Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable.
+Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. It will be optimized for mobile users.
 
-###Minimum Requirements (MVP)
+###Roadmap
+1. Implement basic site pages
+	- Home
+	- Login
+	- Feeds View
+	- Settings
+2. Implement RSS poller
+	- Iterate over sites
+	- Add new items
+3. Authentication
+4. User integration
+	- Feeds polled at interval
+	- User can login and view feeds
+	- User can login and mark feeds as read
+	- etc.
+
+###Feature Idea Brain Dump
 
 + Mark as read for a particular user
 + Mark as favorite for a particular user
@@ -14,10 +30,6 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable.
 + View all subscriptions with all items (paging)
 + View favorite entries
 + Email/Share
-+ Poll feeds at set interval
-
-###Future Features
-
 + 100% Open Source
 + Ignore posts with specific terms (Giveaway, Prizes). Choose your own or select pre-crafted filters.
 + Hostable 

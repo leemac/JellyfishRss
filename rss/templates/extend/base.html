@@ -1,19 +1,24 @@
 <html>
-	<head>
-		<title>
-			Jellyfish
-		</title>
-	</head>
+<head>
+	<title>
+		Jellyfish
+	</title>
+	{% load compressed %}
+	{% compress_css 'core'}
+</head>
 
-	<body>
-		<header>
+<body>
+	<header>
+		<h1>
 			<a href="{% url 'index-view' %}">
 				Jellyfish RSS
 			</a>
-		</header>
-		<content>
-			{% block content %}
-			{% endblock %}
-		</content>
-	</body>
+		</h1>
+	</header>
+	<content>
+		{% block content %}
+
+		{% endblock %}
+	</content>
+</body>
 </html>
