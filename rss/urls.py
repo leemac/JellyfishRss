@@ -6,16 +6,17 @@ from django.contrib import admin
 admin.autodiscover()
 
 from rss.views import IndexView
-from rss.views import LoginView
 from rss.views import AboutView
 
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', IndexView.as_view(), name='index-view'),
-    url(r'^login/', LoginView.as_view(), name='login-view'),
+    url(r'^login/', 'rss.views.login_user'),
     url(r'^about/', AboutView.as_view(), name='about-view'),
     url('', include('django.contrib.auth.urls')),
-
+    url(r'^login/$', 'django.contrib.auth.views.login', {
+        'template_name': 'myapp/login.html'
+    }),
     # url(r'^rss/', include('rss.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

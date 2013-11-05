@@ -3,22 +3,26 @@
 	<title>
 		Jellyfish
 	</title>
-	{% load compressed %}
-	{% compress_css 'core'}
+	{% load staticfiles %}	 
+	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css"/>
+	 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/signin.css"/>
+	
 </head>
 
 <body>
-	<header>
-		<h1>
-			<a href="{% url 'index-view' %}">
-				Jellyfish RSS
-			</a>
-		</h1>
-	</header>
-	<content>
-		{% block content %}
+	<div class='container'>
+		<header>
+			<h1>
+				<a href="{% url 'index-view' %}">
+					Jellyfish RSS
+				</a>
+			</h1>
+		</header>
+		<content>
+			{% block content %}
 
-		{% endblock %}
-	</content>
+			{% endblock %}
+		</content>
+	</div>
 </body>
 </html>
