@@ -25,20 +25,28 @@ def login_user(request):
 	logout(request)
 	username = password = ""
 
+	context = RequestContext(request)
+
 	if request.POST:
 		username = request.POST['username']
 		password = request.POST['password']
+
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect('/static/welcome.html')
+				return render_to_response('static/index.html', context_instance=context)
 
-	context = RequestContext(request)
 	from django.contrib.auth.forms import AuthenticationForm
 	context['form'] = AuthenticationForm()
 
 	return render_to_response('static/index.html', context_instance=context)
+
+def logout_user(request):
+	logout(request)
+
+	context = RequestContext(request)
+	return render_to_response('static/logout.html', context_instance=context)
 
 class AboutView(View):
 	def get(self, request):

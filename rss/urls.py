@@ -12,11 +12,9 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', IndexView.as_view(), name='index-view'),
     url(r'^login/', 'rss.views.login_user'),
+    url(r'^logout/', 'rss.views.logout_user', name='logout-user'),
     url(r'^about/', AboutView.as_view(), name='about-view'),
     url('', include('django.contrib.auth.urls')),
-    url(r'^login/$', 'django.contrib.auth.views.login', {
-        'template_name': 'myapp/login.html'
-    }),
     # url(r'^rss/', include('rss.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
