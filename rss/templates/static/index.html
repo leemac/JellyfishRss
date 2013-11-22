@@ -1,20 +1,19 @@
 {% extends "extend/base.html" %}
 
 {% block content %}
-
 	{% if user.is_authenticated %}
 		Hello {{ user.username }}!
-		<a href="{% url 'logout-user' %">Logout</a>
+		<a href="{% url 'logout-user' %}">Logout</a>
 
 	{% else %}
 		{% if form.errors %}
 		<p>Your username and password didn't match. Please try again.</p>
 		{% endif %}
 
-		<form class="form-signin" role="form" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+		<form class="form-signin" role="form" method="post" action="{% url 'login-user' %}">
 			{% csrf_token %}
-			<h2 class="form-signin-heading">Please Login</h2>
-			<input id="id_username" class="form-control" maxlength="254" name="username" type="text" clickev="true" placeholder="Email Address" autofocus>
+			<h4 class="form-signin-heading">Please Login</h4>
+			<input id="id_username" class="form-control" maxlength="254" name="username" type="text" clickev="true" placeholder="Username" autofocus>
 			<input id="id_password" class="form-control" name="password" type="password" clickev="true" placeholder=Password>
 			<button type="submit" class="btn btn-default btn-success">Sign in</button>
 		</form>

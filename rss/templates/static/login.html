@@ -1,6 +1,10 @@
 {% extends "extend/base.html" %}
 
 {% block content %}
-	Please login below!
+	
+	You have been logged in! Redirecting!
 
+	<script>
+		window.location = "{% url 'index-view' %}";
+	</script>
 {% endblock %}

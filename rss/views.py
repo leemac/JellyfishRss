@@ -1,25 +1,31 @@
-from django.http import HttpResponse
-from django.views.generic import View
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
 from django.contrib.auth import authenticate, login, logout
 
 import logging
 
 logger = logging.getLogger('logview.userrequest')
 
-class IndexView(View):
-	def get(self, request):
-		context = RequestContext(request)
+def home(request):
+	context = RequestContext(request)
 
-		logger.info("User made request (test logging)")
+	logger.info("User made request (test logging)")
 
-		from django.contrib.auth.forms import AuthenticationForm
-		context['form'] = AuthenticationForm()
+	from django.contrib.auth.forms import AuthenticationForm
+	context['form'] = AuthenticationForm()
 
-		return render_to_response('static/index.html', context_instance=context)		
+	return render_to_response('static/index.html', context_instance=context)		
+
+def about(request):
+	return render_to_response('static/index.html')
+
+def login_redirect(request):
+	return render_to_response('static/login.html')
+		
+# AUTHENTICATION
 
 def login_user(request):
 	logout(request)
@@ -33,9 +39,13 @@ def login_user(request):
 
 		user = authenticate(username=username, password=password)
 		if user is not None:
+			logger.info("User " + username + " authenticated successfully.")
 			if user.is_active:
 				login(request, user)
-				return render_to_response('static/index.html', context_instance=context)
+				return render_to_response('static/login.html', context_instance=context)
+
+
+	logger.info("Showing user index with login form....")
 
 	from django.contrib.auth.forms import AuthenticationForm
 	context['form'] = AuthenticationForm()
@@ -46,9 +56,4 @@ def logout_user(request):
 	logout(request)
 
 	context = RequestContext(request)
-	return render_to_response('static/logout.html', context_instance=context)
-
-class AboutView(View):
-	def get(self, request):
-		return render(request, 'static/about.html')
-		
+	return render_to_response('static/index.html', context_instance=context)

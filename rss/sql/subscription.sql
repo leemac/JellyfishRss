@@ -1,0 +1,1 @@
+INSERT INTO Subscription (title) VALUES ('test')
