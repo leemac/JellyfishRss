@@ -1,9 +1,10 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from django.shortcuts import redirect
-
 from django.contrib.auth import authenticate, login, logout
+
+from rss.models import Subscription
+from rss.models import User
 
 import logging
 
@@ -12,10 +13,14 @@ logger = logging.getLogger('logview.userrequest')
 def home(request):
 	context = RequestContext(request)
 
-	logger.info("User made request (test logging)")
+	if request.user.is_authenticated:
+		user = User.objects.all()[0];
+		context.totalItems = Subscription.objects.filter(user_id=user.id)
+	else:
+		logger.info("User made request (test logging)")
 
-	from django.contrib.auth.forms import AuthenticationForm
-	context['form'] = AuthenticationForm()
+		from django.contrib.auth.forms import AuthenticationForm
+		context['form'] = AuthenticationForm()
 
 	return render_to_response('static/index.html', context_instance=context)		
 

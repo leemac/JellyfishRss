@@ -4,6 +4,12 @@
 	{% if user.is_authenticated %}
 		Hello {{ user.username }}!
 		<a href="{% url 'logout-user' %}">Logout</a>
+		<hr/>
+
+
+		{% for item in totalItems %}
+			<a href="{{ item.url }}">{{ item.url }}</a><br/>
+		{% endfor %}
 
 	{% else %}
 		{% if form.errors %}
