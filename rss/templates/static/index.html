@@ -7,8 +7,12 @@
 		<hr/>
 
 
-		{% for item in totalItems %}
-			<a href="{{ item.url }}">{{ item.url }}</a><br/>
+		{% for subscription in subscriptions %}
+			<h4>{{ subscription.title }}</h4>
+
+			{% for item in subscription.item.all %}
+				<a href="{{ item.url }}">{{ item.title }}</a><br/>
+			{% endfor %}
 		{% endfor %}
 
 	{% else %}

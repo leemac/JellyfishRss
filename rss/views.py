@@ -15,7 +15,8 @@ def home(request):
 
 	if request.user.is_authenticated:
 		user = User.objects.all()[0];
-		context.totalItems = Subscription.objects.filter(user_id=user.id)
+
+		context.subscriptions = Subscription.objects.filter(user_id=user.id)
 	else:
 		logger.info("User made request (test logging)")
 

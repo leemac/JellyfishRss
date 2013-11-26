@@ -7,6 +7,7 @@ class Subscription(models.Model):
 	site_url = 	models.TextField()
 	user = 		models.ForeignKey(User)
 	title = 	models.TextField()
+	
 	def __str__(self):
 		return self.title
 
@@ -15,6 +16,7 @@ class SubscriptionItem(models.Model):
 	published = models.DateTimeField()
 	title = 	models.TextField()
 	url = 		models.TextField()
-	subscription = models.ForeignKey(Subscription)
+	subscription = models.ForeignKey(Subscription, related_name="item")
+
 	def __str__(self):
 		return self.title
