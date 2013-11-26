@@ -11,7 +11,7 @@
 			<h4>{{ subscription.title }}</h4>
 
 			{% for item in subscription.item.all %}
-				<a href="{{ item.url }}">{{ item.title }}</a><br/>
+				<a href="{{ item.url }}" target="_blank">{{ item.title }}</a><br/>
 			{% endfor %}
 		{% endfor %}
 

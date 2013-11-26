@@ -10,23 +10,31 @@ from rss.models import User
 class Command(BaseCommand):
 
 	def handle(self, *args, **options):
-		filepath = "rss/dummyfiles/google.xml"
+		self.CrawlSite("rss/dummyfiles/google.xml")
+		self.CrawlSite("rss/dummyfiles/cnn_us.xml")
+		self.CrawlSite("rss/dummyfiles/cnn_financial.xml")
+		self.CrawlSite("rss/dummyfiles/cnn_political.xml")
+		self.CrawlSite("rss/dummyfiles/cnn_top_stories.xml")
 
+	def CrawlSite(self, filepath):
+
+		self.stdout.write("Importing file: "  + filepath + "\n")
 		try:
 			with open(filepath):
 				d = feedparser.parse(filepath)
 
+				self.stdout.write(d.feed.title)
+
 				user = User.objects.all()[0];
 
-				newSub = Subscription.objects.get(title=d.feed.title)
-
-				if(newSub is None):
+				try:
+					newSub = Subscription.objects.get(title=d.feed.title)
+				except Subscription.DoesNotExist:
 					newSub = Subscription()
 					newSub.title = d.feed.title
 					newSub.url = d.feed.link
 					newSub.user_id = user.id
 					newSub.save()
-
 
 				for item in d.entries:
 
@@ -50,6 +58,6 @@ class Command(BaseCommand):
 				
 		except IOError:
 			self.stdout.write("The file does not exist!")
-			return
+			return	
 
 		
