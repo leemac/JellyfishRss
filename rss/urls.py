@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 
 # Uncomment the next two lines to enable the admin:
 
@@ -11,6 +11,9 @@ urlpatterns = patterns('',
     url(r'^redirect-login/', 'rss.views.login_redirect', name='login-redirect-view'),
     url(r'^login/', 'rss.views.login_user', name='login-user'),
     url(r'^logout/', 'rss.views.logout_user', name='logout-user'),
+    url(r'^api/get_subscription_items', 'rss.views.get_subscription_items', name='get-subscription-items'),
+
+
     # url('', include('django.contrib.auth.urls')),
     # url(r'^rss/', include('rss.foo.urls')),
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login, logout
 
@@ -7,6 +8,7 @@ from rss.models import Subscription
 from rss.models import User
 
 import logging
+import json
 
 logger = logging.getLogger('logview.userrequest')
 
@@ -30,7 +32,13 @@ def about(request):
 
 def login_redirect(request):
 	return render_to_response('static/login.html')
-		
+	
+def get_subscription_items(request):
+	if(request.is_ajax()):
+		return HttpResponse(json.dumps("hello " + request.POST["subscription_id"]), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
 # AUTHENTICATION
 
 def login_user(request):

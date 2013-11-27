@@ -2,19 +2,100 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-		Hello {{ user.username }}!
+
+	<style>
+		body {
+			padding: 0;
+		}
+		#userbar
+		{
+			background-color: #333;
+			color: whitesmoke;
+			padding: 3px;
+		}
+		#userbar a
+		{
+			color: lightblue;
+		}
+		#sidebar
+		{
+			width: 225px;
+		}
+		#explorer 
+		{
+			border-left: 2px solid #AAA;
+			width: 600px;
+		}
+		.subscription-node
+		{
+			background-color: #DDD;
+			margin: 3px 0;
+			padding: 2px 5px;
+		}
+		.subscription-node:hover
+		{	
+			background-color: #CCC;
+			cursor: pointer;
+		}
+		.subscription-explorer-node
+		{
+			background-color: #DDD;
+			margin: 3px 0;
+			padding: 2px 5px;
+		}
+		.subscription-explorer-node:hover
+		{	
+			background-color: #CCC;
+			cursor: pointer;
+		}
+	</style>
+	{% csrf_token %}
+	<script>
+		function getCSRF()
+		{
+			return document.getElementsByName('csrfmiddlewaretoken')[0].value;
+		}
+		$(function () {
+			$(".subscription-node").click(function () {
+				var subscriptionid = $(this).attr("js-subscription-id");
+
+				$.ajax({
+					type: "POST",
+					url : "http://localhost:8000/api/get_subscription_items",
+					data : {
+						csrfmiddlewaretoken: getCSRF(),
+						subscription_id: subscriptionid
+					},
+					success: function (msg) {
+						alert(msg)
+					}
+				});
+			});
+		});
+	</script>
+
+		<div id="userbar">
+			Hello {{ user.username }}!
 		<a href="{% url 'logout-user' %}">Logout</a>
-		<hr/>
-
-
-		{% for subscription in subscriptions %}
-			<h4>{{ subscription.title }}</h4>
-
-			{% for item in subscription.item.all %}
-				<a href="{{ item.url }}" target="_blank">{{ item.title }}</a><br/>
-			{% endfor %}
-		{% endfor %}
-
+		</div>
+		<div class="clearfix">
+			<div id="sidebar" class="pull-left">
+				{% for subscription in subscriptions %}
+					<div class='subscription-node' js-subscription-id="{{ subscription.id }}">
+						{{ subscription.title }}
+					</div>
+				{% endfor %}
+			</div>
+			<div id="explorer" class="pull-left">
+				{% for subscription in subscriptions %}
+					{% for item in subscription.item.all %}
+						<div class="subscription-explorer-node">
+							{{ item.title }}
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+		</div>
 	{% else %}
 		{% if form.errors %}
 		<p>Your username and password didn't match. Please try again.</p>
