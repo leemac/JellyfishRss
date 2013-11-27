@@ -3,6 +3,15 @@ JellyfishRss
 
 Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. It will be optimized for mobile users.
 
+###Install
+
+1. Clone Repository
+2. Install [django-pipeline](https://github.com/cyberdelia/django-pipeline)
+3. Install [feedparser](https://pypi.python.org/pypi/feedparser)
+4. Install [south](http://south.readthedocs.org/en/latest/installation.html)
+5. manage.py syncdb
+6. manage.py migrate
+
 ###Roadmap
 1. Implement basic site pages
 	- Home
