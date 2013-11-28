@@ -18,5 +18,12 @@ class SubscriptionItem(models.Model):
 	url = 		models.TextField()
 	subscription = models.ForeignKey(Subscription, related_name="item")
 
+	def as_json(self):
+		return dict(
+				url=self.url,
+				title=self.title,
+				content=self.content
+			)
+
 	def __str__(self):
 		return self.title

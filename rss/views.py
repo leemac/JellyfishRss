@@ -35,7 +35,14 @@ def login_redirect(request):
 	
 def get_subscription_items(request):
 	if(request.is_ajax()):
-		return HttpResponse(json.dumps("hello " + request.POST["subscription_id"]), mimetype='application/json')
+		subscription_id = request.POST["subscription_id"]
+
+		subscription = Subscription.objects.get(id=subscription_id)
+
+		itemset = subscription.item.all()
+		results = [ob.as_json() for ob in itemset]
+
+		return HttpResponse(json.dumps(results), mimetype='application/json')
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 

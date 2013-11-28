@@ -59,6 +59,7 @@
 			$(".subscription-node").click(function () {
 				var subscriptionid = $(this).attr("js-subscription-id");
 
+
 				$.ajax({
 					type: "POST",
 					url : "http://localhost:8000/api/get_subscription_items",
@@ -66,17 +67,42 @@
 						csrfmiddlewaretoken: getCSRF(),
 						subscription_id: subscriptionid
 					},
+					beforeSend: function (){
+						$("#explorer").html("");
+						$("#explorer").html("LOADING");
+					},
 					success: function (msg) {
-						alert(msg)
+						$("#explorer").html("");
+						for(var i = 0; i < msg.length; i ++)
+						{
+							console.log(msg[i]);
+
+							var source   = $("#item-template").html();
+							var template = Handlebars.compile(source);
+							var context = {title: "My New Post", body: "This is my first post!"};
+
+							var html    = template(context);
+
+							$("#explorer").append(html);
+						}
+
+						BindLinks();
 					}
 				});
 			});
 		});
+
+		function BindLinks()
+		{
+			$(".subscription-explorer-node").click(function () {
+				window.location = $(this).attr("js-item-link");
+			});
+		}
 	</script>
 
 		<div id="userbar">
 			Hello {{ user.username }}!
-		<a href="{% url 'logout-user' %}">Logout</a>
+			<a href="{% url 'logout-user' %}">Logout</a>
 		</div>
 		<div class="clearfix">
 			<div id="sidebar" class="pull-left">
@@ -87,15 +113,19 @@
 				{% endfor %}
 			</div>
 			<div id="explorer" class="pull-left">
-				{% for subscription in subscriptions %}
-					{% for item in subscription.item.all %}
-						<div class="subscription-explorer-node">
-							{{ item.title }}
-						</div>
-					{% endfor %}
-				{% endfor %}
+				Select a subscription to the left!
 			</div>
 		</div>
+
+		<script id="item-template" type="text/x-handlebars-template">
+			<div js-item-link="{{url}}" class="subscription-explorer-node">
+				{{title}}
+				<div class="subscription-explorer-node-content">
+					{{content}}
+				</div>	
+			</div>
+		</script>
+
 	{% else %}
 		{% if form.errors %}
 		<p>Your username and password didn't match. Please try again.</p>
