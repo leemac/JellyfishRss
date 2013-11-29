@@ -8,6 +8,13 @@ class Subscription(models.Model):
 	user = 		models.ForeignKey(User)
 	title = 	models.TextField()
 	
+	def as_json(self):
+		return dict(
+				id=self.id,
+				url=self.url,
+				title=self.title
+			)
+
 	def __str__(self):
 		return self.title
 

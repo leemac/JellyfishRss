@@ -19,6 +19,7 @@
 		}
 		#sidebar
 		{
+			background-color: blue;
 			width: 225px;
 		}
 		#explorer 
@@ -60,87 +61,16 @@
 		}
 
 	</style>
-	{% csrf_token %}
 	<script>
-		
-
-		function getCSRF()
+		function get_userId()
 		{
-			return document.getElementsByName('csrfmiddlewaretoken')[0].value;
-		}
-		$(function () {
-			Handlebars.registerHelper('link', function(text, url) {
-		  		text = Handlebars.Utils.escapeExpression(text);
-		  		url  = Handlebars.Utils.escapeExpression(url);
-
-		  		var result = '<a href="' + url + '">' + text + '</a>';
-
-		  		return new Handlebars.SafeString(result);
-			});
-
-			$(".subscription-node").click(function () {
-				var subscriptionid = $(this).attr("js-subscription-id");
-				SelectSubscription($(this));
-
-				LoadSubscription(subscriptionid);
-			});
-
-			var firstElement = $(".subscription-node").first();
-
-			if(firstElement !== undefined)
-			{
-				SelectSubscription(firstElement);
-				var subscriptionid = firstElement.attr("js-subscription-id");
-				LoadSubscription(subscriptionid);
-			}
-		});
-
-		function SelectSubscription(item)
-		{
-			$(".subscription-node").removeClass("selected");
-			item.addClass("selected");
-		}
-
-		function LoadSubscription(subscriptionid)
-		{
-			$.ajax({
-					type: "POST",
-					url : "http://localhost:8000/api/get_subscription_items",
-					data : {
-						csrfmiddlewaretoken: getCSRF(),
-						subscription_id: subscriptionid
-					},
-					beforeSend: function (){
-						$("#explorer").html("");
-						$("#explorer").html("<img src='/static/images/explorer_loading.gif' />");
-					},
-					success: function (msg) {
-						$("#explorer").html("");
-
-						var source   = $("#item-template").html();
-						var template = Handlebars.compile(source);
-
-						for(var i = 0; i < msg.length; i ++)
-						{		
-							var html = template(msg[i]);
-
-							$("#explorer").append(html);
-						}
-
-						BindLinks();
-					}
-				});
-		}
-
-		function BindLinks()
-		{
-			$(".subscription-explorer-node").click(function () {
-				window.location = $(this).attr("js-item-link");
-			});
+			return {{ user.id }};
 		}
 	</script>
-
-		<div id="userbar">
+	{% csrf_token %}
+	<div id="app" class="clearfix"></div>
+	<!--
+	<div id="userbar">
 			Hello {{ user.username }}!
 			<a href="{% url 'logout-user' %}">Logout</a>
 		</div>
@@ -156,6 +86,7 @@
 				Select a subscription to the left!
 			</div>
 		</div>
+	-->
 
 	{% verbatim %}
 		<script id="item-template" type="text/x-handlebars-template">
@@ -166,6 +97,24 @@
 				<div class="subscription-explorer-node-content">
 					{{{content}}}
 				</div>	
+			</div>
+		</script>
+
+		<script id="subscription-node-template" type="text/x-handlebars-template">
+			<div class='subscription-node' js-subscription-id="{{ id }}">
+				{{ title }}
+			</div>
+		</script>
+
+		<script id="explorer-template" type="text/x-handlebars-template">
+			<div id="explorer" class="pull-left">
+				Select a subscription to the left!
+			</div>
+		</script>
+
+		<script id="sidebar-template" type="text/x-handlebars-template">
+			<div id="sidebar" class="pull-left">
+
 			</div>
 		</script>
 	{% endverbatim %}

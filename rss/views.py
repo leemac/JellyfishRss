@@ -46,6 +46,19 @@ def get_subscription_items(request):
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 
+def get_subscriptions(request):
+	if(request.is_ajax()):
+		user_id = request.POST["user_id"]
+
+		subscription = Subscription.objects.filter(user_id=user_id)
+
+		itemset = subscription.all()
+		results = [ob.as_json() for ob in itemset]
+
+		return HttpResponse(json.dumps(results), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
 # AUTHENTICATION
 
 def login_user(request):
