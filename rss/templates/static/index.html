@@ -37,6 +37,12 @@
 			background-color: #CCC;
 			cursor: pointer;
 		}
+
+		.subscription-node.selected
+		{
+			background-color: #BBB;
+		}
+
 		.subscription-explorer-node
 		{
 			background-color: #DDD;
@@ -48,19 +54,56 @@
 			background-color: #CCC;
 			cursor: pointer;
 		}
+		.subscription-explorer-node-title
+		{
+			font-weight:bold;
+		}
+
 	</style>
 	{% csrf_token %}
 	<script>
+		
+
 		function getCSRF()
 		{
 			return document.getElementsByName('csrfmiddlewaretoken')[0].value;
 		}
 		$(function () {
+			Handlebars.registerHelper('link', function(text, url) {
+		  		text = Handlebars.Utils.escapeExpression(text);
+		  		url  = Handlebars.Utils.escapeExpression(url);
+
+		  		var result = '<a href="' + url + '">' + text + '</a>';
+
+		  		return new Handlebars.SafeString(result);
+			});
+
 			$(".subscription-node").click(function () {
 				var subscriptionid = $(this).attr("js-subscription-id");
+				SelectSubscription($(this));
 
+				LoadSubscription(subscriptionid);
+			});
 
-				$.ajax({
+			var firstElement = $(".subscription-node").first();
+
+			if(firstElement !== undefined)
+			{
+				SelectSubscription(firstElement);
+				var subscriptionid = firstElement.attr("js-subscription-id");
+				LoadSubscription(subscriptionid);
+			}
+		});
+
+		function SelectSubscription(item)
+		{
+			$(".subscription-node").removeClass("selected");
+			item.addClass("selected");
+		}
+
+		function LoadSubscription(subscriptionid)
+		{
+			$.ajax({
 					type: "POST",
 					url : "http://localhost:8000/api/get_subscription_items",
 					data : {
@@ -69,19 +112,17 @@
 					},
 					beforeSend: function (){
 						$("#explorer").html("");
-						$("#explorer").html("LOADING");
+						$("#explorer").html("<img src='/static/images/explorer_loading.gif' />");
 					},
 					success: function (msg) {
 						$("#explorer").html("");
+
+						var source   = $("#item-template").html();
+						var template = Handlebars.compile(source);
+
 						for(var i = 0; i < msg.length; i ++)
-						{
-							console.log(msg[i]);
-
-							var source   = $("#item-template").html();
-							var template = Handlebars.compile(source);
-							var context = {title: "My New Post", body: "This is my first post!"};
-
-							var html    = template(context);
+						{		
+							var html = template(msg[i]);
 
 							$("#explorer").append(html);
 						}
@@ -89,8 +130,7 @@
 						BindLinks();
 					}
 				});
-			});
-		});
+		}
 
 		function BindLinks()
 		{
@@ -117,14 +157,18 @@
 			</div>
 		</div>
 
+	{% verbatim %}
 		<script id="item-template" type="text/x-handlebars-template">
 			<div js-item-link="{{url}}" class="subscription-explorer-node">
-				{{title}}
+				<div class="subscription-explorer-node-title">
+					{{title}}
+				</div>
 				<div class="subscription-explorer-node-content">
-					{{content}}
+					{{{content}}}
 				</div>	
 			</div>
 		</script>
+	{% endverbatim %}
 
 	{% else %}
 		{% if form.errors %}
