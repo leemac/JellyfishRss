@@ -11,7 +11,10 @@ var ExplorerView = Backbone.View.extend({
 
 	clickSubscription: function (target) {
 		var subscriptionid = $(target).attr("js-subscription-id");
-		
+
+		if(subscriptionid === undefined)
+			return;
+
 		$.ajax({
 			type: "POST",
 			url : "http://localhost:8000/api/get_subscription_items",
@@ -35,8 +38,6 @@ var ExplorerView = Backbone.View.extend({
 
 					$("#explorer").append(html);
 				}
-
-				BindLinks();
 			}
 		});
 	},

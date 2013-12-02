@@ -2,91 +2,21 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-
-	<style>
-		body {
-			padding: 0;
-		}
-		#userbar
-		{
-			background-color: #333;
-			color: whitesmoke;
-			padding: 3px;
-		}
-		#userbar a
-		{
-			color: lightblue;
-		}
-		#sidebar
-		{
-			background-color: blue;
-			width: 225px;
-		}
-		#explorer 
-		{
-			border-left: 2px solid #AAA;
-			width: 600px;
-		}
-		.subscription-node
-		{
-			background-color: #DDD;
-			margin: 3px 0;
-			padding: 2px 5px;
-		}
-		.subscription-node:hover
-		{	
-			background-color: #CCC;
-			cursor: pointer;
-		}
-
-		.subscription-node.selected
-		{
-			background-color: #BBB;
-		}
-
-		.subscription-explorer-node
-		{
-			background-color: #DDD;
-			margin: 3px 0;
-			padding: 2px 5px;
-		}
-		.subscription-explorer-node:hover
-		{	
-			background-color: #CCC;
-			cursor: pointer;
-		}
-		.subscription-explorer-node-title
-		{
-			font-weight:bold;
-		}
-
-	</style>
 	<script>
 		function get_userId()
 		{
 			return {{ user.id }};
 		}
+		function get_userName()
+		{
+			return '{{ user.username }}';
+		}
 	</script>
 	{% csrf_token %}
-	<div id="app" class="clearfix"></div>
-	<!--
-	<div id="userbar">
-			Hello {{ user.username }}!
-			<a href="{% url 'logout-user' %}">Logout</a>
-		</div>
-		<div class="clearfix">
-			<div id="sidebar" class="pull-left">
-				{% for subscription in subscriptions %}
-					<div class='subscription-node' js-subscription-id="{{ subscription.id }}">
-						{{ subscription.title }}
-					</div>
-				{% endfor %}
-			</div>
-			<div id="explorer" class="pull-left">
-				Select a subscription to the left!
-			</div>
-		</div>
-	-->
+
+	<div id="app" class="clearfix">
+
+	</div>
 
 	{% verbatim %}
 		<script id="item-template" type="text/x-handlebars-template">
@@ -108,14 +38,45 @@
 
 		<script id="explorer-template" type="text/x-handlebars-template">
 			<div id="explorer" class="pull-left">
-				Select a subscription to the left!
+
+			</div>
+		</script>
+
+		<script id="controls-template" type="text/x-handlebars-template">
+			<div id="controls">
+				Hello {{ username }}!
+				<a href="#" class="button-settings">Settings</a>
 			</div>
 		</script>
 
 		<script id="sidebar-template" type="text/x-handlebars-template">
-			<div id="sidebar" class="pull-left">
-
+			<div class="sidebar">
+				<div class="sidebar-controls">
+					<a href="#">Add Subscription</a>
+				</div>
+				<div class="sidebar-content">
+				</div>
 			</div>
+		</script>
+
+		<script id="settings-template" type="text/x-handlebars-template">
+			<div id="window-settings" class="modal modal-settings fade">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title">Settings</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>One fine body&hellip;</p>
+			      </div>
+			      <div class="modal-footer">
+		        	<a href="#" class="btn btn-success button-save">Save</a>
+					<a href="#" class="btn btn-default button-cancel">Cancel</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->		
 		</script>
 	{% endverbatim %}
 

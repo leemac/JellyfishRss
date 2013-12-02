@@ -1,19 +1,6 @@
 var AppView = Backbone.View.extend({
   el: "#app",
-  events: {
-    'click ul#perpage span' : 'perpage'
-  },
-
-  subscriptionClick : function (ev) {
-    var link = $(ev.target);
-
-    var subscriptionid = $(this).attr("js-subscription-id");
-    SelectSubscription($(this));
-
-    LoadSubscription(subscriptionid);
-
-  },
-
+ 
   initialize: function() {
       this.render();
   },
@@ -22,10 +9,14 @@ var AppView = Backbone.View.extend({
 
       var vent = _.extend({}, Backbone.Events);
 
+      this.controlsView = new ControlsView({vent: vent, el: this.el });      
+      $(this.el).append(this.controlsView.el);      
+
       this.sidebarView = new SideBarView({vent: vent, el: this.el });      
       $(this.el).append(this.sidebarView.el);
 
-      this.explorerView = new ExplorerView({vent: vent, el: this.el, test : "hi" });      
+
+      this.explorerView = new ExplorerView({vent: vent, el: this.el });      
       $(this.el).append(this.explorerView.el);      
   },
 });

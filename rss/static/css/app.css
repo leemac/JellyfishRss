@@ -1,0 +1,74 @@
+body {
+	padding: 0;
+}
+h1
+{
+	font-size: 18px;
+	margin: 10px 0;
+}
+#userbar
+{
+	background-color: #333;
+	color: whitesmoke;
+	padding: 3px;
+}
+#userbar a
+{
+	color: lightblue;
+}
+.sidebar
+{
+	background-color: blue;
+	float:left;
+	width: 225px;
+}
+#explorer 
+{
+	border-left: 2px solid #AAA;
+	width: 600px;
+}
+
+#controls
+{
+	background-color: #333;
+	color: #EEE;
+	padding: 5px;
+}
+
+#controls a
+{
+	color: lightblue;
+}
+
+.subscription-node
+{
+	background-color: #DDD;
+	margin: 3px 0;
+	padding: 2px 5px;
+}
+.subscription-node:hover
+{	
+	background-color: #CCC;
+	cursor: pointer;
+}
+
+.subscription-node.selected
+{
+	background-color: #BBB;
+}
+
+.subscription-explorer-node
+{
+	background-color: #DDD;
+	margin: 3px 0;
+	padding: 2px 5px;
+}
+.subscription-explorer-node:hover
+{	
+	background-color: #CCC;
+	cursor: pointer;
+}
+.subscription-explorer-node-title
+{
+	font-weight:bold;
+}

@@ -16,8 +16,10 @@ var SideBarView = Backbone.View.extend({
 
 	render: function() {
 
-		var element = this.el;
-		$(element).append(this.template());
+		var element = $(this.el);
+		var ref = this;
+
+		element.append(this.template());
 
 		$.ajax({
 			type: "POST",
@@ -39,7 +41,9 @@ var SideBarView = Backbone.View.extend({
 					html += template(msg[i]);
 				}
 
-				$("#sidebar").html(html);
+				element.find(".sidebar-content").html(html);
+
+				ref.clickSubscription(element.find(".subscription-node").first());
 			}
 		});
 
