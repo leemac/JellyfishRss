@@ -11,6 +11,9 @@
 		{
 			return '{{ user.username }}';
 		}
+		function get_logout_url(){
+			return "{% url 'logout-user' %}";
+		}
 	</script>
 	{% csrf_token %}
 
@@ -46,6 +49,7 @@
 			<div id="controls">
 				Hello {{ username }}!
 				<a href="#" class="button-settings">Settings</a>
+				<a href="" class="button-logout">Logout</a>
 			</div>
 		</script>
 
