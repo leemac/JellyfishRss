@@ -10,54 +10,33 @@ from rss.models import User
 class Command(BaseCommand):
 
 	def handle(self, *args, **options):
-		self.CrawlSite("rss/dummyfiles/google.xml")
-		self.CrawlSite("rss/dummyfiles/cnn_us.xml")
-		self.CrawlSite("rss/dummyfiles/cnn_financial.xml")
-		self.CrawlSite("rss/dummyfiles/cnn_political.xml")
-		self.CrawlSite("rss/dummyfiles/cnn_top_stories.xml")
 
-	def CrawlSite(self, filepath):
+		self.stdout.write("Crawling sites! \n")
 
-		self.stdout.write("Importing file: "  + filepath + "\n")
-		try:
-			with open(filepath):
-				d = feedparser.parse(filepath)
+		for subscription in Subscription.objects.all():
+			self.stdout.write("Crawling " + subscription.title +  "! \n")
+			
+			d = feedparser.parse(subscription.url)
 
-				self.stdout.write(d.feed.title)
+			user = User.objects.all()[0];
 
-				user = User.objects.all()[0];
+			for item in d.entries:
+				existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
 
-				try:
-					newSub = Subscription.objects.get(title=d.feed.title)
-				except Subscription.DoesNotExist:
-					newSub = Subscription()
-					newSub.title = d.feed.title
-					newSub.url = d.feed.link
-					newSub.user_id = user.id
-					newSub.save()
+				if(existingItem != 0):
+					continue
 
-				for item in d.entries:
+				self.stdout.write("*New* - "  + item.title + "\n")
 
-					existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
+				object = SubscriptionItem()
+				object.title=item.title
+				object.url=item.link
+				object.subscription_id = subscription.id
+				date = item.published_parsed
 
-					if(existingItem != 0):
-						continue
-
-					self.stdout.write("Found item: "  + item.title + "\n")
-
-					object = SubscriptionItem()
-					object.title=item.title
-					object.url=item.link
-					object.subscription_id = newSub.id
-					date = item.published_parsed
-
-					object.published = datetime.date(int(date[0]),int(date[1]),int(date[2]))
-					object.content = item.description
-					object.save()
-
-				
-		except IOError:
-			self.stdout.write("The file does not exist!")
-			return	
+				object.published = datetime.date(int(date[0]),int(date[1]),int(date[2]))
+				object.content = item.description
+				object.save()
+	
 
 		

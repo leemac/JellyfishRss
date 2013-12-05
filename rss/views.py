@@ -39,7 +39,7 @@ def get_subscription_items(request):
 
 		subscription = Subscription.objects.get(id=subscription_id)
 
-		itemset = subscription.item.all()
+		itemset = subscription.item.all().order_by('-published')
 		results = [ob.as_json() for ob in itemset]
 
 		return HttpResponse(json.dumps(results), mimetype='application/json')
