@@ -14,19 +14,21 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. 
 
 ###Roadmap
 1. Implement basic site pages
-	- Home
-	- Login
-	- Feeds View
+	- Home [Done]
+	- Login [Done]
+	- Feeds View [Done]
 	- Settings
 2. Implement RSS poller
-	- Iterate over sites
-	- Add new items
-3. Authentication
+	- Iterate over sites [Done]
+	- Add new items [Done]
+	- Add cron job (for now) [In Progress]
+3. Authentication [Done]
 4. User integration
 	- Feeds polled at interval
 	- User can login and view feeds
 	- User can login and mark feeds as read
 	- etc.
+5. Work on UI
 
 ###Feature Idea Brain Dump
 
