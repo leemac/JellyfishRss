@@ -9,6 +9,17 @@ var ExplorerView = Backbone.View.extend({
 		this.render();
 	},
 
+	events : {
+		"click .subscription-explorer-node" : "openItem"
+	},
+
+	openItem: function (e) {
+		var target = e.target;
+		// Todo, fix with proper view
+		var url = $(target).parents(".subscription-explorer-node").attr("js-item-link");
+		
+		window.location = url;
+	},
 	clickSubscription: function (target) {
 		var subscriptionid = $(target).attr("js-subscription-id");
 
@@ -29,6 +40,7 @@ var ExplorerView = Backbone.View.extend({
 			success: function (msg) {
 				$("#explorer").html("");
 
+				// Todo, fix with proper view
 				var source   = $("#item-template").html();
 				var template = Handlebars.compile(source);
 

@@ -35,7 +35,17 @@ class Command(BaseCommand):
 				date = item.published_parsed
 
 				object.published = datetime.date(int(date[0]),int(date[1]),int(date[2]))
-				object.content = item.description
+
+				try:
+					object.content = item.content[0]
+				except AttributeError:
+					self.stdout.write("No content provided. Looking for a description...")
+
+					try:
+						object.content = item.description
+					except AttributeError:
+						self.stdout.write("No content or description provided")														
+
 				object.save()
 	
 

@@ -25,7 +25,7 @@ h1
 #explorer 
 {
 	border-left: 2px solid #AAA;
-	width: 600px;
+	width: 800px;
 }
 
 #controls
@@ -71,4 +71,9 @@ h1
 .subscription-explorer-node-title
 {
 	font-weight:bold;
+}
+.subscription-explorer-node-content img
+{
+	max-width: 90%;
+    height: auto;
 }

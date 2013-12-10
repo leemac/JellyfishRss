@@ -10,6 +10,7 @@ from rss.models import User
 class Command(BaseCommand):
 
 	def handle(self, *args, **options):
+		self.CrawlFile("rss/dummyfiles/scotthanselman.xml", "http://feeds.hanselman.com/scotthanselman")
 		self.CrawlFile("rss/dummyfiles/google.xml", "http://rss.cnn.com/rss/cnn_topstories.rss")
 		self.CrawlFile("rss/dummyfiles/cnn_us.xml", "http://rss.cnn.com/rss/cnn_us.rss")
 		self.CrawlFile("rss/dummyfiles/cnn_financial.xml", "http://rss.cnn.com/rss/money_latest.rss")
@@ -52,7 +53,17 @@ class Command(BaseCommand):
 					date = item.published_parsed
 
 					object.published = datetime.date(int(date[0]),int(date[1]),int(date[2]))
-					object.content = item.description
+					
+					try:
+						object.content = item.content[0]
+					except AttributeError:
+						self.stdout.write("No content provided. Looking for a description...")
+
+					try:
+						object.content = item.description
+					except AttributeError:
+						self.stdout.write("No content or description provided")		
+
 					object.save()
 
 				
