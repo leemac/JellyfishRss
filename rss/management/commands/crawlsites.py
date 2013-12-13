@@ -32,9 +32,9 @@ class Command(BaseCommand):
 				object.title=item.title
 				object.url=item.link
 				object.subscription_id = subscription.id
-				date = item.published_parsed
 
-				object.published = datetime.date(int(date[0]),int(date[1]),int(date[2]))
+				theDate = item.date_parsed
+				object.published = datetime.date(int(theDate[0]),int(theDate[1]),int(theDate[2]))
 
 				try:
 					object.content = item.content[0]

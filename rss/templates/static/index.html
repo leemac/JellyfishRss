@@ -35,7 +35,7 @@
 
 		<script id="subscription-node-template" type="text/x-handlebars-template">
 			<div class='subscription-node' js-subscription-id="{{ id }}">
-				{{ title }}
+				- {{ title }}
 			</div>
 		</script>
 
@@ -46,18 +46,19 @@
 		</script>
 
 		<script id="controls-template" type="text/x-handlebars-template">
-			<div id="controls">
-				Hello {{ username }}!
-				<a href="#" class="button-settings">Settings</a>
-				<a href="" class="button-logout">Logout</a>
+			<div id="controls" class="clearfix">
+				<div class="pull-left">
+					<button class='btn btn-success button-add'>+ Add Subscription</button>
+					<button class='btn button-settings'>Settings</button>
+				</div>
+				<div class="pull-right">
+					<button class="btn btn-info button-logout">Logout</button>
+				</div>
 			</div>
 		</script>
 
 		<script id="sidebar-template" type="text/x-handlebars-template">
 			<div class="sidebar">
-				<div class="sidebar-controls">
-					<a href="#">Add Subscription</a>
-				</div>
 				<div class="sidebar-content">
 				</div>
 			</div>
