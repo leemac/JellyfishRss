@@ -2,12 +2,14 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	padding: 0;
 }
+
 h1
 {
 	font-size: 18px;
 	font-weight: 700;
 	margin: 10px 5px;
 }
+
 #userbar
 {
 	background-color: #333;
@@ -66,17 +68,62 @@ h1
 	margin: 3px 0;
 	padding: 2px 5px;
 }
+
 .subscription-explorer-node:hover
 {	
 	background-color: #CCC;
 	cursor: pointer;
 }
+
 .subscription-explorer-node-title
 {
 	font-weight:bold;
 }
+
 .subscription-explorer-node-content img
 {
 	max-width: 90%;
     height: auto;
+}
+
+/* Login Form */
+
+.form-signin
+{
+	padding: 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: 0 0 10px .5px rgba(200,200,200,200);
+	box-shadow: 0 0 10px .5px rgba(200,200,200,200);
+	margin: 100px auto;
+}
+
+.form-signin header
+{
+	background-color: #333;
+	border-bottom: 3px solid #DDD;
+	color: #DDD;
+	padding: 15px;
+}
+
+.form-signin .content
+{
+	padding: 15px;
+}
+
+.form-signin h1
+{
+	margin:0;
+	text-align: center;
+}
+
+.form-signin input[type=text]
+{
+	margin-bottom: 10px;
+}
+
+.form-signin button
+{
+	margin-bottom: 7px;
+	width: 100%;
 }

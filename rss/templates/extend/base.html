@@ -25,15 +25,18 @@
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css"/>
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css"/>
 
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>-->
 </head>
 
 <body>
-	<header>
-		<h1>
-			Jellyfish RSS
-		</h1>
-	</header>
+
+	{% if user.is_authenticated %}
+		<header>
+			<h1>
+				Jellyfish RSS
+			</h1>
+		</header>
+	{% endif %}
 	<content>
 		{% block content %}
 

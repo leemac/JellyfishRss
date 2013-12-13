@@ -5,9 +5,13 @@ var ControlsView = Backbone.View.extend({
 	},
 
 	events : {
-		"click .button-settings" : "buttonSettingsClick"
+		"click .button-settings" : "buttonSettingsClick",
+		"click .button-logout" : "buttonLogoutClick"
 	},
 
+	buttonLogoutClick : function () {
+		window.location = window.location + "logout"
+	},
 	buttonSettingsClick: function () 
 	{
 		this.settingsView.render();
