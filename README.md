@@ -34,14 +34,10 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. 
 
 + Mark as read for a particular user
 + Mark as favorite for a particular user
-+ Add/Remove feeds
-+ Read entries for a feed
-+ User Authentication
 + View the most recently updated entries with # count next to subscription name
 + View all subscriptions with all items (paging)
 + View favorite entries
 + Email/Share
-+ 100% Open Source
 + Ignore posts with specific terms (Giveaway, Prizes). Choose your own or select pre-crafted filters.
 + Hostable 
 + Tagging
