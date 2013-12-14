@@ -5,22 +5,28 @@ var ControlsView = Backbone.View.extend({
 	},
 
 	events : {
+		"click .button-add" : "buttonAddClick",
 		"click .button-settings" : "buttonSettingsClick",
 		"click .button-logout" : "buttonLogoutClick"
 	},
 
 	buttonLogoutClick : function () {
-		window.location = window.location + "logout"
+		window.location = "http://" + window.location.host + "/logout"
 	},
 	buttonSettingsClick: function () 
 	{
 		this.settingsView.render();
+	},
+	buttonAddClick: function () 
+	{
+		this.addSubscriptionView.render();
 	},
 	
 	render: function() {
 		var element = this.el;
 
 		this.settingsView = new SettingsView({ el: this.el});
+		this.addSubscriptionView = new AddSubscriptionView({ el: this.el});
 
 		var controlsObj = { 
 			username: get_userName()

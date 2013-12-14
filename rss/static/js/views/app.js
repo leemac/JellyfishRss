@@ -15,7 +15,6 @@ var AppView = Backbone.View.extend({
       this.sidebarView = new SideBarView({vent: vent, el: this.el });      
       $(this.el).append(this.sidebarView.el);
 
-
       this.explorerView = new ExplorerView({vent: vent, el: this.el });      
       $(this.el).append(this.explorerView.el);      
   },
