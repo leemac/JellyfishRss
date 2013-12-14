@@ -1,5 +1,6 @@
 var ControlsView = Backbone.View.extend({
-	initialize: function(options){
+	initialize: function(options){		
+		this.vent = options.vent;
 		this.template = Handlebars.compile($("#controls-template").html());
 		this.render();
 	},
@@ -26,7 +27,8 @@ var ControlsView = Backbone.View.extend({
 		var element = this.el;
 
 		this.settingsView = new SettingsView({ el: this.el});
-		this.addSubscriptionView = new AddSubscriptionView({ el: this.el});
+
+		this.addSubscriptionView = new AddSubscriptionView({ vent: this.vent, el: this.el});
 
 		var controlsObj = { 
 			username: get_userName()

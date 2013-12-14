@@ -12,7 +12,31 @@ var AddSubscriptionView = Backbone.View.extend({
 
 	buttonOkClick: function () 
 	{
-		alert('subscription added!');
+		var value = $(this.el).find('.input-add-subscription').val();
+		if(value === "")
+			return;
+
+		var viewRef = this;
+
+		$.ajax({
+			type: "POST",
+			url : "http://localhost:8000/api/add_subscription",
+			data : {
+				csrfmiddlewaretoken: getCSRF(),
+				url: value,
+				user_id: window.get_userId()
+			},
+			beforeSend: function (){
+				
+			},
+			success: function (msg) {
+				viewRef.vent.trigger("subscriptionAdded");
+				$(viewRef.el).find('#window-add-subscription').modal('hide')
+			},
+			error: function () {
+				console.log('error!');
+			}
+		});
 	},
 
 	buttonCancelClick: function () 
@@ -28,7 +52,8 @@ var AddSubscriptionView = Backbone.View.extend({
 		element.append(this.template());
 
 		$(this.el).find('#window-add-subscription').modal('show')
-
+		$(this.el).find('.input-add-subscription').text("");
+		$(this.el).find('.input-add-subscription').focus();
 	    return this;
 	},
 });

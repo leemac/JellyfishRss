@@ -2,6 +2,9 @@ var SideBarView = Backbone.View.extend({
 
 	initialize: function(options){
 		this.vent = options.vent;
+
+		this.vent.bind("subscriptionAdded", this.subscriptionAdded, this);
+
 		this.template = Handlebars.compile($("#sidebar-template").html());
 		this.render();
 	},
@@ -14,13 +17,16 @@ var SideBarView = Backbone.View.extend({
 		this.vent.trigger("clickSubscription", ev.target);
 	},
 
-	render: function() {
+	subscriptionAdded: function () {
+		this.refreshItems();
+	},
 
+	refreshItems : function ()
+	{
 		var element = $(this.el);
+
 		var ref = this;
-
-		element.append(this.template());
-
+		
 		$.ajax({
 			type: "POST",
 			url : "http://localhost:8000/api/get_subscriptions",
@@ -46,6 +52,17 @@ var SideBarView = Backbone.View.extend({
 				ref.clickSubscription(element.find(".subscription-node").first());
 			}
 		});
+
+	},
+
+	render: function() {
+
+		var element = $(this.el);
+		var ref = this;
+
+		element.append(this.template());
+
+		this.refreshItems();
 
 	    return this;
 	},

@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^logout/', 'rss.views.logout_user', name='logout-user'),
     url(r'^api/get_subscription_items', 'rss.views.get_subscription_items', name='get-subscription-items'),
     url(r'^api/get_subscriptions', 'rss.views.get_subscriptions', name='get-subscriptions'),
+    url(r'^api/add_subscription', 'rss.views.add_subscription', name='get-subscriptions'),
 
 
     # url('', include('django.contrib.auth.urls')),
