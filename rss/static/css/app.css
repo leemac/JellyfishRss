@@ -27,10 +27,13 @@ h1
 	min-height: 600px;
 	width: 225px;
 }
+#content 
+{
+	width: 800px;
+}
 #explorer 
 {
 	border-left: 2px solid #AAA;
-	width: 800px;
 }
 
 #controls
