@@ -1,12 +1,11 @@
 var ExplorerView = Backbone.View.extend({
-	initialize: function(options){
-		this.setElement( this.el );
+	initialize: function(options, el){
 		this.vent = options.vent;
+		this.el = options.el;
 
-		this.vent.bind("clickSubscription", this.clickSubscription);
+		this.vent.bind("clickSubscription", this.clickSubscription, this);
 
 		this.template = Handlebars.compile($("#explorer-template").html());
-		this.render();
 	},
 
 	events : {
@@ -26,6 +25,10 @@ var ExplorerView = Backbone.View.extend({
 		if(subscriptionid === undefined)
 			return;
 
+		this.render();
+		
+		var exploreElement = $(this.el).find("#explorer");
+
 		$.ajax({
 			type: "POST",
 			url : "http://localhost:8000/api/get_subscription_items",
@@ -34,11 +37,11 @@ var ExplorerView = Backbone.View.extend({
 				subscription_id: subscriptionid
 			},
 			beforeSend: function (){
-				$("#explorer").html("");
-				$("#explorer").html("<img src='/static/images/explorer_loading.gif' />");
+				exploreElement.html("");
+				exploreElement.html("<img src='/static/images/explorer_loading.gif' />");
 			},
 			success: function (msg) {
-				$("#explorer").html("");
+				exploreElement.html("");
 
 				// Todo, fix with proper view
 				var source   = $("#item-template").html();
@@ -48,7 +51,7 @@ var ExplorerView = Backbone.View.extend({
 				{		
 					var html = template(msg[i]);
 
-					$("#explorer").append(html);
+					exploreElement.append(html);
 				}
 			}
 		});
@@ -56,7 +59,7 @@ var ExplorerView = Backbone.View.extend({
 
 	render: function() {
 		var element = this.el;
-		$(element).append(this.template());
+		$(element).html(this.template());
 
 		return this;
 	},

@@ -36,15 +36,13 @@ h1
 #controls
 {
 	background-color: #333;
-	color: #EEE;
 	padding: 5px;
 }
 
-#controls a
+.alert 
 {
-	color: lightblue;
+	padding: 5px 15px;
 }
-
 .subscription-node
 {
 	color: #DFEAF5;

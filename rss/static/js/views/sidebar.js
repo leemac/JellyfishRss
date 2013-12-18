@@ -60,7 +60,7 @@ var SideBarView = Backbone.View.extend({
 		var element = $(this.el);
 		var ref = this;
 
-		element.append(this.template());
+		element.html(this.template());
 
 		this.refreshItems();
 

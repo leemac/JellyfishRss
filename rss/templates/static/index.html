@@ -15,7 +15,7 @@
 	{% csrf_token %}
 
 	<div id="app" class="clearfix">
-
+		
 	</div>
 
 	{% verbatim %}
@@ -30,6 +30,14 @@
 			</div>
 		</script>
 
+		<script id="app-template" type="text/x-handlebars-template">
+			<div id="controls"></div>
+			<div id="main" class="clearfix">
+				<div id="sidebar"></div>
+				<div id="content"></div>
+			</div>
+		</script>
+
 		<script id="add-subscription-template" type="text/x-handlebars-template">
 			<div id="window-add-subscription" class="modal modal-settings">
 			  <div class="modal-dialog">
@@ -40,6 +48,7 @@
 			      </div>
 			      <div class="modal-body">
 			        <input type="text" class="form-control input-add-subscription"  placeholder="Enter RSS feed URL (http://)" />
+			        <div class="alert alert-danger" style="display:none; margin-top: 10px">Please enter a valid URL!</div>
 			      </div>
 			      <div class="modal-footer">
 		        	<a href="#" class="btn btn-success button-ok">Save</a>
@@ -50,6 +59,12 @@
 			</div><!-- /.modal -->		
 		</script>
 
+		<script id="manage-subscriptions-template" type="text/x-handlebars-template">
+			<div id="manage">
+				<h4>Manage Subscriptions</h4>
+			</div>
+		</script>
+
 		<script id="subscription-node-template" type="text/x-handlebars-template">
 			<div class='subscription-node' js-subscription-id="{{ id }}">
 				- {{ title }}
@@ -57,15 +72,16 @@
 		</script>
 
 		<script id="explorer-template" type="text/x-handlebars-template">
-			<div id="explorer" class="pull-left">
-
+			<div id="explorer">
+				<h4>Select a feed to the left!</h4>
 			</div>
 		</script>
 
 		<script id="controls-template" type="text/x-handlebars-template">
 			<div id="controls" class="clearfix">
 				<div class="pull-left">
-					<button class='btn btn-success button-add'>+ Add Subscription</button>
+					<button class='btn btn-success button-add'>+ Add New</button>
+					<button class='btn btn-info button-manage'>Manage</button>
 					<button class='btn button-settings'>Settings</button>
 				</div>
 				<div class="pull-right">

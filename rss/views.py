@@ -69,6 +69,8 @@ def add_subscription(request):
 
 		try:
 			newSub = Subscription.objects.get(url=subscription_url)
+		except Subscription.MultipleObjectsReturned:
+			return HttpResponse(json.dumps("already exists"), mimetype='application/json')
 		except Subscription.DoesNotExist:
 			d = feedparser.parse(subscription_url)
 
