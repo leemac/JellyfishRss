@@ -9,7 +9,21 @@ var ManageSubscriptionsView = Backbone.View.extend({
 
 	events : {
 		"click .button-ok" : "buttonOkClick",
-		"click .button-cancel" : "buttonCancelClick"
+		"click .button-cancel" : "buttonCancelClick",
+	},
+
+	buttonEditClick: function (ev) {
+		var row = $(ev.target).parents(".row");
+
+		row.find("input").show();
+		row.find("label").hide();
+	},
+
+	buttonSaveClick: function (ev) {
+		var row = $(ev.target).parents(".row");
+
+		row.find("input").hide();
+		row.find("label").show();
 	},
 
 	buttonOkClick: function () 
@@ -47,6 +61,8 @@ var ManageSubscriptionsView = Backbone.View.extend({
 				{		
 					element.append(template(msg[i]));
 				}
+
+				$(".btn-manage-edit").click(ref.buttonEditClick);
 			}
 		});
 

@@ -73,11 +73,19 @@
 		</script>
 
 		<script id="subscription-manage-node-template" type="text/x-handlebars-template">
-			<div class="clearfix" js-subscription-id="{{ id }}">
-		 		<div class="col-md-1"><button class="btn btn-default" type="button">Edit</button> </div>
-		 		<div class="col-md-8">{{ title }}</div>
+			<div class="clearfix row" js-subscription-id="{{ id }}">
+		 		<div class="col-md-1"><button class="btn btn-default btn-manage-edit" type="button">Edit</button> </div>
+		 		<div class="col-md-4">
+		 			<label>{{ title }}</label>
+		 			<input type="text" class="hide" value="{{ title }}" />
+		 		</div>
+		 		<div class="col-md-4">
+		 			<label>{{ url }}</label>
+		 			<input type="text" class="hide" value="{{ url }}" />
+		 		</div>
 			</div>
 		</script>
+
 		<script id="explorer-template" type="text/x-handlebars-template">
 			<div id="explorer">
 				<h4>Select a feed to the left!</h4>
