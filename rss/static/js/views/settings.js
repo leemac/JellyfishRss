@@ -25,8 +25,8 @@ var SettingsView = Backbone.View.extend({
 		var element = $(this.el);
 		var ref = this;
 
-		element.append(this.template());
-
+		element.html(this.template());
+		
 		$(this.el).find('#window-settings').modal('show')
 
 	    return this;

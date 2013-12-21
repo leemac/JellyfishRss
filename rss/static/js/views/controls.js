@@ -26,9 +26,9 @@ var ControlsView = Backbone.View.extend({
 	render: function() {
 		var element = this.el;
 
-		this.settingsView = new SettingsView({ el: this.el});
+		this.settingsView = new SettingsView({ el: "#modal"});
 
-		this.addSubscriptionView = new AddSubscriptionView({ vent: this.vent, el: this.el});
+		this.addSubscriptionView = new AddSubscriptionView({ vent: this.vent, el: "#modal"});
 
 		var controlsObj = { 
 			username: get_userName()

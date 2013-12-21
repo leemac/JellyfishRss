@@ -81,7 +81,7 @@ var AddSubscriptionView = Backbone.View.extend({
 		var element = $(this.el);
 		var ref = this;
 
-		element.append(this.template());
+		element.html(this.template());
 
 		$(this.el).find('#window-add-subscription').modal('show')
 		$(this.el).find('.input-add-subscription').val("");
