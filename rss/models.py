@@ -29,7 +29,8 @@ class SubscriptionItem(models.Model):
 		return dict(
 				url=self.url,
 				title=self.title,
-				content=self.content
+				content=self.content,
+				published=str(self.published)
 			)
 
 	def __str__(self):

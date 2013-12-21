@@ -4,11 +4,12 @@
 		Jellyfish
 	</title>
 	{% load staticfiles %}	 
-	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
+	
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/underscore-min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/backbone-min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/handlebars-v1.1.2.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/underscore.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/backbone.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/handlebars.min.js"></script>
 
 	<script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/views/app.js"></script>
@@ -17,7 +18,6 @@
 	<script type="text/javascript" src="{{ STATIC_URL }}js/views/explorer.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/views/settings.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/views/add.subscription.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/manage.subscriptions.js"></script>
 	<script type="text/javascript" src="{{ STATIC_URL }}js/views/subscription-node.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-min.css"/>
@@ -25,18 +25,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css"/>
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css"/>
 
-	<!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>-->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-
-	{% if user.is_authenticated %}
-		<header>
-			<h1>
-				Jellyfish Reader
-			</h1>
-		</header>
-	{% endif %}
 	<content>
 		{% block content %}
 

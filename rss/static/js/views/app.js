@@ -1,47 +1,45 @@
 var AppView = Backbone.View.extend({
-  el: "#app",
- 
-  initialize: function() {
+el: "#app",
 
-      this.template = Handlebars.compile($("#app-template").html());
+initialize: function() {
 
-      this.vent = _.extend({}, Backbone.Events);
-      
-      this.vent.bind("manageSubscription", this.manageSubscription, this);
+    this.template = Handlebars.compile($("#app-template").html());
 
-      this.explorerView = new ExplorerView({vent: this.vent, el: "#content" });    
-      this.manageView = new ManageSubscriptionsView({vent: this.vent, el: "#content" });      
+    this.vent = _.extend({}, Backbone.Events);
+    
+    this.vent.bind("manageSubscription", this.manageSubscription, this);
 
-      this.mainView = new Array();
+    this.explorerView = new ExplorerView({vent: this.vent, el: "#content" });         
 
-      this.mainView[0] = this.explorerView;
-      this.mainView[1] = this.manageView;
+    this.mainView = new Array();
 
-      this.currentViewIndex = 0;
+    this.mainView[0] = this.explorerView;
+    this.mainView[1] = this.manageView;
 
-      this.render();
+    this.currentViewIndex = 0;
 
-      // View Setup
-      this.controlsView = new ControlsView({vent: this.vent, el: "#controls" });      
-      this.sidebarView = new SideBarView({vent: this.vent, el: "#sidebar" });      
+    this.render();
 
-  },
+    // View Setup   
+    this.sidebarView = new SideBarView({vent: this.vent, el: "#sidebar" });      
 
-  manageSubscription: function () {
-      this.currentViewIndex = 1;
+},
 
-      this.mainView[this.currentViewIndex].render();
-  },
+manageSubscription: function () {
+    this.currentViewIndex = 1;
 
-  viewSubscriptionItem: function () {
-    console.log('view!')
-      this.currentViewIndex = 0;
-      this.mainView[this.currentViewIndex].render();
-  },
+    this.mainView[this.currentViewIndex].render();
+},
 
-  render: function() {
-      $(this.el).html(this.template());
+viewSubscriptionItem: function () {
+  console.log('view!')
+    this.currentViewIndex = 0;
+    this.mainView[this.currentViewIndex].render();
+},
 
-      this.mainView[this.currentViewIndex].render();
-  },
+render: function() {
+    $(this.el).html(this.template());
+
+    this.mainView[this.currentViewIndex].render();
+},
 });

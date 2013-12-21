@@ -7,6 +7,8 @@ var SideBarView = Backbone.View.extend({
 
 		this.template = Handlebars.compile($("#sidebar-template").html());
 		this.render();
+
+		this.controlsView = new ControlsView({vent: this.vent, el: "#controls" });   
 	},
 
 	events: {

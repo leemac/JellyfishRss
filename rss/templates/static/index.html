@@ -22,7 +22,7 @@
 		<script id="item-template" type="text/x-handlebars-template">
 			<div js-item-link="{{url}}" class="subscription-explorer-node">
 				<div class="subscription-explorer-node-title">
-					{{title}}
+					{{title}} {{published}}
 				</div>
 				<div class="subscription-explorer-node-content">
 					{{{content}}}
@@ -31,9 +31,10 @@
 		</script>
 
 		<script id="app-template" type="text/x-handlebars-template">
-			<div id="controls"></div>
+			
 			<div id="main" class="clearfix">
-				<div id="sidebar" class="pull-left"></div>
+				<div id="sidebar" class="pull-left">
+				</div>
 				<div id="content" class="pull-left"></div>
 			</div>
 		</script>
@@ -59,16 +60,9 @@
 			</div><!-- /.modal -->		
 		</script>
 
-		<script id="manage-subscriptions-template" type="text/x-handlebars-template">
-			<div id="manage">
-				<h4>Manage Subscriptions</h4>
-				<div id="manage-grid" class="clearfix"></div>
-			</div>
-		</script>
-
 		<script id="subscription-node-template" type="text/x-handlebars-template">
-			<div class='subscription-node' js-subscription-id="{{ id }}">
-				- {{ title }}
+			<div class='subscription-node' js-subscription-id="{{ id }}" js-subscription-title="{{ title }}">
+				{{ title }}
 			</div>
 		</script>
 
@@ -77,36 +71,45 @@
 		 		<div class="col-md-1"><button class="btn btn-default btn-manage-edit" type="button">Edit</button> </div>
 		 		<div class="col-md-4">
 		 			<label>{{ title }}</label>
-		 			<input type="text" class="hide" value="{{ title }}" />
+		 			<input type="text" class="js-hidden form-control" value="{{ title }}" />
 		 		</div>
 		 		<div class="col-md-4">
 		 			<label>{{ url }}</label>
-		 			<input type="text" class="hide" value="{{ url }}" />
+		 			<input type="text" class="js-hidden form-control" value="{{ url }}" />
 		 		</div>
 			</div>
 		</script>
 
 		<script id="explorer-template" type="text/x-handlebars-template">
 			<div id="explorer">
-				<h4>Select a feed to the left!</h4>
+				<div class="clearfix">
+					<div class="strong pull-left" style="padding: 0 14px;">
+						<h4 class="title strong"></h4>
+					</div> 
+					<div class="pull-left" style="padding: 10px;">
+						<a href="#">Unsubscribe</a>
+					</div>
+				</div>
+				<div class="feed"></div>
 			</div>
 		</script>
 
 		<script id="controls-template" type="text/x-handlebars-template">
 			<div id="controls" class="clearfix">
-				<div class="pull-left">
-					<button class='btn btn-success button-add'>+ Add New</button>
-					<button class='btn btn-info button-manage'>Manage</button>
-					<button class='btn button-settings'>Settings</button>
-				</div>
-				<div class="pull-right">
-					<button class="btn btn-info button-logout">Logout</button>
-				</div>
+				<a href="#" class='button-add'>+ Add New</and>
+				<a href="#" class='button-settings'>Settings</a>
+				<a href="#" class="button-logout">Logout</a>
 			</div>
 		</script>
 
 		<script id="sidebar-template" type="text/x-handlebars-template">
 			<div class="sidebar">
+				<header>
+					<h1>
+						Jellyfish Reader
+					</h1>
+					<div id="controls"></div>
+				</header>
 				<div class="sidebar-content">
 				</div>
 			</div>

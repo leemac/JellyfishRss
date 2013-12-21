@@ -7,13 +7,8 @@ var ControlsView = Backbone.View.extend({
 
 	events : {
 		"click .button-add" : "buttonAddClick",
-		"click .button-manage" : "buttonManageClick",
 		"click .button-settings" : "buttonSettingsClick",
 		"click .button-logout" : "buttonLogoutClick"
-	},
-
-	buttonManageClick: function () {		
-		this.vent.trigger("manageSubscription");
 	},
 
 	buttonLogoutClick : function () {

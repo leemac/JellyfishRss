@@ -22,25 +22,48 @@ h1
 }
 #sidebar
 {
-	background-color: #205081;
-	float:left;
+	background-color: #30384a;
 	min-height: 600px;
-	min-width: 225px;
-	width: 15%;
+	width: 300px;
+	color: #FFF;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
 }
 #content 
 {
-	width: 75%;
+	background-color: white;
+	margin-left: 300px;
+	width: 800px;
 }
 #explorer 
 {
 	border-left: 2px solid #AAA;
+	border-right: 1px solid #DDD;
 }
 
 #controls
 {
-	background-color: #333;
+	background-color: #1c212c;
 	padding: 5px;
+}
+
+#controls a
+{
+	color: #fff;
+	font-weight: bold;
+	padding: 10px 14px;
+}
+
+#controls a:hover
+{
+	background-color: #111;
+}
+
+.strong
+{
+	font-weight: bold;
 }
 
 .col-md-1, 
@@ -57,6 +80,19 @@ h1
 .col-md-12 {
 	float: left;
 }
+.js-hidden
+{
+	display:none;
+}
+/* Bootstrap Overrides */
+
+.form-control 
+{
+	padding: 6px 5px;
+}
+
+/* End Bootstrap Overrides */
+
 .alert 
 {
 	padding: 5px 15px;
@@ -64,12 +100,13 @@ h1
 .subscription-node
 {
 	color: #DFEAF5;
-	border-bottom: 1px dotted #A8C1DA;
-	padding: 2px 5px;
+	border-bottom: 1px solid #1c212c;
+	border-top: 1px solid #404758;
+	padding: 5px 8px;
 }
 .subscription-node:hover
 {	
-	background-color: #0D2236;
+	background-color: #455069;
 	cursor: pointer;
 }
 
@@ -80,14 +117,13 @@ h1
 
 .subscription-explorer-node
 {
-	background-color: #DDD;
-	margin: 3px 0;
-	padding: 2px 5px;
+	border-bottom: 1px solid #CCC;
+	padding: 20px 10px 20px;
 }
 
 .subscription-explorer-node:hover
 {	
-	background-color: #CCC;
+	background-color: #EFEFEF;
 	cursor: pointer;
 }
 

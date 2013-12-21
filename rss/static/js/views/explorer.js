@@ -25,9 +25,12 @@ var ExplorerView = Backbone.View.extend({
 		if(subscriptionid === undefined)
 			return;
 
+		var subscriptiontitle = $(target).attr("js-subscription-title");
+
 		this.render();
 		
-		var exploreElement = $(this.el).find("#explorer");
+		var exploreElement = $(this.el).find(".feed");
+		var titleElement = $(this.el).find(".title");
 
 		$.ajax({
 			type: "POST",
@@ -42,7 +45,7 @@ var ExplorerView = Backbone.View.extend({
 			},
 			success: function (msg) {
 				exploreElement.html("");
-
+				titleElement.html(subscriptiontitle);
 				// Todo, fix with proper view
 				var source   = $("#item-template").html();
 				var template = Handlebars.compile(source);
