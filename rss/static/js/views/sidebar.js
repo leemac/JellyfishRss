@@ -51,7 +51,7 @@ var SideBarView = Backbone.View.extend({
 
 				element.find(".sidebar-content").html(html);
 
-				ref.clickSubscription({ target : element.find(".subscription-node").first()});
+				ref.vent.trigger("sidebarLoaded");
 			}
 		});
 

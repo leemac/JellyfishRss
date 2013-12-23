@@ -30,6 +30,9 @@ def home(request):
 
 	return render_to_response('static/index.html', context_instance=context)		
 
+
+
+
 def about(request):
 	return render_to_response('static/index.html')
 
@@ -59,9 +62,12 @@ def get_subscription_items(request):
 	if(request.is_ajax()):
 		subscription_id = request.POST["subscription_id"]
 
-		subscription = Subscription.objects.get(id=subscription_id)
+		if int(subscription_id) == 0:
+			itemset = SubscriptionItem.objects.filter(is_read=False).order_by('-published')
+		else:
+			subscription = Subscription.objects.get(id=subscription_id)
+			itemset = subscription.item.filter(is_read=False).order_by('-published')
 
-		itemset = subscription.item.filter(is_read=False).order_by('-published')
 		results = [ob.as_json() for ob in itemset]
 
 		return HttpResponse(json.dumps(results), mimetype='application/json')
