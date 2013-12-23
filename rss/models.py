@@ -23,7 +23,7 @@ class SubscriptionItem(models.Model):
 	published = models.DateTimeField()
 	title = 	models.TextField()
 	url = 		models.TextField()
-	is_read = 		models.BooleanField()
+	is_read = 		models.BooleanField(default=False)
 	subscription = models.ForeignKey(Subscription, related_name="item")
 
 	def as_json(self):
