@@ -32,7 +32,8 @@ class SubscriptionItem(models.Model):
 				title=self.title,
 				content=self.content,
 				published=str(self.published),
-				is_read=self.is_read
+				is_read=self.is_read,
+				subscriptionTitle = self.subscription.title
 			)
 
 	def __str__(self):

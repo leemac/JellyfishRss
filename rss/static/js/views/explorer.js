@@ -80,7 +80,12 @@ var ExplorerView = Backbone.View.extend({
 				titleElement.html(ref.subscriptionTitle);
 
 				// Todo, fix with proper view
-				var source   = $("#item-template").html();
+				if(ref.subscriptionId == 0)
+					templateName = "item-template-all";
+				else
+					templateName = "item-template";
+
+				var source   = $("#" + templateName).html();
 				var template = Handlebars.compile(source);
 
 				for(var i = 0; i < msg.length; i ++)

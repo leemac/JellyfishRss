@@ -44,6 +44,9 @@ var SideBarView = Backbone.View.extend({
 				var template = Handlebars.compile(source);
 
 				var html = "";
+
+				html += template({ id: 0, title: "All Items"});
+
 				for(var i = 0; i < msg.length; i ++)
 				{		
 					html += template(msg[i]);
