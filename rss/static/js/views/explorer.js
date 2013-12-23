@@ -6,10 +6,47 @@ var ExplorerView = Backbone.View.extend({
 		this.vent.bind("clickSubscription", this.clickSubscription, this);
 
 		this.template = Handlebars.compile($("#explorer-template").html());
+
+		this.render();
 	},
 
 	events : {
-		"click .subscription-explorer-node" : "openItem"
+		"click .subscription-explorer-node" : "openItem",
+		"click .button-mark-all-read" : "markAllAsRead"
+	},
+
+	markAllAsRead : function () {
+		var ref = this;
+
+		var exploreElement = $(this.el).find(".feed");
+		var titleElement = $(this.el).find(".title");
+
+		$.ajax({
+			type: "POST",
+			url : "http://localhost:8000/api/mark_subscription_read",
+			data : {
+				csrfmiddlewaretoken: getCSRF(),
+				subscription_id: this.subscriptionId
+			},
+			beforeSend: function (){
+				exploreElement.html("");
+				exploreElement.html("<img src='/static/images/explorer_loading.gif' />");
+			},
+			success: function (msg) {
+				exploreElement.html("");
+				titleElement.html(subscriptiontitle);
+				// Todo, fix with proper view
+				var source   = $("#item-template").html();
+				var template = Handlebars.compile(source);
+
+				for(var i = 0; i < msg.length; i ++)
+				{		
+					var html = template(msg[i]);
+
+					exploreElement.append(html);
+				}
+			}
+		});
 	},
 
 	openItem: function (e) {
@@ -24,6 +61,8 @@ var ExplorerView = Backbone.View.extend({
 
 		if(subscriptionid === undefined)
 			return;
+
+		this.subscriptionId = subscriptionid
 
 		var subscriptiontitle = $(target).attr("js-subscription-title");
 

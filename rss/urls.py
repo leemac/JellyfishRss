@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^api/get_subscription_items', 'rss.views.get_subscription_items', name='get-subscription-items'),
     url(r'^api/get_subscriptions', 'rss.views.get_subscriptions', name='get-subscriptions'),
     url(r'^api/add_subscription', 'rss.views.add_subscription', name='get-subscriptions'),
+    url(r'^api/mark_subscription_read', 'rss.views.mark_subscription_read', name='mark-subscription-read'),
 
 
     # url('', include('django.contrib.auth.urls')),

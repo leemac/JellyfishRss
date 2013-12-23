@@ -25,8 +25,8 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. 
 3. Authentication [Done]
 4. User integration
 	- Feeds polled at interval
-	- User can login and view feeds
-	- User can login and mark feeds as read
+	- User can login and view feeds [Done]
+	- User can login and mark feeds as read [In Progress]
 	- etc.
 5. Work on UI
 
