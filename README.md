@@ -26,7 +26,7 @@ pip install south
 pip install celery
 ```
 
-- Install RabbitMQ 
+- Install [RabbitMQ](http://www.rabbitmq.com/) 
 ```
 sudo apt-get install rabbitmq-server
 ```
