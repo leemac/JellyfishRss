@@ -42,17 +42,9 @@ var ExplorerView = Backbone.View.extend({
 			},
 			success: function (msg) {
 				exploreElement.html("");
-				titleElement.html(subscriptiontitle);
-				// Todo, fix with proper view
-				var source   = $("#item-template").html();
-				var template = Handlebars.compile(source);
-
-				for(var i = 0; i < msg.length; i ++)
-				{		
-					var html = template(msg[i]);
-
-					exploreElement.append(html);
-				}
+				titleElement.html(ref.subscriptiontitle);
+				
+				ref.loadItems();
 			}
 		});
 	},
@@ -80,7 +72,16 @@ var ExplorerView = Backbone.View.extend({
 				titleElement.html(ref.subscriptionTitle);
 
 				// Todo, fix with proper view
-				if(ref.subscriptionId == 0)
+				if(msg.length === 0)
+				{
+					var source   = $("#item-template-none").html();
+					var template = Handlebars.compile(source);
+					var html = template();
+					exploreElement.html(html);
+
+					return;
+				}
+				else if(ref.subscriptionId == 0)
 					templateName = "item-template-all";
 				else
 					templateName = "item-template";
@@ -94,6 +95,8 @@ var ExplorerView = Backbone.View.extend({
 
 					exploreElement.append(html);
 				}
+
+				$("abbr.timeago").timeago();
 			}
 		});
 	},

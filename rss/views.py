@@ -43,17 +43,29 @@ def mark_subscription_read(request):
 	if(request.is_ajax()):
 		subscription_id = request.POST["subscription_id"]
 
-		subscription = Subscription.objects.get(id=subscription_id)
-		itemset = subscription.item.all().order_by('-published')
+		if int(subscription_id) == 0:
+			itemset = SubscriptionItem.objects.all().order_by('-published')
 
-		for item in itemset:
-			item.is_read = True
-			item.save()
+			for item in itemset:
+				item.is_read = True
+				item.save()
 
-		itemset = subscription.item.filter(is_read=False).order_by('-published')
-		results = [ob.as_json() for ob in itemset]
+			itemset = SubscriptionItem.objects.filter(is_read=False).order_by('-published')
+			results = [ob.as_json() for ob in itemset]
 
-		return HttpResponse(json.dumps(results), mimetype='application/json')
+			return HttpResponse(json.dumps(results), mimetype='application/json')
+		else:	
+			subscription = Subscription.objects.get(id=subscription_id)
+			itemset = subscription.item.all().order_by('-published')
+
+			for item in itemset:
+				item.is_read = True
+				item.save()
+
+			itemset = subscription.item.filter(is_read=False).order_by('-published')
+			results = [ob.as_json() for ob in itemset]
+
+			return HttpResponse(json.dumps(results), mimetype='application/json')
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 

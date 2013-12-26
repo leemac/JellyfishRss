@@ -146,9 +146,27 @@ h1
 	cursor: pointer;
 }
 
+.subscription-explorer-node-none
+{
+	padding: 20px 10px;
+	text-align: center;	
+
+.subscription-explorer-node-subscription
+{
+	float:left;
+	margin-right: 5px;
+	font-weight:bold;
+}
+
 .subscription-explorer-node-title
 {
-	font-weight:bold;
+	float:left;
+	word-wrap:break-word;
+}
+
+.subscription-explorer-node-time
+{
+	float:right;
 }
 
 .subscription-explorer-node-content img
