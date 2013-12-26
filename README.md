@@ -5,22 +5,56 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. 
 
 ###Install
 
-- Clone Repository
+The installation portion is a work-in-progress. I'll publish a proper requirements.txt from pip soon. Until then, it's manual.
+
 - Install [django-pipeline](https://github.com/cyberdelia/django-pipeline)
+```
+pip install django-pipeline
+```
+
 - Install [feedparser](https://pypi.python.org/pypi/feedparser)
+
+``` 
+pip install feedparser
+```
+
 - Install [south](http://south.readthedocs.org/en/latest/installation.html)
+
+```
+pip install south
+```
+
 - Install [Celery](http://www.celeryproject.org/install/)
-- Install RabbitMQ (sudo apt-get install rabbitmq-server)
-- manage.py syncdb
-- manage.py migrate
+
+``` 
+pip install celery
+```
+
+- Install RabbitMQ 
+
+```
+sudo apt-get install rabbitmq-server
+```
+
+Database:
+
+```
+manage.py syncdb
+manage.py migrate
+```
 
 ### Running Server
 
 First, bring up the web server:
-- python manage.py runserver
+```
+python manage.py runserver
+```
 
 Then, bring up Celery which will start polling at intervals of an hour:
-- celery -A rss worker -B -l info
+
+```
+celery -A rss worker -B -l info
+```
 
 ###Roadmap
 1. Implement basic site pages
