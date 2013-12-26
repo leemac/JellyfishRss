@@ -4,7 +4,6 @@ JellyfishRss
 Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. It will be optimized for mobile users.
 
 ###Install
-
 The installation portion is a work-in-progress. I'll publish a proper requirements.txt from pip soon. Until then, it's manual.
 
 - Install [Django-Pipeline](https://github.com/cyberdelia/django-pipeline)
@@ -32,14 +31,13 @@ pip install celery
 sudo apt-get install rabbitmq-server
 ```
 
-Database:
+### Database Setup
 ```
 manage.py syncdb
 manage.py migrate
 ```
 
 ### Running Server
-
 First, bring up the web server:
 ```
 python manage.py runserver
@@ -80,7 +78,6 @@ CELERYBEAT_SCHEDULE = {
 5. Work on UI
 
 ###Feature Idea Brain Dump
-
 + Mark as read for a particular user
 + Mark as favorite for a particular user
 + View the most recently updated entries with # count next to subscription name
@@ -98,5 +95,4 @@ CELERYBEAT_SCHEDULE = {
 + Mobile Friendly 
 
 ###License
-
 Jellyfish Rss is licensed under the MIT license. A link back to this project is appreciated but not required.
