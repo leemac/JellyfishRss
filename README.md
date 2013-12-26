@@ -13,25 +13,21 @@ pip install django-pipeline
 ```
 
 - Install [feedparser](https://pypi.python.org/pypi/feedparser)
-
 ``` 
 pip install feedparser
 ```
 
 - Install [south](http://south.readthedocs.org/en/latest/installation.html)
-
 ```
 pip install south
 ```
 
 - Install [Celery](http://www.celeryproject.org/install/)
-
 ``` 
 pip install celery
 ```
 
 - Install RabbitMQ 
-
 ```
 sudo apt-get install rabbitmq-server
 ```
