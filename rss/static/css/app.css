@@ -61,6 +61,12 @@ h1
 	background-color: #111;
 }
 
+.loading
+{
+	padding: 50px 20px;
+	text-align: center;
+}
+
 .strong
 {
 	font-weight: bold;
@@ -148,7 +154,7 @@ h1
 
 .subscription-explorer-node-none
 {
-	padding: 20px 10px;
+	padding: 50px 10px;
 	text-align: center;	
 }
 

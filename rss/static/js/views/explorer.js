@@ -38,7 +38,7 @@ var ExplorerView = Backbone.View.extend({
 			},
 			beforeSend: function (){
 				exploreElement.html("");
-				exploreElement.html("<img src='/static/images/explorer_loading.gif' />");
+				exploreElement.html("<div class='loading'><img src='/static/images/explorer_loading.gif' /></div>");
 			},
 			success: function (msg) {
 				exploreElement.html("");
@@ -65,7 +65,7 @@ var ExplorerView = Backbone.View.extend({
 			},
 			beforeSend: function (){
 				exploreElement.html("");
-				exploreElement.html("<img src='/static/images/explorer_loading.gif' />");
+				exploreElement.html("<div class='loading'><img src='/static/images/explorer_loading.gif' /></div>");
 			},
 			success: function (msg) {
 				exploreElement.html("");

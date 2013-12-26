@@ -73,9 +73,9 @@ def get_subscription_items(request):
 		subscription_id = request.POST["subscription_id"]
 
 		if int(subscription_id) == 0:
-			itemset = SubscriptionItem.objects.order_by('-published').filter(is_read=False)
+			itemset = SubscriptionItem.objects.filter(is_read=False).order_by('-published')
 		else:
-			subscription = Subscription.objects.order_by('-published').get(id=subscription_id)
+			subscription = Subscription.objects.get(id=subscription_id).order_by('-published')
 			itemset = subscription.item.filter(is_read=False)
 
 		results = [ob.as_json() for ob in itemset]

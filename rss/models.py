@@ -35,7 +35,7 @@ class SubscriptionItem(models.Model):
 				url=self.url,
 				title=self.title,
 				content=self.content,
-				published=str(self.published),
+				published=self.published.strftime("%Y-%m-%dT%H:%M:%S"),
 				is_read=self.is_read,
 				subscriptionTitle = self.subscription.title
 			)
