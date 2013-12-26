@@ -7,17 +7,17 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. 
 
 The installation portion is a work-in-progress. I'll publish a proper requirements.txt from pip soon. Until then, it's manual.
 
-- Install [django-pipeline](https://github.com/cyberdelia/django-pipeline)
+- Install [Django-Pipeline](https://github.com/cyberdelia/django-pipeline)
 ```
 pip install django-pipeline
 ```
 
-- Install [feedparser](https://pypi.python.org/pypi/feedparser)
+- Install [FeedParser](https://pypi.python.org/pypi/feedparser)
 ``` 
 pip install feedparser
 ```
 
-- Install [south](http://south.readthedocs.org/en/latest/installation.html)
+- Install [South](http://south.readthedocs.org/en/latest/installation.html)
 ```
 pip install south
 ```
@@ -33,7 +33,6 @@ sudo apt-get install rabbitmq-server
 ```
 
 Database:
-
 ```
 manage.py syncdb
 manage.py migrate
@@ -46,10 +45,20 @@ First, bring up the web server:
 python manage.py runserver
 ```
 
-Then, bring up Celery which will start polling at intervals of an hour:
+Then, bring up Celery:
 
 ```
 celery -A rss worker -B -l info
+```
+
+Polling is set to one hour (3600s) and can be configured in settings.py:
+```
+CELERYBEAT_SCHEDULE = {
+    'poll-every-hour': {
+        'task': 'rss.tasks.poll',
+        'schedule': timedelta(seconds=3600)
+    },
+}
 ```
 
 ###Roadmap
