@@ -1,6 +1,7 @@
 # Django settings for rss project.
 
 import os
+from datetime import timedelta
 
 PROJECT_DIR = os.path.dirname(__file__)
 
@@ -10,6 +11,17 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
+
+# Celery
+
+CELERYBEAT_SCHEDULE = {
+    'poll-every-hour': {
+        'task': 'rss.tasks.poll',
+        'schedule': timedelta(seconds=3600)
+    },
+}
+
+CELERY_TIMEZONE = 'UTC'
 
 MANAGERS = ADMINS
 
