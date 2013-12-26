@@ -21,8 +21,16 @@
 	{% verbatim %}
 		<script id="item-template" type="text/x-handlebars-template">
 			<div js-item-link="{{url}}" class="subscription-explorer-node">
-				<div class="subscription-explorer-node-title">
-					{{title}} {{published}}
+				<div class="clearfix">
+					<div class="subscription-explorer-node-subscription">
+						{{subscriptionTitle}}
+					</div>
+					<div class="subscription-explorer-node-title">
+						{{title}}
+					</div>
+					<div class="subscription-explorer-node-time">
+						<abbr class="timeago" title="{{published}}">{{published}}</abbr>
+					</div>
 				</div>
 				<div class="subscription-explorer-node-content">
 					{{{content}}}

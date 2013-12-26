@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from pytz import timezone
 
 class Subscription(models.Model):
 	last_crawled = models.CharField(max_length=200)
@@ -19,6 +20,7 @@ class Subscription(models.Model):
 		return self.title
 
 class SubscriptionItem(models.Model):
+
 	content = 	models.TextField()
 	published = models.DateTimeField()
 	title = 	models.TextField()
@@ -27,6 +29,8 @@ class SubscriptionItem(models.Model):
 	subscription = models.ForeignKey(Subscription, related_name="item")
 
 	def as_json(self):
+		settingstime_zone = timezone('America/New_York')
+
 		return dict(
 				url=self.url,
 				title=self.title,
