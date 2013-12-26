@@ -78,14 +78,13 @@ CELERYBEAT_SCHEDULE = {
 5. Work on UI
 
 ###Feature Idea Brain Dump
-+ Mark as read for a particular user
-+ Mark as favorite for a particular user
++ Feeds are shared. Polled once. Users actually subscribe to feeds to improve performance/scalability.
++ Management of favorite articles.
 + View the most recently updated entries with # count next to subscription name
 + View all subscriptions with all items (paging)
-+ View favorite entries
++ Infinite Scrolling
 + Email/Share
 + Ignore posts with specific terms (Giveaway, Prizes). Choose your own or select pre-crafted filters.
-+ Hostable 
 + Tagging
 + Subscription Colors
 + Real Time wall
