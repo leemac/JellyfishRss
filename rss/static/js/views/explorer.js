@@ -38,7 +38,7 @@ var ExplorerView = Backbone.View.extend({
 			},
 			beforeSend: function (){
 				exploreElement.html("");
-				exploreElement.html("<div class='loading'><img src='/static/images/explorer_loading.gif' /></div>");
+				exploreElement.html("<div class='loading'>Marking all as read...<br/><br/><img src='/static/images/explorer_loading.gif' /></div>");
 			},
 			success: function (msg) {
 				exploreElement.html("");
