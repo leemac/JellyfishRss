@@ -67,6 +67,21 @@ def mark_subscription_read(request):
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 
+def change_subscription_color(request):
+	if(request.is_ajax()):
+		subscription_id = request.POST["subscription_id"]
+		color = request.POST["color"]
+
+		subscription = Subscription.objects.get(id=subscription_id)
+
+		subscription.color = color
+
+		subscription.save()
+
+		return HttpResponse(json.dumps("ok"), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
 
 def get_subscription_items(request):
 	if(request.is_ajax()):

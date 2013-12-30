@@ -13,7 +13,8 @@ var ExplorerView = Backbone.View.extend({
 
 	events : {
 		"click .subscription-explorer-node" : "openItem",
-		"click .button-mark-all-read" : "markAllAsRead"
+		"click .button-mark-all-read" : "markAllAsRead",
+		"click .button-change-color" : "changeColor"
 	},
 
 	sidebarLoaded : function () {
@@ -21,6 +22,30 @@ var ExplorerView = Backbone.View.extend({
 		this.subscriptionTitle = "All Items";
 
 		this.loadItems();
+	},
+
+	changeColor: function () {
+		var newColor = $(this.el).find(".input-color-picker").val()	;
+		var ref = this;
+
+		$.ajax({
+			type: "POST",
+			url : "http://localhost:8000/api/change_subscription_color",
+			data : {
+				csrfmiddlewaretoken: getCSRF(),
+				subscription_id: ref.subscriptionId,
+				color: newColor
+			},
+			beforeSend: function (){
+
+			},
+			success: function (msg) {
+				console.log('color changed!');
+			},
+			error: function () {
+				console.log("error");
+			}
+		});
 	},
 
 	markAllAsRead : function () {
@@ -53,6 +78,15 @@ var ExplorerView = Backbone.View.extend({
 	{		
 		var exploreElement = $(this.el).find(".feed");
 		var titleElement = $(this.el).find(".title");
+
+		if(this.subscriptionId === 0)
+		{
+			$(this.el).find(".color-picker").hide();
+		}
+		else
+		{
+			$(this.el).find(".color-picker").show();
+		}
 
 		var ref = this;
 

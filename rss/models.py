@@ -3,8 +3,10 @@ from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.contrib.auth.models import User
 from pytz import timezone
 from time import gmtime, strftime
+
 class Subscription(models.Model):
 	last_crawled = models.CharField(max_length=200)
+	color = models.TextField(max_length=20)
 	url = 		models.TextField()
 	site_url = 	models.TextField()
 	user = 		models.ForeignKey(User)
@@ -14,7 +16,8 @@ class Subscription(models.Model):
 		return dict(
 				id=self.id,
 				url=self.url,
-				title=self.title
+				title=self.title,
+				color=self.color
 			)
 
 	def __str__(self):
@@ -38,7 +41,8 @@ class SubscriptionItem(models.Model):
 				content=self.content,
 				published= str(self.published),
 				is_read=self.is_read,
-				subscriptionTitle = self.subscription.title
+				subscriptionTitle = self.subscription.title,
+				subscriptionColor = self.subscription.color
 			)
 
 	def __str__(self):
