@@ -36,7 +36,7 @@ def poll():
 			object.url=item.link
 			object.subscription_id = subscription.id
 
-			object.published=self.published.strftime("%Y-%m-%dT%H:%M:%S"),
+			object.published = datetime.fromtimestamp(mktime(item.date_parsed))
 
 			try:
 				object.content = item.content[0]

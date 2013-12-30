@@ -96,7 +96,7 @@ var ExplorerView = Backbone.View.extend({
 					exploreElement.append(html);
 				}
 
-				$("abbr.timeago").timeago();
+				//$("abbr.timeago").timeago();
 			}
 		});
 	},

@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.contrib.auth.models import User
 from pytz import timezone
-
+from time import gmtime, strftime
 class Subscription(models.Model):
 	last_crawled = models.CharField(max_length=200)
 	url = 		models.TextField()
@@ -29,13 +30,13 @@ class SubscriptionItem(models.Model):
 	subscription = models.ForeignKey(Subscription, related_name="item")
 
 	def as_json(self):
-		settingstime_zone = timezone('America/New_York')
+		local_timezone = timezone("America/New_York")
 
 		return dict(
 				url=self.url,
 				title=self.title,
 				content=self.content,
-				published=self.published.strftime("%Y-%m-%dT%H:%M:%S"),
+				published= str(self.published),
 				is_read=self.is_read,
 				subscriptionTitle = self.subscription.title
 			)
