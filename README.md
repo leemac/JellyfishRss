@@ -30,6 +30,10 @@ pip install celery
 ```
 sudo apt-get install rabbitmq-server
 ```
+- Install [lxml](http://lxml.de/3.0/installation.html) 
+```
+sudo apt-get install libxml2 libxml2-dev libxslt-dev && pip install lxml
+```
 
 ### Database Setup
 ```

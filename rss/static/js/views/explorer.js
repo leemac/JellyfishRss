@@ -21,6 +21,9 @@ var ExplorerView = Backbone.View.extend({
 		this.subscriptionId = 0;
 		this.subscriptionTitle = "All Items";
 
+		$(".subscription-node").removeClass("selected");
+		$(".subscription-node").first().addClass("selected");
+
 		this.loadItems();
 	},
 
@@ -143,13 +146,17 @@ var ExplorerView = Backbone.View.extend({
 		window.location = url;
 	},
 	clickSubscription: function (target) {
-		var subscriptionid = $(target).attr("js-subscription-id");
+		var thisLinkElement = $(target);
 
+		var subscriptionid = thisLinkElement.attr("js-subscription-id");
 		if(subscriptionid === undefined)
 			return;
 
+		$(".subscription-node").removeClass("selected");
+		thisLinkElement.addClass("selected");
+
 		this.subscriptionId = subscriptionid
-		this.subscriptionTitle = $(target).attr("js-subscription-title");
+		this.subscriptionTitle = thisLinkElement.attr("js-subscription-title");
 
 		this.loadItems();
 	},

@@ -1,12 +1,17 @@
 from django.core.management.base import BaseCommand
 from datetime import datetime
 from time import mktime
-import feedparser
 
+from urlparse import urlparse
 
 from rss.models import Subscription
 from rss.models import SubscriptionItem
 from rss.models import User
+
+import lxml.html as lh
+import urllib2
+import feedparser
+
 # This is used for loading local RSS files for testing
 class Command(BaseCommand):
 
@@ -18,6 +23,38 @@ class Command(BaseCommand):
 			self.stdout.write("Crawling " + subscription.title +  "! \n")
 			
 			d = feedparser.parse(subscription.url)
+
+			if not subscription.favicon_url:
+				link = d.feed.link
+
+				hostname = urlparse(d.feed.link).hostname
+				link = "http://" + hostname
+
+				self.stdout.write("Looking for missing favicon..." + link + "\n")
+								
+				doc = lh.parse(link)
+
+				favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
+
+				if len(favicons) == 0:
+					favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
+
+				self.stdout.write("*New* Found Favicon: " + str(len(favicons)))
+
+				if len(favicons) > 0:
+					favicon = favicons[0]
+				else:
+					favicon = ""
+
+				if favicon:
+					fav_url = favicon
+
+					if not fav_url.startswith("http"):
+						fav_url = link + favicon
+						
+					self.stdout.write(fav_url)
+					subscription.favicon_url = fav_url
+					subscription.save()
 
 			user = User.objects.all()[0];
 

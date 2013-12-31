@@ -11,13 +11,15 @@ class Subscription(models.Model):
 	site_url = 	models.TextField()
 	user = 		models.ForeignKey(User)
 	title = 	models.TextField()
+	favicon_url = models.TextField()
 	
 	def as_json(self):
 		return dict(
 				id=self.id,
 				url=self.url,
 				title=self.title,
-				color=self.color
+				color=self.color,
+				favicon_url=self.favicon_url
 			)
 
 	def __str__(self):
