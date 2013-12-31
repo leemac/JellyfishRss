@@ -48,7 +48,6 @@ python manage.py runserver
 ```
 
 Then, bring up Celery:
-
 ```
 celery -A rss worker -B -l info
 ```
