@@ -59,7 +59,7 @@ CELERYBEAT_SCHEDULE = {
 }
 ```
 
-###Roadmap
+###Basic Roadmap
 1. Implement basic site pages
 	- Home [Done]
 	- Login [Done]
@@ -68,14 +68,20 @@ CELERYBEAT_SCHEDULE = {
 2. Implement RSS poller
 	- Iterate over sites [Done]
 	- Add new items [Done]
-	- Add cron job (for now) [In Progress]
+	- Add Poller (Celery) [Done]
 3. Authentication [Done]
 4. User integration
-	- Feeds polled at interval
 	- User can login and view feeds [Done]
-	- User can login and mark feeds as read [In Progress]
-	- etc.
+	- User can login and mark feeds as read [Done]
 5. Work on UI
+	- Download Favicons [In Progress]
+	- Colors
+	- Typography
+	- Mobile/Responsive version
+6. Other features
+	- Search
+	- Blacklist keywords
+	- Import/Export
 
 ###Feature Idea Brain Dump
 + Feeds are shared. Polled once. Users actually subscribe to feeds to improve performance/scalability.
