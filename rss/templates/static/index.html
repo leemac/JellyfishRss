@@ -22,10 +22,10 @@
 		<script id="item-template" type="text/x-handlebars-template">
 			<div js-item-link="{{url}}" class="subscription-explorer-node">
 				<div class="clearfix">
-					<div class="subscription-explorer-node-subscription" style="color: {{subscriptionColor}} !important">
-						{{subscriptionTitle}}
+					<div class="subscription-explorer-node-fav">
+						<i class="fa fa-star-o button-favorite"></i>
 					</div>
-					<div class="subscription-explorer-node-title">
+					<div class="subscription-explorer-node-title strong">
 						{{title}}
 					</div>
 					<div class="subscription-explorer-node-time">
@@ -38,21 +38,12 @@
 			</div>
 		</script>
 
-		<script id="item-template-none" type="text/x-handlebars-template">
-			<div class="subscription-explorer-node-none">	
-				Nothing to see here! Check back soon!
-			</div>
-		</script>
-
-		<script id="item-template-none" type="text/x-handlebars-template">
-			<div class="subscription-explorer-node-none">	
-				Nothing to see here! Check back soon!
-			</div>
-		</script>
-
 		<script id="item-template-all" type="text/x-handlebars-template">
 			<div js-item-link="{{url}}" class="subscription-explorer-node">
 				<div class="clearfix">
+					<div class="subscription-explorer-node-fav">
+						<i class="fa fa-star-o button-favorite"></i>
+					</div>
 					<div class="subscription-explorer-node-subscription" style="color: {{subscriptionColor}} !important">
 						{{subscriptionTitle}}
 					</div>
@@ -63,6 +54,18 @@
 						<abbr class="timeago" title="{{published}}">{{published}}</abbr>
 					</div>
 				</div>
+			</div>
+		</script>
+
+		<script id="item-template-none" type="text/x-handlebars-template">
+			<div class="subscription-explorer-node-none">	
+				Nothing to see here! Check back soon!
+			</div>
+		</script>
+
+		<script id="item-template-none" type="text/x-handlebars-template">
+			<div class="subscription-explorer-node-none">	
+				Nothing to see here! Check back soon!
 			</div>
 		</script>
 

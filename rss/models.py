@@ -32,6 +32,7 @@ class SubscriptionItem(models.Model):
 	title = 	models.TextField()
 	url = 		models.TextField()
 	is_read = 		models.BooleanField(default=False)
+	is_favorite = 	models.BooleanField(default=False)
 	subscription = models.ForeignKey(Subscription, related_name="item")
 
 	def as_json(self):
@@ -43,6 +44,7 @@ class SubscriptionItem(models.Model):
 				content=self.content,
 				published= str(self.published),
 				is_read=self.is_read,
+				is_favorite = self.is_favorite,
 				subscriptionTitle = self.subscription.title,
 				subscriptionColor = self.subscription.color
 			)

@@ -1,4 +1,4 @@
-var ExplorerView = Backbone.View.extend({
+var SubscriptionItemView = Backbone.View.extend({
 	initialize: function(options, el){
 		this.vent = options.vent;
 		this.el = options.el;

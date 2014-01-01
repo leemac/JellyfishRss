@@ -39,10 +39,9 @@ class Command(BaseCommand):
 				if len(favicons) == 0:
 					favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
 
-				self.stdout.write("*New* Found Favicon: " + str(len(favicons)))
-
 				if len(favicons) > 0:
 					favicon = favicons[0]
+					self.stdout.write("*New* Found Favicon: " + str(len(favicons)))
 				else:
 					favicon = ""
 

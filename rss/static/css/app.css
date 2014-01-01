@@ -165,6 +165,12 @@ h1
 	font-weight:bold;
 }
 
+.subscription-explorer-node-fav
+{
+	float:left;
+	margin-right: 5px;
+}
+
 .subscription-explorer-node-title
 {
 	float:left;
