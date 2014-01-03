@@ -17,7 +17,7 @@ ADMINS = (
 CELERYBEAT_SCHEDULE = {
     'poll-every-hour': {
         'task': 'rss.tasks.poll',
-        'schedule': timedelta(seconds=2000)
+        'schedule': timedelta(seconds=1800)
     },
 }
 

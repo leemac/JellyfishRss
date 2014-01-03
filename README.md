@@ -76,12 +76,16 @@ CELERYBEAT_SCHEDULE = {
 4. User integration
 	- User can login and view feeds [Done]
 	- User can login and mark feeds as read [Done]
-5. Work on UI
-	- Download Favicons [In Progress]
-	- Colors
-	- Typography
+5. Settings
+	- Update email/password
+6. Work on UI
+	- Download Favicons [Done]
+	- Logo
+	- UI Colors
+	- UI Typography
 	- Mobile/Responsive version
-6. Other features
+7. Other features
+	- Auto Load
 	- Search
 	- Blacklist keywords
 	- Import/Export

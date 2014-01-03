@@ -7,6 +7,10 @@ from django.contrib.auth import authenticate, login, logout
 from rss.models import Subscription
 from rss.models import SubscriptionItem
 from rss.models import User
+from urlparse import urlparse
+
+import lxml.html as lh
+import urllib2
 
 import logging
 import json
@@ -128,6 +132,33 @@ def add_subscription(request):
 			newSub.title = d.feed.title
 			newSub.url = subscription_url
 			newSub.user_id = user_id
+	
+			if not newSub.favicon_url:
+				link = d.feed.link
+
+				hostname = urlparse(d.feed.link).hostname
+				link = "http://" + hostname
+								
+				doc = lh.parse(link)
+
+				favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
+
+				if len(favicons) == 0:
+					favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
+
+				if len(favicons) > 0:
+					favicon = favicons[0]
+				else:
+					favicon = "favicon.ico"
+
+				if favicon:
+					fav_url = favicon
+
+					if not fav_url.startswith("http"):
+						fav_url = link + favicon
+						
+					newSub.favicon_url = fav_url
+			
 			newSub.save()
 			
 			for item in d.entries:
