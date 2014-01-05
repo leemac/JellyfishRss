@@ -40,16 +40,26 @@ var SideBarView = Backbone.View.extend({
 				
 			},
 			success: function (msg) {
-				var source   = $("#subscription-node-template").html();
-				var template = Handlebars.compile(source);
+				var source   = $("#folder-template").html();
+				var folderTemplate = Handlebars.compile(source);
+
+				var source   = $("#subscription-template").html();
+				var subscriptionTemplate = Handlebars.compile(source);
 
 				var html = "";
 
-				html += template({ id: 0, title: "All Items"});
+				html += folderTemplate({ id: 0, title: "All Items"});
 
 				for(var i = 0; i < msg.length; i ++)
 				{		
-					html += template(msg[i]);
+					html += folderTemplate(msg[i]);
+
+					var subscriptions = msg[i].subscriptions;
+
+					for(var n = 0; n < subscriptions.length; n++)
+					{
+						html += subscriptionTemplate(subscriptions[n])
+					}
 				}
 
 				element.find(".sidebar-content").html(html);

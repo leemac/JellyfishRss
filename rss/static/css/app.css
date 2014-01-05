@@ -122,19 +122,36 @@ h1
 	font-size: 12px;
 }
 
-.subscription-node
+.folder
 {
 	color: #DFEAF5;
 	font-size: 12px;
 	padding: 5px 8px;
 }
-.subscription-node:hover
+.folder:hover
 {	
 	background-color: #455069;
 	cursor: pointer;
 }
 
-.subscription-node.selected
+.folder.selected
+{
+	background-color: #455069;
+}
+
+.subscription
+{
+	color: #DFEAF5;
+	font-size: 12px;
+	padding: 5px 8px;
+}
+.subscription:hover
+{	
+	background-color: #455069;
+	cursor: pointer;
+}
+
+.subscription.selected
 {
 	background-color: #455069;
 }

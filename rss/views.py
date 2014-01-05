@@ -24,6 +24,8 @@ import feedparser
 
 logger = logging.getLogger('logview.userrequest')
 
+#-----BASIC
+
 def home(request):
 	context = RequestContext(request)
 
@@ -43,6 +45,109 @@ def about(request):
 
 def login_redirect(request):
 	return render_to_response('static/login.html')
+
+#-----API
+
+# POST
+
+def add_subscription(request):
+	if(request.is_ajax()):
+		user_id = request.POST["user_id"]
+		subscription_url = request.POST["url"]
+
+		existingSubscriptionCount = Subscription.objects.filter(url=subscription_url).count()
+
+		# Only add and poll if it does not exist
+		if existingSubscriptionCount == 0:
+			poller = sitepoller.SitePoller()
+			poller.add_site_and_poll(subscription_url)
+
+		# Get default folder
+		existingFolderCount = Folder.objects.filter(user_id=user_id).count()
+
+		if existingFolderCount == 0:
+			folder = Folder()
+			folder.title = "Feeds"
+			folder.user_id = user_id
+			folder.save()
+		else:
+			# TODO: for now...
+			folder = Folder.objects.filter(user_id=user_id)[0];
+
+		# Get subscription
+		subscription = Subscription.objects.get(url=subscription_url)
+
+		# Add relation
+		relation = SubscriptionUserRelation()
+		relation.folder_id = folder.id
+		relation.user_id = user_id
+		relation.subscription_id = subscription.id;
+		relation.save()
+
+		return HttpResponse(json.dumps("ok"), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
+# GET
+
+def get_subscription_items(request):
+	if(request.is_ajax()):
+		subscription_id = request.POST["subscription_id"]
+
+		if int(subscription_id) == 0:
+			itemset = SubscriptionItem.objects.filter(is_read=False)
+		else:
+			subscription = Subscription.objects.get(id=subscription_id)
+			itemset = subscription.item.filter(is_read=False)
+
+		results = [ob.as_json() for ob in itemset.order_by('-published')]
+
+		return HttpResponse(json.dumps(results), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
+def get_folders(request):
+	if(request.is_ajax()):
+		user_id = request.POST["user_id"]
+
+		folders = Folder.objects.filter(user_id=user_id)
+
+		results = []
+
+		# Could be replaced by built-in json in models
+		for folder in folders.all():
+			subscriptions = []
+
+			for relation in SubscriptionUserRelation.objects.filter(folder_id=folder.id):
+				subObj = {}
+				subObj["title"] = relation.subscription.title
+				subObj["id"] = relation.subscription.title
+				subObj["favicon_url"] = relation.subscription.favicon_url
+				subscriptions.append(subObj)
+
+			folderObj = {}
+			folderObj["title"] = folder.title
+			folderObj["subscriptions"] = subscriptions
+
+    		results.append(folderObj)
+
+		# TODO:
+
+		# Need Structure like:
+
+		# Folder A
+		# -- Subscription 1
+		# -- Subscription 2
+		# Folder B
+		# -- Subscription 3
+		# Folder C
+		# (...)
+
+		return HttpResponse(json.dumps(results), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
+# MISC
 
 def mark_subscription_read(request):
 	if(request.is_ajax()):
@@ -89,73 +194,7 @@ def change_subscription_color(request):
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 
-
-def get_subscription_items(request):
-	if(request.is_ajax()):
-		subscription_id = request.POST["subscription_id"]
-
-		if int(subscription_id) == 0:
-			itemset = SubscriptionItem.objects.filter(is_read=False)
-		else:
-			subscription = Subscription.objects.get(id=subscription_id)
-			itemset = subscription.item.filter(is_read=False)
-
-		results = [ob.as_json() for ob in itemset.order_by('-published')]
-
-		return HttpResponse(json.dumps(results), mimetype='application/json')
-
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-def get_folders(request):
-	if(request.is_ajax()):
-		user_id = request.POST["user_id"]
-
-		folders = Folder.objects.filter(user_id=user_id)
-
-		itemset = folders.all()
-		results = [ob.as_json() for ob in itemset]
-
-		return HttpResponse(json.dumps(results), mimetype='application/json')
-
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-def add_subscription(request):
-	if(request.is_ajax()):
-		user_id = request.POST["user_id"]
-		subscription_url = request.POST["url"]
-
-		existingSubscriptionCount = Subscription.objects.filter(url=subscription_url).count()
-
-		# Only add and poll if it does not exist
-		if existingSubscriptionCount == 0:
-			poller = sitepoller.SitePoller()
-			poller.add_site_and_poll(subscription_url)
-
-		# Add relation
-		existingFolderCount = Folder.objects.filter(user_id=user_id).count()
-
-		if existingFolderCount == 0:
-			folder = Folder()
-			folder.title = "Feeds"
-			folder.user_id = user_id
-			folder.save()
-		else:
-			folder = Folder.objects.filter(user_id=user_id)[0];
-
-		subscription = Subscription.objects.get(url=subscription_url)
-
-		relation = SubscriptionUserRelation()
-		relation.folder_id = folder.id
-		relation.user_id = user_id
-		relation.subscription_id = subscription.id;
-		relation.save()
-
-		return HttpResponse(json.dumps("ok"), mimetype='application/json')
-
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-
-# AUTHENTICATION
+#-----AUTHENTICATION
 
 def login_user(request):
 	logout(request)
