@@ -60,7 +60,10 @@ class SitePoller:
 				object.url=item.link
 				object.subscription_id = subscription.id
 
-				object.published = datetime.fromtimestamp(mktime(item.date_parsed))
+				try :
+					object.published = datetime.fromtimestamp(mktime(item.published_parsed))
+				except AttributeError:
+					object.published = datetime.fromtimestamp(mktime(item.date_parsed))
 
 				try:
 					object.content = item.content[0]
