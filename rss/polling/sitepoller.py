@@ -12,62 +12,83 @@ import feedparser
 
 class SitePoller:
 
-    def poll(self, logger):
+	def add_site_and_poll(self, rss_url):
+		self.add_site(rss_url)
+		
+		subscription = Subscription.objects.get(url=rss_url)
+		self.poll_site(subscription)
 
-    	logger.info("here!")
+	def add_site(self, rss_url):
+		try:
+			subscription = Subscription.objects.get(url=rss_url)
+		except Subscription.DoesNotExist:
+			d = feedparser.parse(rss_url)
 
-    	for subscription in Subscription.objects.all():			
-			d = feedparser.parse(subscription.url)
+			subscription = Subscription()
+			subscription.title = d.feed.title
+			subscription.url = rss_url
+			subscription.color = ""
+			subscription.save()
 
-			if not subscription.favicon_url:
-				link = d.feed.link
+	def poll_site(self, subscription):
+		d = feedparser.parse(subscription.url)
 
-				hostname = urlparse(d.feed.link).hostname
-				link = "http://" + hostname
-								
-				doc = lh.parse(link)
+		if not subscription.favicon_url:
+			link = d.feed.link
 
-				favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
+			hostname = urlparse(d.feed.link).hostname
+			link = "http://" + hostname
+							
+			doc = lh.parse(link)
 
-				if len(favicons) == 0:
-					favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
+			favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
 
-				if len(favicons) > 0:
-					favicon = favicons[0]
-				else:
-					favicon = link + "/favicon.ico"
+			if len(favicons) == 0:
+				favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
 
-				if favicon:
-					fav_url = favicon
+			if len(favicons) > 0:
+				favicon = favicons[0]
+			else:
+				favicon = link + "/favicon.ico"
 
-					if not fav_url.startswith("http"):
-						fav_url = link + favicon
-						
-					subscription.favicon_url = fav_url
-					subscription.save()
+			if favicon:
+				fav_url = favicon
 
-			for item in d.entries:
-				existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
+				if not fav_url.startswith("http"):
+					fav_url = link + favicon
+					
+				subscription.favicon_url = fav_url
+				subscription.save()
 
-				if(existingItem != 0):
-					continue
+		for item in d.entries:
+			existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
 
-				object = SubscriptionItem()
-				object.title=item.title
-				object.url=item.link
-				object.subscription_id = subscription.id
+			if(existingItem != 0):
+				continue
 
-				try :
-					object.published = datetime.fromtimestamp(mktime(item.published_parsed))
-				except AttributeError:
-					object.published = datetime.fromtimestamp(mktime(item.date_parsed))
+			object = SubscriptionItem()
+			object.title=item.title
+			object.url=item.link
+			object.subscription_id = subscription.id
 
+			try :
+				object.published = datetime.fromtimestamp(mktime(item.published_parsed))
+			except AttributeError:
+				object.published = datetime.fromtimestamp(mktime(item.date_parsed))
+
+			try:
+				object.content = item.content[0]
+			except AttributeError:
 				try:
-					object.content = item.content[0]
+					object.content = item.description
 				except AttributeError:
-					try:
-						object.content = item.description
-					except AttributeError:
-						object.content = ""
+					object.content = ""
 
-				object.save()
+			object.save()
+
+	def poll(self, logger):
+
+		logger.info("here!")
+
+		for subscription in Subscription.objects.all():			
+			self.poll_site(subscription)

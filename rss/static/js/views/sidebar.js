@@ -31,7 +31,7 @@ var SideBarView = Backbone.View.extend({
 		
 		$.ajax({
 			type: "POST",
-			url : "http://localhost:8000/api/get_subscriptions",
+			url : "http://localhost:8000/api/get_folders",
 			data : {
 				csrfmiddlewaretoken: getCSRF(),
 				user_id: window.get_userId()

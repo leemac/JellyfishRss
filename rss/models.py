@@ -37,7 +37,7 @@ class Subscription(models.Model):
 	def __str__(self):
 		return self.title
 
-class UserSubscriptionFolderRelation(models.Model):
+class SubscriptionUserRelation(models.Model):
 	user = 			models.ForeignKey(User)
 	folder = 		models.ForeignKey(Folder)
 	subscription = 	models.ForeignKey(Subscription)
@@ -65,8 +65,7 @@ class SubscriptionItem(models.Model):
 				published= str(self.published),
 				is_read=self.is_read,
 				is_favorite = self.is_favorite,
-				subscriptionTitle = self.subscription.title,
-				subscriptionColor = self.subscription.color
+				subscriptionTitle = self.subscription.title
 			)
 
 	def __str__(self):
