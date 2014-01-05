@@ -42,7 +42,7 @@ Add the database 'jellyfish' and build the database (create your admin user here
 ```
 manage.py syncdb
 manage.py migrate
-```
+``` 
 
 ### Running Server
 First, bring up the web server:
