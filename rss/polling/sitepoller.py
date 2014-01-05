@@ -5,7 +5,6 @@ from urlparse import urlparse
 
 from rss.models import Subscription
 from rss.models import SubscriptionItem
-from rss.models import User
 
 import lxml.html as lh
 import urllib2
@@ -46,8 +45,6 @@ class SitePoller:
 						
 					subscription.favicon_url = fav_url
 					subscription.save()
-
-			user = User.objects.all()[0];
 
 			for item in d.entries:
 				existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()

@@ -66,7 +66,7 @@ var AddSubscriptionView = Backbone.View.extend({
 				alertBox.html("<strong>Error Importing Feed:</strong> Please try again!");
 				alertBox.show();
 
-				buttons.attr("disabled", true);
+				buttons.attr("disabled", false);
 			}
 		});
 	},

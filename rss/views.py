@@ -24,8 +24,6 @@ def home(request):
 
 	if request.user.is_authenticated:
 		user = User.objects.all()[0];
-
-		context.subscriptions = Subscription.objects.filter(user_id=user.id)
 	else:
 		logger.info("User made request (test logging)")
 
@@ -121,6 +119,13 @@ def add_subscription(request):
 		user_id = request.POST["user_id"]
 		subscription_url = request.POST["url"]
 
+		existingSubscriptionCount = Subscription.objects.filter(url=subscription_url).count()
+
+		if existingSubscriptionCount == 0:
+			# site_poller.add_and_crawl_subscription(url)
+
+		return HttpResponse(json.dumps("ok"), mimetype='application/json')
+
 		try:
 			newSub = Subscription.objects.get(url=subscription_url)
 		except Subscription.MultipleObjectsReturned:
@@ -131,7 +136,6 @@ def add_subscription(request):
 			newSub = Subscription()
 			newSub.title = d.feed.title
 			newSub.url = subscription_url
-			newSub.user_id = user_id
 	
 			if not newSub.favicon_url:
 				link = d.feed.link

@@ -4,12 +4,25 @@ from django.contrib.auth.models import User
 from pytz import timezone
 from time import gmtime, strftime
 
+class Folder(models.Model):
+	color = models.TextField(max_length=20,blank=True)
+	user = 		models.ForeignKey(User)
+	title = 	models.TextField()
+	
+	def as_json(self):
+		return dict(
+				id=self.id,
+				title=self.title,
+				color=self.color,
+			)
+
+	def __str__(self):
+		return self.title
+
 class Subscription(models.Model):
 	last_crawled = models.CharField(max_length=200)
-	color = models.TextField(max_length=20)
 	url = 		models.TextField()
 	site_url = 	models.TextField()
-	user = 		models.ForeignKey(User)
 	title = 	models.TextField()
 	favicon_url = models.TextField()
 	
@@ -18,12 +31,19 @@ class Subscription(models.Model):
 				id=self.id,
 				url=self.url,
 				title=self.title,
-				color=self.color,
 				favicon_url=self.favicon_url
 			)
 
 	def __str__(self):
 		return self.title
+
+class UserSubscriptionFolderRelation(models.Model):
+	user = 			models.ForeignKey(User)
+	folder = 		models.ForeignKey(Folder)
+	subscription = 	models.ForeignKey(Subscription)
+	
+	def __str__(self):
+		return self.user.id
 
 class SubscriptionItem(models.Model):
 
