@@ -72,14 +72,9 @@ manage.py crawlfiles
 ```
 
 ### Polling
-Polling is set to 1800 seconds or 30 minutes (configurable in settings.py).
+Polling will start when you run Celery (see 'Running Server' above). The default interval is set to 1800 seconds or 30 minutes (configurable in settings.py).
 
-Start the poller by firing up celery:
-```
-celery -A rss worker -l info
-```
-
-You can force a manualy polling action by running:
+You can force a manual polling action by running:
 ```
 manage.py crawlsites 
 ```
