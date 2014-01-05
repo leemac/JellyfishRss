@@ -8,18 +8,35 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Folder'
+        db.create_table(u'rss_folder', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('title', self.gf('django.db.models.fields.TextField')()),
+            ('color', self.gf('django.db.models.fields.TextField')(max_length=20, blank=True)),
+        ))
+        db.send_create_signal(u'rss', ['Folder'])
+
         # Adding model 'Subscription'
         db.create_table(u'rss_subscription', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('last_crawled', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('color', self.gf('django.db.models.fields.TextField')(max_length=20)),
+            ('color', self.gf('django.db.models.fields.TextField')(max_length=20, blank=True)),
             ('url', self.gf('django.db.models.fields.TextField')()),
             ('site_url', self.gf('django.db.models.fields.TextField')()),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
             ('title', self.gf('django.db.models.fields.TextField')()),
             ('favicon_url', self.gf('django.db.models.fields.TextField')()),
         ))
         db.send_create_signal(u'rss', ['Subscription'])
+
+        # Adding model 'SubscriptionUserRelation'
+        db.create_table(u'rss_subscriptionuserrelation', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+            ('subscription', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rss.Subscription'])),
+            ('folder', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['rss.Folder'])),
+        ))
+        db.send_create_signal(u'rss', ['SubscriptionUserRelation'])
 
         # Adding model 'SubscriptionItem'
         db.create_table(u'rss_subscriptionitem', (
@@ -36,8 +53,14 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
+        # Deleting model 'Folder'
+        db.delete_table(u'rss_folder')
+
         # Deleting model 'Subscription'
         db.delete_table(u'rss_subscription')
+
+        # Deleting model 'SubscriptionUserRelation'
+        db.delete_table(u'rss_subscriptionuserrelation')
 
         # Deleting model 'SubscriptionItem'
         db.delete_table(u'rss_subscriptionitem')
@@ -80,16 +103,22 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'rss.folder': {
+            'Meta': {'object_name': 'Folder'},
+            'color': ('django.db.models.fields.TextField', [], {'max_length': '20', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'title': ('django.db.models.fields.TextField', [], {}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
+        },
         u'rss.subscription': {
             'Meta': {'object_name': 'Subscription'},
-            'color': ('django.db.models.fields.TextField', [], {'max_length': '20'}),
+            'color': ('django.db.models.fields.TextField', [], {'max_length': '20', 'blank': 'True'}),
             'favicon_url': ('django.db.models.fields.TextField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_crawled': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'site_url': ('django.db.models.fields.TextField', [], {}),
             'title': ('django.db.models.fields.TextField', [], {}),
-            'url': ('django.db.models.fields.TextField', [], {}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
+            'url': ('django.db.models.fields.TextField', [], {})
         },
         u'rss.subscriptionitem': {
             'Meta': {'object_name': 'SubscriptionItem'},
@@ -101,6 +130,13 @@ class Migration(SchemaMigration):
             'subscription': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'item'", 'to': u"orm['rss.Subscription']"}),
             'title': ('django.db.models.fields.TextField', [], {}),
             'url': ('django.db.models.fields.TextField', [], {})
+        },
+        u'rss.subscriptionuserrelation': {
+            'Meta': {'object_name': 'SubscriptionUserRelation'},
+            'folder': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['rss.Folder']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'subscription': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['rss.Subscription']"}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
         }
     }
 

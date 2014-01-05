@@ -4,14 +4,16 @@ from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login, logout
 
+from rss.models import Folder
 from rss.models import Subscription
 from rss.models import SubscriptionItem
+from rss.models import SubscriptionUserRelation
 from rss.models import User
+
 from urlparse import urlparse
 
 import lxml.html as lh
 import urllib2
-
 import logging
 import json
 import datetime
@@ -24,8 +26,6 @@ def home(request):
 
 	if request.user.is_authenticated:
 		user = User.objects.all()[0];
-
-		context.subscriptions = Subscription.objects.filter(user_id=user.id)
 	else:
 		logger.info("User made request (test logging)")
 
@@ -33,7 +33,6 @@ def home(request):
 		context['form'] = AuthenticationForm()
 
 	return render_to_response('static/index.html', context_instance=context)		
-
 
 def about(request):
 	return render_to_response('static/index.html')
@@ -103,11 +102,11 @@ def get_subscription_items(request):
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 
-def get_subscriptions(request):
+def get_sidebar_data(request):
 	if(request.is_ajax()):
 		user_id = request.POST["user_id"]
 
-		subscription = Subscription.objects.filter(user_id=user_id)
+		subscription = SubscriptionUserRelation.objects.filter(user_id=user_id)
 
 		itemset = subscription.all()
 		results = [ob.as_json() for ob in itemset]
@@ -121,14 +120,29 @@ def add_subscription(request):
 		user_id = request.POST["user_id"]
 		subscription_url = request.POST["url"]
 
-		try:
-			newSub = Subscription.objects.get(url=subscription_url)
-		except Subscription.MultipleObjectsReturned:
-			return HttpResponse(json.dumps("already exists"), mimetype='application/json')
-		except Subscription.DoesNotExist:
-			d = feedparser.parse(subscription_url)
+		existingSubscriptionCount = Subscription.objects.filter(url=subscription_url).count()
 
-			newSub = Subscription()
+		if existingSubscriptionCount == 1:
+			existingSubscription = Subscription.objects.get(url=subscription_url)
+			relation = SubscriptionUserRelation()
+			relation.user_id = user_id
+			relation.subscription_id = existingSubscription.id
+
+			# Grab folder and create default if none exist
+			try:
+				defaultFolder = Folder.objects.get(user_id=user_id,title="Feeds")
+			except Folder.DoesNotExist:				
+				defaultFolder = Folder()
+				defaultFolder.user_id = user_id
+				defaultFolder.Title = "Feeds"
+				defaultFolder.save()
+
+			relation.folder_id = defaultFolder.id
+			relation.save()
+
+		else:
+			d = feedparser.parse(subscription_url)
+			
 			newSub.title = d.feed.title
 			newSub.url = subscription_url
 			newSub.user_id = user_id
