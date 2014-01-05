@@ -36,7 +36,7 @@ class SitePoller:
 				if len(favicons) > 0:
 					favicon = favicons[0]
 				else:
-					favicon = ""
+					favicon = link + "/favicon.ico"
 
 				if favicon:
 					fav_url = favicon
