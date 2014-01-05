@@ -63,6 +63,27 @@ CELERYBEAT_SCHEDULE = {
 }
 ```
 
+### Sample Data
+To get started quickly, you can import a couple of RSS feeds.
+
+CrawlFiles to import some basic feed data:
+```
+manage.py crawlfiles
+```
+
+### Polling
+Polling is set to 1800 seconds or 30 minutes (configurable in settings.py).
+
+Start the poller by firing up celery:
+```
+celery -A rss worker -l info
+```
+
+You can force a manualy polling action by running:
+```
+manage.py crawlsites 
+```
+
 ###Basic Roadmap
 1. Implement basic site pages
 	- Home [Done]
