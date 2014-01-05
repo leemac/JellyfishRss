@@ -8,7 +8,7 @@ The installation portion is a work-in-progress. I'll publish a proper requiremen
 
 - Install Prerequisites
 ```
-sudo apt-get install python-dev rabbitmq-server libxml2 libxml2-dev libxslt-dev
+sudo apt-get install python-dev rabbitmq-server libxml2 libxml2-dev libxslt-dev python-lxml
 ```
 
 - Install the pip requirements
