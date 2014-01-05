@@ -46,7 +46,6 @@ class SubscriptionUserRelation(models.Model):
 		return self.user.id
 
 class SubscriptionItem(models.Model):
-
 	content = 	models.TextField()
 	published = models.DateTimeField()
 	title = 	models.TextField()

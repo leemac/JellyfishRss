@@ -5,6 +5,8 @@ Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. 
 
 It is currently in the very very very alpha stages. It is by no means ready for public consumption (yet). :)
 
+The subscriptions are pooled together as users add them. The poller polls all the subscriptions one time only (each rss feed is polled once). If more than one user has an RSS feed with the same URL, it is polled one time only (both users will see the feed results).
+
 ###Installation
 The installation portion is a major work-in-progress. I'll be working on making this easier at some point.
 
