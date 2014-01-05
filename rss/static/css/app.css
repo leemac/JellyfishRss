@@ -125,8 +125,7 @@ h1
 .subscription-node
 {
 	color: #DFEAF5;
-	border-bottom: 1px solid #1c212c;
-	border-top: 1px solid #404758;
+	font-size: 12px;
 	padding: 5px 8px;
 }
 .subscription-node:hover
