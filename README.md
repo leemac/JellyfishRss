@@ -4,11 +4,16 @@ JellyfishRss
 Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. It will be optimized for mobile users.
 
 ###Installation
-The installation portion is a work-in-progress. I'll publish a proper requirements.txt from pip soon. Until then, it's manual.
+The installation portion is a major work-in-progress. I'll be working on making this easier at some point.
 
 - Install Prerequisites
 ```
-sudo apt-get install python-dev libpq-dev rabbitmq-server libxml2 libxml2-dev libxslt-dev python-lxml
+sudo apt-get install python-dev libpq-dev rabbitmq-server libxml2 libxml2-dev libxslt-dev python-lxml postgresql
+```
+
+- Optional Prerequisites (helpful if developing)
+```
+sudo apt-get install pgadmin3
 ```
 
 - Install the pip requirements
@@ -17,6 +22,21 @@ pip install -r requirements.txt
 ```
 
 ### Database Setup
+Change the "settings.py" to match your database configuration:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'jellyfish',                      # leafreader path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': 'postgres',
+        'PASSWORD': 'test',
+        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '5432',                      # Set to empty string for default.
+    }
+}
+```
+Add the database 'jellyfish' and build the database (create your admin user here when prompted):
 ```
 manage.py syncdb
 manage.py migrate
