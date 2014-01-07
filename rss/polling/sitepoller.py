@@ -36,7 +36,7 @@ class SitePoller:
 				if len(favicons) > 0:
 					favicon = favicons[0]
 				else:
-					favicon = link + "/favicon.ico"
+					favicon = ""
 
 				if favicon:
 					fav_url = favicon
@@ -62,10 +62,7 @@ class SitePoller:
 				object.url=item.link
 				object.subscription_id = subscription.id
 
-				try :
-					object.published = datetime.fromtimestamp(mktime(item.published_parsed))
-				except AttributeError:
-					object.published = datetime.fromtimestamp(mktime(item.date_parsed))
+				object.published = datetime.fromtimestamp(mktime(item.date_parsed))
 
 				try:
 					object.content = item.content[0]
