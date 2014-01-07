@@ -12,51 +12,6 @@ import feedparser
 
 class SitePoller:
 
-<<<<<<< HEAD
-    def poll(self, logger):
-
-    	for subscription in Subscription.objects.all():			
-			d = feedparser.parse(subscription.url)
-
-			logger.info("Polling Site: " + subscription.url)
-
-			if not subscription.favicon_url:
-				link = d.feed.link
-
-				hostname = urlparse(d.feed.link).hostname
-				link = "http://" + hostname
-								
-				doc = lh.parse(link)
-
-				favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
-
-				if len(favicons) == 0:
-					favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
-
-				if len(favicons) > 0:
-					favicon = favicons[0]
-				else:
-					favicon = ""
-
-				if favicon:
-					fav_url = favicon
-
-					if not fav_url.startswith("http"):
-						fav_url = link + favicon
-
-    				logger.info("Setting favicon to: " + fav_url)
-
-    				subscription.favicon_url = fav_url
-    				subscription.save()
-
-			user = User.objects.all()[0];
-
-			for item in d.entries:
-				existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
-
-				if(existingItem != 0):
-					continue
-=======
 	def add_site_and_poll(self, rss_url):
 		self.add_site(rss_url)
 		
@@ -128,17 +83,10 @@ class SitePoller:
 					object.content = item.description
 				except AttributeError:
 					object.content = ""
->>>>>>> b9415ae5ea19b249bc7d0411fe6731530b63bf83
 
 			object.save()
 
-<<<<<<< HEAD
-				object.published = datetime.fromtimestamp(mktime(item.date_parsed))
-=======
 	def poll(self, logger):
->>>>>>> b9415ae5ea19b249bc7d0411fe6731530b63bf83
-
-		logger.info("here!")
 
 		for subscription in Subscription.objects.all():			
 			self.poll_site(subscription)
