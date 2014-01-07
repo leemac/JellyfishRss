@@ -3,39 +3,42 @@ JellyfishRss
 
 Jellyfish Rss will be an RSS reader that is 100% open source and self-hostable. It will be optimized for mobile users.
 
-###Install
-The installation portion is a work-in-progress. I'll publish a proper requirements.txt from pip soon. Until then, it's manual.
+It is currently in the very very very alpha stages. It is by no means ready for public consumption (yet). :)
 
-- Install [Django-Pipeline](https://github.com/cyberdelia/django-pipeline)
-```
-pip install django-pipeline
-```
+###Installation
+The installation portion is a major work-in-progress. I'll be working on making this easier at some point.
 
-- Install [FeedParser](https://pypi.python.org/pypi/feedparser)
-``` 
-pip install feedparser
+- Install Prerequisites
+```
+sudo apt-get install python-dev libpq-dev rabbitmq-server libxml2 libxml2-dev libxslt-dev python-lxml postgresql
 ```
 
-- Install [South](http://south.readthedocs.org/en/latest/installation.html)
+- Optional Prerequisites (helpful if developing)
 ```
-pip install south
-```
-
-- Install [Celery](http://www.celeryproject.org/install/)
-``` 
-pip install celery
+sudo apt-get install pgadmin3
 ```
 
-- Install [RabbitMQ](http://www.rabbitmq.com/) 
+- Install the pip requirements
 ```
-sudo apt-get install rabbitmq-server
-```
-- Install [lxml](http://lxml.de/3.0/installation.html) 
-```
-sudo apt-get install libxml2 libxml2-dev libxslt-dev && pip install lxml
+pip install -r requirements.txt
 ```
 
 ### Database Setup
+Change the "settings.py" to match your database configuration:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'jellyfish',                      # leafreader path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': 'postgres',
+        'PASSWORD': 'test',
+        'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '5432',                      # Set to empty string for default.
+    }
+}
+```
+Add the database 'jellyfish' and build the database (create your admin user here when prompted):
 ```
 manage.py syncdb
 manage.py migrate
@@ -60,6 +63,22 @@ CELERYBEAT_SCHEDULE = {
         'schedule': timedelta(seconds=3600)
     },
 }
+```
+
+### Sample Data
+To get started quickly, you can import a couple of RSS feeds.
+
+CrawlFiles to import some basic feed data:
+```
+manage.py crawlfiles
+```
+
+### Polling
+Polling will start when you run Celery (see 'Running Server' above). The default interval is set to 1800 seconds or 30 minutes (configurable in settings.py).
+
+You can force a manual polling action by running:
+```
+manage.py crawlsites 
 ```
 
 ###Basic Roadmap

@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand
 
 import feedparser
-import datetime
-import time
+from datetime import datetime
+from time import mktime
 
 from rss.models import Subscription
 from rss.models import SubscriptionItem
@@ -52,8 +52,10 @@ class Command(BaseCommand):
 					object.url=item.link
 					object.subscription_id = newSub.id
 
-					theDate = item.date_parsed
-					object.published = datetime.date(int(theDate[0]),int(theDate[1]),int(theDate[2]))
+					try :
+						object.published = datetime.fromtimestamp(mktime(item.published_parsed))
+					except AttributeError:
+						object.published = datetime.fromtimestamp(mktime(item.date_parsed))
 					
 					try:
 						object.content = item.content[0]

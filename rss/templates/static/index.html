@@ -80,7 +80,7 @@
 
 		<script id="subscription-node-template" type="text/x-handlebars-template">
 			<div class='subscription-node' js-subscription-id="{{ id }}" js-subscription-title="{{ title }}">
-				<img src="{{favicon_url}}" style="height: 16px; width: 16px;" /> {{ title }}
+				<img src="{{favicon_url}}" style="height: 16px; margin-right: 3px; width: 16px;" /> {{ title }}
 			</div>
 		</script>
 
@@ -105,9 +105,9 @@
 
 		<script id="controls-template" type="text/x-handlebars-template">
 			<div id="controls" class="clearfix">
-				<a href="#" class='button-add'>+ Add New</and>
-				<a href="#" class='button-settings'>Settings</a>
-				<a href="#" class="button-logout">Logout</a>
+				<a href="#" class='button-add' title="Add Subscription"><i class="fa fa-plus"></i></a>
+				<a href="#" class='button-settings' title="Account Settings"><i class="fa fa-cog"></i></a>
+				<a href="#" class="button-logout" title="Logout"><i class="fa fa-sign-out"></i></a>
 			</div>
 		</script>
 
