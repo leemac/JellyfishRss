@@ -6,12 +6,12 @@ from time import gmtime, strftime
 
 class Subscription(models.Model):
 	last_crawled = models.CharField(max_length=200)
-	color = models.TextField(max_length=20)
+	color = models.TextField(max_length=20,blank=True)
 	url = 		models.TextField()
 	site_url = 	models.TextField()
 	user = 		models.ForeignKey(User)
 	title = 	models.TextField()
-	favicon_url = models.TextField()
+	favicon_url = models.TextField(blank=True)
 	
 	def as_json(self):
 		return dict(

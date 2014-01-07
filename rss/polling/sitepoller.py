@@ -15,10 +15,10 @@ class SitePoller:
 
     def poll(self, logger):
 
-    	logger.info("here!")
-
     	for subscription in Subscription.objects.all():			
 			d = feedparser.parse(subscription.url)
+
+			logger.info("Polling Site: " + subscription.url)
 
 			if not subscription.favicon_url:
 				link = d.feed.link
@@ -43,9 +43,11 @@ class SitePoller:
 
 					if not fav_url.startswith("http"):
 						fav_url = link + favicon
-						
-					subscription.favicon_url = fav_url
-					subscription.save()
+
+    				logger.info("Setting favicon to: " + fav_url)
+
+    				subscription.favicon_url = fav_url
+    				subscription.save()
 
 			user = User.objects.all()[0];
 
