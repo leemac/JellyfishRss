@@ -6,7 +6,7 @@ from time import mktime
 
 from rss.models import Subscription
 from rss.models import SubscriptionItem
-from rss.models import User
+
 # This is used for loading local RSS files for testing
 class Command(BaseCommand):
 
@@ -27,15 +27,12 @@ class Command(BaseCommand):
 
 				self.stdout.write(d.feed.title)
 
-				user = User.objects.all()[0];
-
 				try:
 					newSub = Subscription.objects.get(title=d.feed.title)
 				except Subscription.DoesNotExist:
 					newSub = Subscription()
 					newSub.title = d.feed.title
 					newSub.url = rss_url
-					newSub.user_id = user.id
 					newSub.save()
 
 				for item in d.entries:
