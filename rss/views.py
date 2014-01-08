@@ -94,12 +94,20 @@ def get_subscription_items(request):
 	# TODO: Filter this based on user's subscription
 	if(request.is_ajax()):
 		subscription_id = request.POST["subscription_id"]
+		user_id = request.POST["user_id"]
 
 		if int(subscription_id) == 0:
-			itemset = SubscriptionItem.objects.filter(is_read=False)
+
+			subscription_ids = []
+
+			for relation in SubscriptionUserRelation.objects.filter(user_id=user_id):
+				subscription_ids.append(relation.subscription_id)
+
+			subscriptions = Subscription.objects.get(id__in=subscription_ids)
+			itemset = subscriptions.item.filter(is_read=False)
 		else:
-			subscription = Subscription.objects.get(id=subscription_id)
-			itemset = subscription.item.filter(is_read=False)
+			subscriptions = Subscription.objects.get(id=subscription_id)
+			itemset = subscriptions.item.filter(is_read=False)
 
 		results = [ob.as_json() for ob in itemset.order_by('-published')]
 

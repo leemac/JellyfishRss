@@ -37,7 +37,8 @@ var SubscriptionItemView = Backbone.View.extend({
 			url : "http://localhost:8000/api/mark_subscription_read",
 			data : {
 				csrfmiddlewaretoken: getCSRF(),
-				subscription_id: ref.subscriptionId
+				subscription_id: ref.subscriptionId,
+				user_id: window.get_userId()
 			},
 			beforeSend: function (){
 				exploreElement.html("");
@@ -64,7 +65,8 @@ var SubscriptionItemView = Backbone.View.extend({
 			url : "http://localhost:8000/api/get_subscription_items",
 			data : {
 				csrfmiddlewaretoken: getCSRF(),
-				subscription_id: ref.subscriptionId
+				subscription_id: ref.subscriptionId,
+				user_id: window.get_userId()
 			},
 			beforeSend: function (){
 				exploreElement.html("");
