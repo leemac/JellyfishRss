@@ -15,10 +15,10 @@ class SitePoller:
 
     def poll(self, logger):
 
-    	logger.info("here!")
-
     	for subscription in Subscription.objects.all():			
 			d = feedparser.parse(subscription.url)
+
+			logger.info("Polling Site: " + subscription.url)
 
 			if not subscription.favicon_url:
 				link = d.feed.link
@@ -36,16 +36,18 @@ class SitePoller:
 				if len(favicons) > 0:
 					favicon = favicons[0]
 				else:
-					favicon = link + "/favicon.ico"
+					favicon = ""
 
 				if favicon:
 					fav_url = favicon
 
 					if not fav_url.startswith("http"):
 						fav_url = link + favicon
-						
-					subscription.favicon_url = fav_url
-					subscription.save()
+
+    				logger.info("Setting favicon to: " + fav_url)
+
+    				subscription.favicon_url = fav_url
+    				subscription.save()
 
 			user = User.objects.all()[0];
 
@@ -60,10 +62,7 @@ class SitePoller:
 				object.url=item.link
 				object.subscription_id = subscription.id
 
-				try :
-					object.published = datetime.fromtimestamp(mktime(item.published_parsed))
-				except AttributeError:
-					object.published = datetime.fromtimestamp(mktime(item.date_parsed))
+				object.published = datetime.fromtimestamp(mktime(item.date_parsed))
 
 				try:
 					object.content = item.content[0]
