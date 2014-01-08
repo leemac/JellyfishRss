@@ -159,6 +159,7 @@ def get_folders(request):
 # MISC
 
 def mark_subscription_read(request):
+	# TODO Need mechanism to properly mark the items 'as read'
 	if(request.is_ajax()):
 		subscription_id = request.POST["subscription_id"]
 
