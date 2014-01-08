@@ -14,7 +14,32 @@ var ExplorerView = Backbone.View.extend({
 	events : {
 		"click .subscription-explorer-node" : "openItem",
 		"click .button-mark-all-read" : "markAllAsRead",
-		"click .button-change-color" : "changeColor"
+		"click .button-change-color" : "changeColor",
+		"click .button-unsubscribe" : "unsubscribe"
+	},
+
+	unsubscribe: function () {
+		var ref = this;
+
+		var exploreElement = $(this.el).find(".feed");
+		var titleElement = $(this.el).find(".title");
+
+		$.ajax({
+			type: "POST",
+			url : "http://localhost:8000/api/unsubscribe",
+			data : {
+				csrfmiddlewaretoken: getCSRF(),
+				subscription_id: ref.subscriptionId,
+				user_id: window.get_userId()
+			},
+			beforeSend: function (){
+				exploreElement.html("");
+				exploreElement.html("<div class='loading'>Unsubscribing...<br/><br/><img src='/static/images/explorer_loading.gif' /></div>");
+			},
+			success: function (msg) {
+				ref.vent.trigger("subscription:unsubscribe");
+			}
+		});
 	},
 
 	sidebarLoaded : function () {

@@ -91,6 +91,7 @@ def add_subscription(request):
 # GET
 
 def get_subscription_items(request):
+	# TODO: Filter this based on user's subscription
 	if(request.is_ajax()):
 		subscription_id = request.POST["subscription_id"]
 
@@ -176,6 +177,19 @@ def mark_subscription_read(request):
 			results = [ob.as_json() for ob in itemset]
 
 			return HttpResponse(json.dumps(results), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
+def unsubscribe(request):
+	if(request.is_ajax()):
+		subscription_id = request.POST["subscription_id"]
+		user_id = request.POST["user_id"]
+
+		relation = SubscriptionUserRelation.objects.get(subscription_id=subscription_id,user_id=user_id)
+
+		relation.delete()
+
+		return HttpResponse(json.dumps("ok"), mimetype='application/json')
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 

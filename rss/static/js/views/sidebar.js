@@ -4,25 +4,25 @@ var SideBarView = Backbone.View.extend({
 		this.vent = options.vent;
 
 		this.vent.bind("subscriptionAdded", this.subscriptionAdded, this);
+		this.vent.bind("subscription:unsubscribe", this.subscriptionUnsubscribed, this);
 
 		this.template = Handlebars.compile($("#sidebar-template").html());
 		this.render();
 
 		this.controlsView = new ControlsView({vent: this.vent, el: "#controls" });   
 	},
-
 	events: {
 		"click .subscription" : "clickSubscription"
 	},
-
 	clickSubscription: function (ev) {
 		this.vent.trigger("clickSubscription", ev.target);
 	},
-
 	subscriptionAdded: function () {
 		this.refreshItems();
 	},
-
+	subscriptionUnsubscribed: function () {
+		this.refreshItems();		
+	},
 	refreshItems : function ()
 	{
 		var element = $(this.el);
