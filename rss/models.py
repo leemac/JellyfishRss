@@ -4,17 +4,16 @@ from django.contrib.auth.models import User
 from pytz import timezone
 from time import gmtime, strftime
 
-
 class Folder(models.Model):
+	color = models.TextField(max_length=20,blank=True)
 	user = 		models.ForeignKey(User)
 	title = 	models.TextField()
-	color = 	models.TextField(max_length=20, blank=True)
 	
 	def as_json(self):
 		return dict(
 				id=self.id,
 				title=self.title,
-				color=self.color
+				color=self.color,
 			)
 
 	def __str__(self):
@@ -22,7 +21,6 @@ class Folder(models.Model):
 
 class Subscription(models.Model):
 	last_crawled = models.CharField(max_length=200)
-	color = models.TextField(max_length=20,blank=True)
 	url = 		models.TextField()
 	site_url = 	models.TextField()
 	title = 	models.TextField()
@@ -33,7 +31,6 @@ class Subscription(models.Model):
 				id=self.id,
 				url=self.url,
 				title=self.title,
-				color=self.color,
 				favicon_url=self.favicon_url
 			)
 
@@ -41,12 +38,12 @@ class Subscription(models.Model):
 		return self.title
 
 class SubscriptionUserRelation(models.Model):
-	user = models.ForeignKey(User)
-	subscription = models.ForeignKey(Subscription)
-	folder = models.ForeignKey(Folder)
-
+	user = 			models.ForeignKey(User)
+	folder = 		models.ForeignKey(Folder)
+	subscription = 	models.ForeignKey(Subscription)
+	
 	def __str__(self):
-		return "Relation - User [" + self.user.id + "]"
+		return self.user.id
 
 class SubscriptionItem(models.Model):
 	content = 	models.TextField()
@@ -67,8 +64,7 @@ class SubscriptionItem(models.Model):
 				published= str(self.published),
 				is_read=self.is_read,
 				is_favorite = self.is_favorite,
-				subscriptionTitle = self.subscription.title,
-				subscriptionColor = self.subscription.color
+				subscriptionTitle = self.subscription.title
 			)
 
 	def __str__(self):

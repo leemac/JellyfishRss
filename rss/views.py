@@ -4,22 +4,27 @@ from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login, logout
 
-from rss.models import Folder
+from rss.polling import sitepoller
+
 from rss.models import Subscription
 from rss.models import SubscriptionItem
-from rss.models import SubscriptionUserRelation
 from rss.models import User
+from rss.models import SubscriptionUserRelation
+from rss.models import Folder
 
 from urlparse import urlparse
 
 import lxml.html as lh
 import urllib2
+
 import logging
 import json
 import datetime
 import feedparser
 
 logger = logging.getLogger('logview.userrequest')
+
+#-----BASIC
 
 def home(request):
 	context = RequestContext(request)
@@ -34,11 +39,115 @@ def home(request):
 
 	return render_to_response('static/index.html', context_instance=context)		
 
+
 def about(request):
 	return render_to_response('static/index.html')
 
 def login_redirect(request):
 	return render_to_response('static/login.html')
+
+#-----API
+
+# POST
+
+def add_subscription(request):
+	if(request.is_ajax()):
+		user_id = request.POST["user_id"]
+		subscription_url = request.POST["url"]
+
+		existingSubscriptionCount = Subscription.objects.filter(url=subscription_url).count()
+
+		# Only add and poll if it does not exist
+		if existingSubscriptionCount == 0:
+			poller = sitepoller.SitePoller()
+			poller.add_site_and_poll(subscription_url)
+
+		# Get default folder
+		existingFolderCount = Folder.objects.filter(user_id=user_id).count()
+
+		if existingFolderCount == 0:
+			folder = Folder()
+			folder.title = "Feeds"
+			folder.user_id = user_id
+			folder.save()
+		else:
+			# TODO: for now...
+			folder = Folder.objects.filter(user_id=user_id)[0];
+
+		# Get subscription
+		subscription = Subscription.objects.get(url=subscription_url)
+
+		# Add relation
+		relation = SubscriptionUserRelation()
+		relation.folder_id = folder.id
+		relation.user_id = user_id
+		relation.subscription_id = subscription.id;
+		relation.save()
+
+		return HttpResponse(json.dumps("ok"), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
+# GET
+
+def get_subscription_items(request):
+	if(request.is_ajax()):
+		subscription_id = request.POST["subscription_id"]
+
+		if int(subscription_id) == 0:
+			itemset = SubscriptionItem.objects.filter(is_read=False)
+		else:
+			subscription = Subscription.objects.get(id=subscription_id)
+			itemset = subscription.item.filter(is_read=False)
+
+		results = [ob.as_json() for ob in itemset.order_by('-published')]
+
+		return HttpResponse(json.dumps(results), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
+def get_folders(request):
+	if(request.is_ajax()):
+		user_id = request.POST["user_id"]
+
+		folders = Folder.objects.filter(user_id=user_id)
+
+		results = []
+
+		# Could be replaced by built-in json in models
+		for folder in folders.all():
+			subscriptions = []
+
+			for relation in SubscriptionUserRelation.objects.filter(folder_id=folder.id):
+				subObj = {}
+				subObj["title"] = relation.subscription.title
+				subObj["id"] = relation.subscription.id
+				subObj["favicon_url"] = relation.subscription.favicon_url
+				subscriptions.append(subObj)
+
+			folderObj = {}
+			folderObj["title"] = folder.title
+			folderObj["subscriptions"] = subscriptions
+
+    		results.append(folderObj)
+
+		# TODO:
+
+		# Need Structure like:
+
+		# Folder A
+		# -- Subscription 1
+		# -- Subscription 2
+		# Folder B
+		# -- Subscription 3
+		# Folder C
+		# (...)
+
+		return HttpResponse(json.dumps(results), mimetype='application/json')
+
+	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+
+# MISC
 
 def mark_subscription_read(request):
 	if(request.is_ajax()):
@@ -85,133 +194,7 @@ def change_subscription_color(request):
 
 	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 
-
-def get_subscription_items(request):
-	if(request.is_ajax()):
-		subscription_id = request.POST["subscription_id"]
-
-		if int(subscription_id) == 0:
-			itemset = SubscriptionItem.objects.filter(is_read=False)
-		else:
-			subscription = Subscription.objects.get(id=subscription_id)
-			itemset = subscription.item.filter(is_read=False)
-
-		results = [ob.as_json() for ob in itemset.order_by('-published')]
-
-		return HttpResponse(json.dumps(results), mimetype='application/json')
-
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-def get_sidebar_data(request):
-	if(request.is_ajax()):
-		user_id = request.POST["user_id"]
-
-		subscription = SubscriptionUserRelation.objects.filter(user_id=user_id)
-
-		itemset = subscription.all()
-		results = [ob.as_json() for ob in itemset]
-
-		return HttpResponse(json.dumps(results), mimetype='application/json')
-
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-def add_subscription(request):
-	if(request.is_ajax()):
-		user_id = request.POST["user_id"]
-		subscription_url = request.POST["url"]
-
-		existingSubscriptionCount = Subscription.objects.filter(url=subscription_url).count()
-
-		if existingSubscriptionCount == 1:
-			existingSubscription = Subscription.objects.get(url=subscription_url)
-			relation = SubscriptionUserRelation()
-			relation.user_id = user_id
-			relation.subscription_id = existingSubscription.id
-
-			# Grab folder and create default if none exist
-			try:
-				defaultFolder = Folder.objects.get(user_id=user_id,title="Feeds")
-			except Folder.DoesNotExist:				
-				defaultFolder = Folder()
-				defaultFolder.user_id = user_id
-				defaultFolder.Title = "Feeds"
-				defaultFolder.save()
-
-			relation.folder_id = defaultFolder.id
-			relation.save()
-
-		else:
-			d = feedparser.parse(subscription_url)
-			
-			newSub.title = d.feed.title
-			newSub.url = subscription_url
-			newSub.user_id = user_id
-	
-			if not newSub.favicon_url:
-				link = d.feed.link
-
-				hostname = urlparse(d.feed.link).hostname
-				link = "http://" + hostname
-								
-				doc = lh.parse(link)
-
-				favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
-
-				if len(favicons) == 0:
-					favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
-
-				if len(favicons) > 0:
-					favicon = favicons[0]
-				else:
-					favicon = "favicon.ico"
-
-				if favicon:
-					fav_url = favicon
-
-					if not fav_url.startswith("http"):
-						fav_url = link + favicon
-						
-					newSub.favicon_url = fav_url
-			
-			newSub.save()
-			
-			for item in d.entries:
-
-				existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
-
-				if(existingItem != 0):
-					continue
-
-				logger.info("Found item: "  + item.title + "\n")
-
-				object = SubscriptionItem()
-				object.title=item.title
-				object.url=item.link
-				object.subscription_id = newSub.id
-
-				theDate = item.date_parsed
-				object.published = datetime.date(int(theDate[0]),int(theDate[1]),int(theDate[2]))
-				
-				try:
-					object.content = item.content[0]
-				except AttributeError:
-					logger.error('Could not locate content')
-
-				try:
-					object.content = item.description
-				except AttributeError:
-					logger.error('Could not locate description')
-
-				object.save()
-
-			return HttpResponse(json.dumps("ok"), mimetype='application/json')
-
-		return HttpResponse(json.dumps("already exists"), mimetype='application/json')
-
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-
-# AUTHENTICATION
+#-----AUTHENTICATION
 
 def login_user(request):
 	logout(request)
