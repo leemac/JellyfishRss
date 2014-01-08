@@ -121,7 +121,7 @@ def get_folders(request):
 			for relation in SubscriptionUserRelation.objects.filter(folder_id=folder.id):
 				subObj = {}
 				subObj["title"] = relation.subscription.title
-				subObj["id"] = relation.subscription.title
+				subObj["id"] = relation.subscription.id
 				subObj["favicon_url"] = relation.subscription.favicon_url
 				subscriptions.append(subObj)
 

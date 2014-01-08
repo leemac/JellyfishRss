@@ -12,7 +12,7 @@ var SideBarView = Backbone.View.extend({
 	},
 
 	events: {
-		"click .subscription-node" : "clickSubscription"
+		"click .subscription" : "clickSubscription"
 	},
 
 	clickSubscription: function (ev) {
@@ -36,9 +36,6 @@ var SideBarView = Backbone.View.extend({
 				csrfmiddlewaretoken: getCSRF(),
 				user_id: window.get_userId()
 			},
-			beforeSend: function (){
-				
-			},
 			success: function (msg) {
 				var source   = $("#folder-template").html();
 				var folderTemplate = Handlebars.compile(source);
@@ -52,7 +49,8 @@ var SideBarView = Backbone.View.extend({
 
 				for(var i = 0; i < msg.length; i ++)
 				{		
-					html += folderTemplate(msg[i]);
+					// Todo: Temporary (may be omitted for MVP)
+					// html += folderTemplate(msg[i]);
 
 					var subscriptions = msg[i].subscriptions;
 

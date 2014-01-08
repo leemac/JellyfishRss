@@ -110,6 +110,7 @@ manage.py crawlsites
 	- Search
 	- Blacklist keywords
 	- Import/Export
+	- Folders
 
 ###Feature Idea Brain Dump
 + Feeds are shared. Polled once. Users actually subscribe to feeds to improve performance/scalability.

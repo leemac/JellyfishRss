@@ -21,8 +21,8 @@ var ExplorerView = Backbone.View.extend({
 		this.subscriptionId = 0;
 		this.subscriptionTitle = "All Items";
 
-		$(".subscription-node").removeClass("selected");
-		$(".subscription-node").first().addClass("selected");
+		$(".subscription").removeClass("selected");
+		$(".subscription").first().addClass("selected");
 
 		this.loadItems();
 	},
@@ -155,7 +155,7 @@ var ExplorerView = Backbone.View.extend({
 		if(subscriptionid === undefined)
 			return;
 
-		$(".subscription-node").removeClass("selected");
+		$(".subscription").removeClass("selected");
 		thisLinkElement.addClass("selected");
 
 		this.subscriptionId = subscriptionid

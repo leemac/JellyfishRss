@@ -125,10 +125,13 @@ h1
 .folder
 {
 	background-color: #262D3D;
+	border-radius: 4px;
 	color: #DFEAF5;
 	font-weight: bold;
 	font-size: 12px;
-	padding: 10px 8px;
+	line-height: 24px;
+	margin: 10px 7px 4px;
+	padding: 7px 13px;
 }
 .folder:hover
 {	
@@ -145,13 +148,21 @@ h1
 {
 	color: #DFEAF5;
 	font-size: 12px;
-	margin-left: 10px;
+	margin-left: 18px;
+	margin-right: 17px;
 	padding: 5px 8px;
 }
+
 .subscription:hover
 {	
-	background-color: #455069;
+	background-color: #384157;
+	color: #EEE;
 	cursor: pointer;
+}
+
+.subscription img
+{
+	opacity: .8;
 }
 
 .subscription.selected
