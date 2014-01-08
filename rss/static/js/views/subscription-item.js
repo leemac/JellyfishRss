@@ -13,42 +13,17 @@ var SubscriptionItemView = Backbone.View.extend({
 
 	events : {
 		"click .subscription-explorer-node" : "openItem",
-		"click .button-mark-all-read" : "markAllAsRead",
-		"click .button-change-color" : "changeColor"
+		"click .button-mark-all-read" : "markAllAsRead"
 	},
 
 	sidebarLoaded : function () {
 		this.subscriptionId = 0;
 		this.subscriptionTitle = "All Items";
 
-		$(".subscription-node").removeClass("selected");
-		$(".subscription-node").first().addClass("selected");
+		$(".subscription").removeClass("selected");
+		$(".subscription").first().addClass("selected");
 
 		this.loadItems();
-	},
-
-	changeColor: function () {
-		var newColor = $(this.el).find(".input-color-picker").val()	;
-		var ref = this;
-
-		$.ajax({
-			type: "POST",
-			url : "http://localhost:8000/api/change_subscription_color",
-			data : {
-				csrfmiddlewaretoken: getCSRF(),
-				subscription_id: ref.subscriptionId,
-				color: newColor
-			},
-			beforeSend: function (){
-
-			},
-			success: function (msg) {
-				console.log('color changed!');
-			},
-			error: function () {
-				console.log("error");
-			}
-		});
 	},
 
 	markAllAsRead : function () {
@@ -81,15 +56,6 @@ var SubscriptionItemView = Backbone.View.extend({
 	{		
 		var exploreElement = $(this.el).find(".feed");
 		var titleElement = $(this.el).find(".title");
-
-		if(this.subscriptionId === 0)
-		{
-			$(this.el).find(".color-picker").hide();
-		}
-		else
-		{
-			$(this.el).find(".color-picker").show();
-		}
 
 		var ref = this;
 
@@ -155,7 +121,7 @@ var SubscriptionItemView = Backbone.View.extend({
 		if(subscriptionid === undefined)
 			return;
 
-		$(".subscription-node").removeClass("selected");
+		$(".subscription").removeClass("selected");
 		thisLinkElement.addClass("selected");
 
 		this.subscriptionId = subscriptionid

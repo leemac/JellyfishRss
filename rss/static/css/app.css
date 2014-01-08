@@ -122,19 +122,50 @@ h1
 	font-size: 12px;
 }
 
-.subscription-node
+.folder
 {
+	background-color: #262D3D;
+	border-radius: 4px;
 	color: #DFEAF5;
+	font-weight: bold;
 	font-size: 12px;
-	padding: 5px 8px;
+	line-height: 24px;
+	margin: 10px 7px 4px;
+	padding: 7px 13px;
 }
-.subscription-node:hover
+.folder:hover
 {	
 	background-color: #455069;
 	cursor: pointer;
 }
 
-.subscription-node.selected
+.folder.selected
+{
+	background-color: #455069;
+}
+
+.subscription
+{
+	color: #DFEAF5;
+	font-size: 12px;
+	margin-left: 18px;
+	margin-right: 17px;
+	padding: 5px 8px;
+}
+
+.subscription:hover
+{	
+	background-color: #384157;
+	color: #EEE;
+	cursor: pointer;
+}
+
+.subscription img
+{
+	opacity: .8;
+}
+
+.subscription.selected
 {
 	background-color: #455069;
 }

@@ -22,11 +22,7 @@ class Folder(models.Model):
 
 class Subscription(models.Model):
 	last_crawled = models.CharField(max_length=200)
-<<<<<<< HEAD
-	color = models.TextField(max_length=20, blank=True)
-=======
 	color = models.TextField(max_length=20,blank=True)
->>>>>>> 54889cfd23a016ffca6fda7d32a455a9c76a9d49
 	url = 		models.TextField()
 	site_url = 	models.TextField()
 	title = 	models.TextField()

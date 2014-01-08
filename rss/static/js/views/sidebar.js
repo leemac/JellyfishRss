@@ -12,7 +12,7 @@ var SideBarView = Backbone.View.extend({
 	},
 
 	events: {
-		"click .subscription-node" : "clickSubscription"
+		"click .subscription" : "clickSubscription"
 	},
 
 	clickSubscription: function (ev) {
@@ -31,25 +31,33 @@ var SideBarView = Backbone.View.extend({
 		
 		$.ajax({
 			type: "POST",
-			url : "http://localhost:8000/api/get_subscriptions",
+			url : "http://localhost:8000/api/get_folders",
 			data : {
 				csrfmiddlewaretoken: getCSRF(),
 				user_id: window.get_userId()
 			},
-			beforeSend: function (){
-				
-			},
 			success: function (msg) {
-				var source   = $("#subscription-node-template").html();
-				var template = Handlebars.compile(source);
+				var source   = $("#folder-template").html();
+				var folderTemplate = Handlebars.compile(source);
+
+				var source   = $("#subscription-template").html();
+				var subscriptionTemplate = Handlebars.compile(source);
 
 				var html = "";
 
-				html += template({ id: 0, title: "All Items"});
+				html += folderTemplate({ id: 0, title: "All Items"});
 
 				for(var i = 0; i < msg.length; i ++)
 				{		
-					html += template(msg[i]);
+					// Todo: Temporary (may be omitted for MVP)
+					// html += folderTemplate(msg[i]);
+
+					var subscriptions = msg[i].subscriptions;
+
+					for(var n = 0; n < subscriptions.length; n++)
+					{
+						html += subscriptionTemplate(subscriptions[n])
+					}
 				}
 
 				element.find(".sidebar-content").html(html);

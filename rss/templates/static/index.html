@@ -78,10 +78,16 @@
 			<div id="modal"></div>
 		</script>
 
-		<script id="subscription-node-template" type="text/x-handlebars-template">
-			<div class='subscription-node' js-subscription-id="{{ id }}" js-subscription-title="{{ title }}">
-				<img src="{{favicon_url}}" style="height: 16px; margin-right: 3px; width: 16px;" /> {{ title }}
+		<script id="folder-template" type="text/x-handlebars-template">
+			<div class='folder' js-folder-id="{{ id }}">
+				{{ title }}
 			</div>
+		</script>
+
+		<script id="subscription-template" type="text/x-handlebars-template">
+		 	<div class='subscription' js-subscription-id="{{ id }}" js-subscription-title="{{ title }}">
+                <img src="{{favicon_url}}" style="height: 16px; margin-right: 3px; width: 16px;" /> {{ title }}
+            </div>
 		</script>
 
 		<script id="explorer-template" type="text/x-handlebars-template">
@@ -93,10 +99,6 @@
 					<div class="pull-right" style="padding: 12px;">
 						<a href="#" class="control-link button-mark-all-read">Mark all as read</a> | 
 						<a href="#" class="control-link">Unsubscribe</a>
-					</div>
-					<div class="pull-right color-picker">						
-						<input class="input-color-picker" type="color" style='border:0' />
-						<a href="#" class="control-link button-change-color">Change Color</a> | 
 					</div>
 				</div>
 				<div class="feed"></div>
