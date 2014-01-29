@@ -91,23 +91,16 @@ manage.py crawlsites
 	- Login [Done]
 	- Feeds View [Done]
 	- Settings
-2. Implement RSS poller
-	- Iterate over sites [Done]
-	- Add new items [Done]
-	- Add Poller (Celery) [Done]
+2. Implement RSS poller [Done]
 3. Authentication [Done]
-4. User integration
-	- User can login and view feeds [Done]
-	- User can login and mark feeds as read [Done]
-5. Settings
-	- Update email/password
-6. Work on UI
+4. User integration [Done]
+5. Work on UI
 	- Download Favicons [Done]
 	- Logo
 	- UI Colors
 	- UI Typography
 	- Mobile/Responsive version
-7. Other features
+6. Other features
 	- Auto Load
 	- Search
 	- Blacklist keywords
