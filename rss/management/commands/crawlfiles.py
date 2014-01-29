@@ -12,7 +12,6 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		self.CrawlFile("rss/dummyfiles/scotthanselman.xml", "http://feeds.hanselman.com/scotthanselman")
-		self.CrawlFile("rss/dummyfiles/google.xml", "http://rss.cnn.com/rss/cnn_topstories.rss")
 		self.CrawlFile("rss/dummyfiles/cnn_us.xml", "http://rss.cnn.com/rss/cnn_us.rss")
 		self.CrawlFile("rss/dummyfiles/cnn_financial.xml", "http://rss.cnn.com/rss/money_latest.rss")
 		self.CrawlFile("rss/dummyfiles/cnn_political.xml", "http://rss.cnn.com/rss/cnn_allpolitics.rss")

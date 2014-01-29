@@ -103,8 +103,7 @@ def get_subscription_items(request):
 			for relation in SubscriptionUserRelation.objects.filter(user_id=user_id):
 				subscription_ids.append(relation.subscription_id)
 
-			subscriptions = Subscription.objects.get(id__in=subscription_ids)
-			itemset = subscriptions.item.filter(is_read=False)
+			itemset = SubscriptionItem.objects.filter(subscription_id__in=subscription_ids, is_read=False)
 		else:
 			subscriptions = Subscription.objects.get(id=subscription_id)
 			itemset = subscriptions.item.filter(is_read=False)

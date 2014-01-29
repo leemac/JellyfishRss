@@ -6,6 +6,7 @@ require.config({
     jquery: 'vendor/jquery.min',    
     underscore: 'vendor/underscore.min',
     backbone: 'vendor/backbone.min',
+    bootstrap: 'vendor/bootstrap.min',
     text: 'vendor/require.text.min'
   },
   shim: {
@@ -24,9 +25,10 @@ require(
       "jquery",
       "underscore",
       "backbone",
+      "bootstrap",
   		'app',
 	], 
-	function($, _, Backbone, app){
+	function($, _, Backbone, bootstrap, app){
     _.templateSettings = {
         interpolate : /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
         evaluate    : /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
