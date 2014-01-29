@@ -3,7 +3,7 @@ var SubscriptionItemView = Backbone.View.extend({
 		this.vent = options.vent;
 		this.el = options.el;
 
-		this.vent.bind("clickSubscription", this.clickSubscription, this);
+		this.vent.bind("subscription:selected", this.clickSubscription, this);
 		this.vent.bind("sidebarLoaded", this.sidebarLoaded, this);
 
 		this.template = Handlebars.compile($("#explorer-template").html());

@@ -1,16 +1,16 @@
-<div js-item-link="{{url}}" class="subscription-explorer-node">
+<div js-item-link="{{ url }}" class="subscription-explorer-node">
 	<div class="clearfix">
 		<div class="subscription-explorer-node-fav">
 			<i class="fa fa-star-o button-favorite"></i>
 		</div>
 		<div class="subscription-explorer-node-title strong">
-			{{title}}
+			{{ data.title }}
 		</div>
 		<div class="subscription-explorer-node-time">
-			<abbr class="timeago" title="{{published}}">{{published}}</abbr>
+			<abbr class="timeago" title="{{published}}">{{ published }}</abbr>
 		</div>
 	</div>
 	<div class="subscription-explorer-node-content">
-		{{{content}}}
+		{%- data.content %}
 	</div>	
 </div>

@@ -25,7 +25,7 @@ define([
 			"click .subscription" : "clickSubscription"
 		},
 		clickSubscription: function (ev) {
-			this.vent.trigger("clickSubscription", ev.target);
+			this.vent.trigger("subscription:selected", ev.target);
 		},
 		subscriptionAdded: function () {
 			this.refreshItems();

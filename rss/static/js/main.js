@@ -27,6 +27,11 @@ require(
   		'app',
 	], 
 	function($, _, Backbone, app){
+    _.templateSettings = {
+        interpolate : /\{\{(.+?)\}\}/g,      // print value: {{ value_name }}
+        evaluate    : /\{%([\s\S]+?)%\}/g,   // excute code: {% code_to_execute %}
+        escape      : /\{%-([\s\S]+?)%\}/g}; // excape HTML: {%- <script> %} prints &lt;script&gt;
+
       new app();
 	}
 );

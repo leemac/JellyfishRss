@@ -13,7 +13,7 @@ define([
 			this.vent = options.vent;
 			this.el = options.el;
 
-			this.vent.bind("clickSubscription", this.clickSubscription, this);
+			this.vent.bind("subscription:selected", this.clickSubscription, this);
 			this.vent.bind("sidebarLoaded", this.sidebarLoaded, this);
 
 			this.template = _.template(htmlExplorer);
@@ -131,7 +131,7 @@ define([
 
 					for(var i = 0; i < msg.length; i ++)
 					{		
-						var html = template(msg[i]);
+						var html = template({ data : msg[i] });
 
 						exploreElement.append(html);
 					}
