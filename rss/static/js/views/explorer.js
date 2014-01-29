@@ -1,8 +1,12 @@
 define([
   'jquery', 
   'underscore',
-  'backbone'
-], function($, _, Backbone){
+  'backbone',
+  'text!views/templates/explorer.html',
+  'text!views/templates/explorer.row.html',
+  'text!views/templates/explorer.row.all.html',
+  'text!views/templates/explorer.row.none.html'
+], function($, _, Backbone, htmlExplorer, htmlRow, htmlRowAll, htmlRowNone){
 
 	var ExplorerView = Backbone.View.extend({
 		initialize: function(options, el){
@@ -12,7 +16,7 @@ define([
 			this.vent.bind("clickSubscription", this.clickSubscription, this);
 			this.vent.bind("sidebarLoaded", this.sidebarLoaded, this);
 
-			this.template = _.template($("#explorer-template").html());
+			this.template = _.template(htmlExplorer);
 
 			this.render();
 		},
@@ -106,23 +110,24 @@ define([
 					exploreElement.html("");
 					titleElement.html(ref.subscriptionTitle);
 
-					// Todo, fix with proper view
+					var template;
+
 					if(msg.length === 0)
 					{
-						var source   = $("#item-template-none").html();
-						var template = _.template(source);
+						template = _.template(htmlRowNone);
 						var html = template();
 						exploreElement.html(html);
 
 						return;
 					}
 					else if(ref.subscriptionId == 0)
-						templateName = "item-template-all";
+					{
+						template = _.template(htmlRowAll);
+					}
 					else
-						templateName = "item-template";
-
-					var source   = $("#" + templateName).html();
-					var template = _.template(source);
+					{
+						template = _.template(htmlRow);
+					}			
 
 					for(var i = 0; i < msg.length; i ++)
 					{		

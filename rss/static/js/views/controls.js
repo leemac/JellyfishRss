@@ -3,13 +3,14 @@ define([
   'underscore',
   'backbone',
   'views/settings',
-  'views/add.subscription'
-], function($, _, Backbone, SettingsView, AddSubscriptionView){
+  'views/add.subscription',
+  'text!views/templates/controls.html'
+], function($, _, Backbone, SettingsView, AddSubscriptionView, htmlControls){
 
 	var ControlsView = Backbone.View.extend({
 		initialize: function(options){		
 			this.vent = options.vent;
-			this.template = _.template($("#controls-template").html());
+			this.template = _.template(htmlControls);
 			this.render();
 		},
 

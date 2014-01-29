@@ -1,13 +1,14 @@
 define([
   'jquery', 
   'underscore',
-  'backbone'
-], function($, _, Backbone){
+  'backbone',
+  'text!views/templates/modal.settings.html'
+], function($, _, Backbone, htmlSettings){
 
 	var SettingsView = Backbone.View.extend({
 		initialize: function(options){
 			this.vent = options.vent;
-			this.template = _.template($("#settings-template").html());
+			this.template = _.template(htmlSettings);
 		},
 
 		events : {

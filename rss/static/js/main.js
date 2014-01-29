@@ -6,6 +6,7 @@ require.config({
     jquery: 'vendor/jquery.min',    
     underscore: 'vendor/underscore.min',
     backbone: 'vendor/backbone.min',
+    text: 'vendor/require.text.min'
   },
   shim: {
     underscore: {

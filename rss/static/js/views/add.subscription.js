@@ -1,14 +1,15 @@
 define([
   'jquery', 
   'underscore',
-  'backbone'
-], function($, _, Backbone){
+  'backbone',
+  'text!views/templates/modal.add.html'
+], function($, _, Backbone, htmlAdd){
 
 	var AddSubscriptionView = Backbone.View.extend({
 
 		initialize: function(options){
 			this.vent = options.vent;
-			this.template = _.template($("#add-subscription-template").html());
+			this.template = _.template(htmlAdd);
 		},
 
 		events : {

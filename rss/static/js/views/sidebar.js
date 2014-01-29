@@ -2,8 +2,11 @@ define([
   'jquery', 
   'underscore',
   'backbone',
-  'views/controls'
-], function($, _, Backbone, ControlsView){
+  'views/controls',
+  'text!views/templates/sidebar.html',
+  'text!views/templates/sidebar.folder.html',
+  'text!views/templates/sidebar.item.html'
+], function($, _, Backbone, ControlsView, htmlSidebar, htmlFolder, htmlItem){
 
 	var view = Backbone.View.extend({
 		initialize: function(options){
@@ -12,7 +15,8 @@ define([
 			this.vent.bind("subscriptionAdded", this.subscriptionAdded, this);
 			this.vent.bind("subscription:unsubscribe", this.subscriptionUnsubscribed, this);
 
-			this.template = _.template($("#sidebar-template").html());
+			this.template = _.template(htmlSidebar);
+
 			this.render();
 
 			this.controlsView = new ControlsView({vent: this.vent, el: "#controls" });   
@@ -43,11 +47,8 @@ define([
 					user_id: window.get_userId()
 				},
 				success: function (msg) {
-					var source   = $("#folder-template").html();
-					var folderTemplate = _.template(source);
-
-					var source   = $("#subscription-template").html();
-					var subscriptionTemplate = _.template(source);
+					var folderTemplate = _.template(htmlFolder);
+					var subscriptionTemplate = _.template(htmlItem);
 
 					var html = "";
 
@@ -75,11 +76,7 @@ define([
 		},
 
 		render: function() {
-
-			var element = $(this.el);
-			var ref = this;
-
-			element.html(this.template());
+			this.$el.html(this.template());
 
 			this.refreshItems();
 
