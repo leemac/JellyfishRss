@@ -1,41 +1,53 @@
-var ControlsView = Backbone.View.extend({
-	initialize: function(options){		
-		this.vent = options.vent;
-		this.template = Handlebars.compile($("#controls-template").html());
-		this.render();
-	},
+define([
+  'jquery', 
+  'underscore',
+  'backbone',
+  'views/settings',
+  'views/add.subscription'
+], function($, _, Backbone, SettingsView, AddSubscriptionView){
 
-	events : {
-		"click .button-add" : "buttonAddClick",
-		"click .button-settings" : "buttonSettingsClick",
-		"click .button-logout" : "buttonLogoutClick"
-	},
+	var ControlsView = Backbone.View.extend({
+		initialize: function(options){		
+			this.vent = options.vent;
+			this.template = _.template($("#controls-template").html());
+			this.render();
+		},
 
-	buttonLogoutClick : function () {
-		window.location = "http://" + window.location.host + "/logout"
-	},
-	buttonSettingsClick: function () 
-	{
-		this.settingsView.render();
-	},
-	buttonAddClick: function () 
-	{
-		this.addSubscriptionView.render();
-	},
-	
-	render: function() {
-		var element = this.el;
+		events : {
+			"click .button-add" : "buttonAddClick",
+			"click .button-settings" : "buttonSettingsClick",
+			"click .button-logout" : "buttonLogoutClick"
+		},
 
-		this.settingsView = new SettingsView({ el: "#modal"});
+		buttonLogoutClick : function () {
+			window.location = "http://" + window.location.host + "/logout"
+		},
+		buttonSettingsClick: function () 
+		{
+			this.settingsView.render();
+		},
+		buttonAddClick: function () 
+		{
+			this.addSubscriptionView.render();
+		},
+		
+		render: function() {
+			var element = this.el;
 
-		this.addSubscriptionView = new AddSubscriptionView({ vent: this.vent, el: "#modal"});
+			this.settingsView = new SettingsView({ el: "#modal"});
 
-		var controlsObj = { 
-			username: get_userName()
-		}
+			this.addSubscriptionView = new AddSubscriptionView({ vent: this.vent, el: "#modal"});
 
-		$(element).html(this.template(controlsObj));
+			var controlsObj = { 
+				username: get_userName()
+			}
 
-		return this;
-	},
+			$(element).html(this.template(controlsObj));
+
+			return this;
+		},
+	});
+
+	return ControlsView;
+
 });

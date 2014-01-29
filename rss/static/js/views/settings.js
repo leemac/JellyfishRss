@@ -1,34 +1,42 @@
-var SettingsView = Backbone.View.extend({
+define([
+  'jquery', 
+  'underscore',
+  'backbone'
+], function($, _, Backbone){
 
-	initialize: function(options){
-		this.vent = options.vent;
-		this.template = Handlebars.compile($("#settings-template").html());
-	},
+	var SettingsView = Backbone.View.extend({
+		initialize: function(options){
+			this.vent = options.vent;
+			this.template = _.template($("#settings-template").html());
+		},
 
-	events : {
-		"click .button-save" : "buttonSaveClick",
-		"click .button-cancel" : "buttonCancelClick"
-	},
+		events : {
+			"click .button-save" : "buttonSaveClick",
+			"click .button-cancel" : "buttonCancelClick"
+		},
 
-	buttonSaveClick: function () 
-	{
-		alert('save settings!');
-	},
+		buttonSaveClick: function () 
+		{
+			alert('save settings!');
+		},
 
-	buttonCancelClick: function () 
-	{
-		$(this.el).find('#window-settings').modal('hide')
-	},
+		buttonCancelClick: function () 
+		{
+			$(this.el).find('#window-settings').modal('hide')
+		},
 
-	render: function() {
+		render: function() {
 
-		var element = $(this.el);
-		var ref = this;
+			var element = $(this.el);
+			var ref = this;
 
-		element.html(this.template());
-		
-		$(this.el).find('#window-settings').modal('show')
+			element.html(this.template());
+			
+			$(this.el).find('#window-settings').modal('show')
 
-	    return this;
-	},
+		    return this;
+		},
+	});
+
+	return SettingsView;
 });

@@ -5,22 +5,6 @@
 	</title>
 	{% load staticfiles %}	 
 	
-	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/underscore.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/backbone.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/handlebars.min.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/timeago.js"></script>
-
-	<script type="text/javascript" src="{{ STATIC_URL }}js/app.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/app.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/sidebar.js"></script>	
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/controls.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/explorer.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/settings.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/add.subscription.js"></script>
-	<script type="text/javascript" src="{{ STATIC_URL }}js/views/subscription-node.js"></script>
-
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-min.css"/>
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/signin.css"/>	
 	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/app.css"/>
@@ -35,5 +19,13 @@
 
 		{% endblock %}
 	</content>
+
+	<script>
+		function getCSRF()
+		{
+			return document.getElementsByName('csrfmiddlewaretoken')[0].value;
+		}
+	</script>
+	<script data-main="{{ STATIC_URL }}js/main" src="{{ STATIC_URL }}js/vendor/require.min.js"></script>
 </body>
 </html>

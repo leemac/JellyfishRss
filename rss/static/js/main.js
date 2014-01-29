@@ -1,9 +1,11 @@
 
 require.config({
+  baseURl: 'static/js',
+  urlArgs: "bust=" + (new Date()).getTime(),
   paths: {
-    jquery: 'jquery.min',    
-    underscore: 'underscore.min',
-    backbone: 'backbone.min',
+    jquery: 'vendor/jquery.min',    
+    underscore: 'vendor/underscore.min',
+    backbone: 'vendor/backbone.min',
   },
   shim: {
     underscore: {
@@ -18,9 +20,12 @@ require.config({
 
 require(
 	[
+      "jquery",
+      "underscore",
+      "backbone",
   		'app',
 	], 
-	function(App){
-		App.initialize();
+	function($, _, Backbone, app){
+      new app();
 	}
 );
