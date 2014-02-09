@@ -50,6 +50,7 @@ class SubscriptionItem(models.Model):
 	published = 	models.DateTimeField()
 	title = 		models.TextField()
 	url = 			models.TextField()
+	thumbnail_url = models.TextField(blank=True)
 	is_read = 		models.BooleanField(default=False)
 	is_favorite = 	models.BooleanField(default=False)
 	subscription = 	models.ForeignKey(Subscription, related_name="item")
