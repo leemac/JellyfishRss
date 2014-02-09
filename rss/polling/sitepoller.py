@@ -77,7 +77,7 @@ class SitePoller:
 
 			print "Adding: " + item.link
 
-			thumbnail_url = self.get_story_thumbnail(item)
+			thumbnail_url = self.get_story_thumbnail(link, item)
 
 			if thumbnail_url:
 				print "Found story image: " + thumbnail_url
@@ -105,7 +105,7 @@ class SitePoller:
 
 			object.save()
 
-	def get_story_thumbnail(self, item):
+	def get_story_thumbnail(self, rootUrl, item):
 		print "Locating story image..."
 
 		page = BeautifulSoup(urllib2.urlopen(item.link))			
@@ -123,7 +123,7 @@ class SitePoller:
 				continue;
 
 			if not "http" in imageSource:
-				image_url = str(link + "/" + imageSource)
+				image_url = str(rootUrl + "/" + imageSource)
 			else:
 				image_url = imageSource
 
