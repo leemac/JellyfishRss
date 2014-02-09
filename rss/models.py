@@ -62,6 +62,7 @@ class SubscriptionItem(models.Model):
 				url=self.url,
 				title=self.title,
 				content=self.content,
+				content_short=self.content[:256] + "...",
 				published= str(self.published),
 				is_read=self.is_read,
 				is_favorite = self.is_favorite,

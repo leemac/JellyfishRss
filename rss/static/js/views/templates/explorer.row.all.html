@@ -5,7 +5,7 @@
 			<div style="background-image: url({{ data.thumbnail_url }});background-size: cover;
 background-position: 50% 30%; height: 104px; width: 200px"></div>	
 			{% } else { %}	
-				<div style="text-align:center; font-size: 12px; width: 200px">[{{ data.subscriptionTitle }}]</div>
+			<div style="text-align:center; color: #AAA; font-size: 12px; height:104px; line-height: 104px; width: 200px">{{ data.subscriptionTitle }}</div>
 			{% } %}
 		</div>
 		<div class="subscription-explorer-node-title">
@@ -16,10 +16,10 @@ background-position: 50% 30%; height: 104px; width: 200px"></div>
 				{{ data.subscriptionTitle }}
 			</div>
 			<div style="color:#AAA; font-size: 11px;">
-				{{ data.content }}
+				{{ data.content_short }}
 			</div>
 		</div>
-		<div class="hidden">
+		<div style="display:none">
 			<!-- TODO: Add these back on 'hover' -->
 			<i class="fa fa-star-o button-favorite"></i>
 			
