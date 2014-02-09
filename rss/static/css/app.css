@@ -193,6 +193,7 @@ h1
 	float:left;
 	margin-right: 5px;
 	font-weight:bold;
+	width: 26%;
 }
 
 .subscription-explorer-node-fav
@@ -204,6 +205,7 @@ h1
 .subscription-explorer-node-title
 {
 	float:left;
+	width: 72%;
 	word-wrap:break-word;
 }
 
@@ -258,4 +260,9 @@ h1
 {
 	margin-bottom: 7px;
 	width: 100%;
+}
+
+.feedflare
+{
+	display:none;
 }

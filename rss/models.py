@@ -65,7 +65,8 @@ class SubscriptionItem(models.Model):
 				published= str(self.published),
 				is_read=self.is_read,
 				is_favorite = self.is_favorite,
-				subscriptionTitle = self.subscription.title
+				subscriptionTitle = self.subscription.title,
+				thumbnail_url = self.thumbnail_url
 			)
 
 	def __str__(self):

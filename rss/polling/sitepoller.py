@@ -5,6 +5,13 @@ from urlparse import urlparse
 
 from rss.models import Subscription
 from rss.models import SubscriptionItem
+from bs4 import BeautifulSoup
+from PIL import Image
+
+import logging
+import cStringIO
+
+logger = logging.getLogger(__name__)
 
 import lxml.html as lh
 import urllib2
@@ -33,12 +40,13 @@ class SitePoller:
 	def poll_site(self, subscription):
 		d = feedparser.parse(subscription.url)
 
-		if not subscription.favicon_url:
-			link = d.feed.link
+		link = d.feed.link
 
-			hostname = urlparse(d.feed.link).hostname
-			link = "http://" + hostname
-							
+		hostname = urlparse(d.feed.link).hostname
+		link = "http://" + hostname
+
+		if not subscription.favicon_url:
+									
 			doc = lh.parse(link)
 
 			favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
@@ -61,21 +69,32 @@ class SitePoller:
 				subscription.save()
 
 		for item in d.entries:
+
 			existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
 
 			if(existingItem != 0):
 				continue
 
+			print "Adding: " + item.link
+
+			thumbnail_url = self.get_story_thumbnail(item)
+
+			if thumbnail_url:
+				print "Found story image: " + thumbnail_url
+
 			object = SubscriptionItem()
 			object.title=item.title
 			object.url=item.link
 			object.subscription_id = subscription.id
+			object.thumbnail_url = thumbnail_url
 
+			# Published may/may not be where we'd like
 			try :
 				object.published = datetime.fromtimestamp(mktime(item.published_parsed))
 			except AttributeError:
 				object.published = datetime.fromtimestamp(mktime(item.date_parsed))
 
+			# Content may/may not be where we'd like
 			try:
 				object.content = item.content[0]
 			except AttributeError:
@@ -85,6 +104,61 @@ class SitePoller:
 					object.content = ""
 
 			object.save()
+
+	def get_story_thumbnail(self, item):
+		print "Locating story image..."
+
+		page = BeautifulSoup(urllib2.urlopen(item.link))			
+		images = page.findAll('img')
+
+		largest_image_size = 0
+		largest_image_src = ""
+
+		# Locate story image
+		for img in images:
+
+			imageSource = img.get("src")
+
+			if (imageSource is None):
+				continue;
+
+			if not "http" in imageSource:
+				image_url = str(link + "/" + imageSource)
+			else:
+				image_url = imageSource
+
+			# Skip blacklisted keywords in image path
+			if ("css" in imageSource) or ("advert" in imageSource) or ("php" in imageSource) or ("logo" in imageSource):
+				continue
+
+			try:
+				file = cStringIO.StringIO(urllib2.urlopen(image_url).read())
+				image = Image.open(file)
+			except IOError:
+				print "No image found: " + imageSource
+				continue			
+
+			height, width = image.size
+
+			# skip icons or avatars
+			if (height < 75) or (width < 75):
+				continue;
+
+			#  Store produce of height/width
+			size = height*width
+
+			# Compare product with largest found thus far
+			# and make note of it if it is the largest
+			if largest_image_size < size:
+				largest_image_size = size
+				largest_image_src = image_url
+
+				# Stop searching if big enough image is found
+				if (size > 80000):
+					print "Large image found, stop searching"
+					break
+
+		return image_url
 
 	def poll(self, logger):
 

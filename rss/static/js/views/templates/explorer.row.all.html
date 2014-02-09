@@ -1,15 +1,28 @@
 <div js-item-link="{{ data.url }}" class="subscription-explorer-node">
 	<div class="clearfix">
-		<div class="subscription-explorer-node-fav">
-			<i class="fa fa-star-o button-favorite"></i>
-		</div>
 		<div class="subscription-explorer-node-subscription" style="color: {{ data.subscriptionColor }} !important">
-			{{ data.subscriptionTitle }}
+			{% if (data.thumbnail_url) { %}
+			<div style="background-image: url({{ data.thumbnail_url }});background-size: cover;
+background-position: 50% 30%; height: 104px; width: 200px"></div>	
+			{% } else { %}	
+				<div style="text-align:center; font-size: 12px; width: 200px">[{{ data.subscriptionTitle }}]</div>
+			{% } %}
 		</div>
 		<div class="subscription-explorer-node-title">
-			{{ data.title }}
+			<div>	
+				<strong>{{ data.title }}</strong>
+			</div>
+			<div style="color: #999; font-size: 11px;">
+				{{ data.subscriptionTitle }}
+			</div>
+			<div style="color:#AAA; font-size: 11px;">
+				{{ data.content }}
+			</div>
 		</div>
-		<div class="subscription-explorer-node-time">
+		<div class="hidden">
+			<!-- TODO: Add these back on 'hover' -->
+			<i class="fa fa-star-o button-favorite"></i>
+			
 			<abbr class="timeago" title="{{ data.published }}">{{ data.published }}</abbr>
 		</div>
 	</div>
