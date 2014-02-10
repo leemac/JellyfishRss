@@ -7,7 +7,7 @@ h1
 {
 	font-size: 22px;
 	font-weight: 700;
-	margin: 10px 5px;
+	margin: 0;
 }
 
 #userbar
@@ -20,22 +20,23 @@ h1
 {
 	color: lightblue;
 }
+
+#main
+{
+	margin: 50px auto;
+	width: 1100px;
+}
 #sidebar
 {
 	background-color: #30384a;
 	min-height: 600px;
-	width: 300px;
+	width: 225px;
 	color: #FFF;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
 }
 #content 
 {
 	background-color: white;
-	margin-left: 300px;
-	width: 800px;
+	width: 875px;
 }
 #explorer 
 {
@@ -46,6 +47,8 @@ h1
 #controls
 {
 	background-color: #1c212c;
+	color: whitesmoke;
+	line-height: 24px;
 	padding: 5px;
 }
 
@@ -53,12 +56,23 @@ h1
 {
 	color: #fff;
 	font-weight: bold;
-	padding: 10px 14px;
+	margin-right: 10px;
+	padding: 13px 20px;
 }
 
 #controls a:hover
 {
 	background-color: #111;
+}
+
+#controls .button-add
+{
+	background-color: #42CA52;
+}
+
+#controls .button-add:hover
+{
+	background-color: #49DA5A;
 }
 
 .loading
@@ -106,10 +120,10 @@ h1
 
 .subscription-header
 {
-	background-color: #2d2d2d;
-	border-bottom: 4px solid #010101;
-	color: #eee;
-	padding: 40px 10px 5px;
+	background-color: #FFF;
+	color: #333;
+	line-height:18px;
+	padding: 5px;
 }
 
 .subscription-header a.nav-link
@@ -193,7 +207,7 @@ h1
 	float:left;
 	margin-right: 5px;
 	font-weight:bold;
-	width: 26%;
+	width: 24%;
 }
 
 .subscription-explorer-node-fav

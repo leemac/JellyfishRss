@@ -2,11 +2,10 @@ define([
   'jquery', 
   'underscore',
   'backbone',
-  'views/controls',
   'text!views/templates/sidebar.html',
   'text!views/templates/sidebar.folder.html',
   'text!views/templates/sidebar.item.html'
-], function($, _, Backbone, ControlsView, htmlSidebar, htmlFolder, htmlItem){
+], function($, _, Backbone, htmlSidebar, htmlFolder, htmlItem){
 
 	var view = Backbone.View.extend({
 		initialize: function(options){
@@ -18,8 +17,6 @@ define([
 			this.template = _.template(htmlSidebar);
 
 			this.render();
-
-			this.controlsView = new ControlsView({vent: this.vent, el: "#controls" });   
 		},
 		events: {
 			"click .subscription" : "clickSubscription"

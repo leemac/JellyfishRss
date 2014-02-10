@@ -1,4 +1,4 @@
-<div js-item-link="{{ data.url }}" class="subscription-explorer-node">
+<div class="subscription-explorer-node">
 	<div class="clearfix">
 		<div class="subscription-explorer-node-subscription" style="color: {{ data.subscriptionColor }} !important">
 			{% if (data.thumbnail_url) { %}
@@ -10,7 +10,7 @@ background-position: 50% 30%; height: 104px; width: 200px"></div>
 		</div>
 		<div class="subscription-explorer-node-title">
 			<div>	
-				<strong>{{ data.title }}</strong>
+				<a href="{{ data.url }}" target="_blank">{{ data.title }}</a>
 			</div>
 			<div style="color: #999; font-size: 11px;">
 				{{ data.subscriptionTitle }}
@@ -18,7 +18,7 @@ background-position: 50% 30%; height: 104px; width: 200px"></div>
 			<div style="color:#AAA; font-size: 11px;">
 				{{ data.content_short }}
 			</div>
-		</div>
+		</div>lates
 		<div style="display:none">
 			<!-- TODO: Add these back on 'hover' -->
 			<i class="fa fa-star-o button-favorite"></i>

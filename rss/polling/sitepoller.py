@@ -106,7 +106,7 @@ class SitePoller:
 			object.save()
 
 	def get_story_thumbnail(self, rootUrl, item):
-		print "Locating story image..."
+		print "Locating story image: " + item.link
 
 		page = BeautifulSoup(urllib2.urlopen(item.link))			
 		images = page.findAll('img')

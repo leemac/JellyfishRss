@@ -3,10 +3,9 @@ define([
   'underscore',
   'backbone',
   'text!views/templates/explorer.html',
-  'text!views/templates/explorer.row.html',
   'text!views/templates/explorer.row.all.html',
   'text!views/templates/explorer.row.none.html'
-], function($, _, Backbone, htmlExplorer, htmlRow, htmlRowAll, htmlRowNone){
+], function($, _, Backbone, htmlExplorer, htmlRowAll, htmlRowNone){
 
 	var ExplorerView = Backbone.View.extend({
 		initialize: function(options, el){
@@ -120,14 +119,10 @@ define([
 
 						return;
 					}
-					else if(ref.subscriptionId == 0)
-					{
-						template = _.template(htmlRowAll);
-					}
 					else
 					{
-						template = _.template(htmlRow);
-					}			
+						template = _.template(htmlRowAll);
+					}		
 
 					for(var i = 0; i < msg.length; i ++)
 					{		
@@ -143,13 +138,8 @@ define([
 				}
 			});
 		},
-
 		openItem: function (e) {
-			var target = e.target;
-			// Todo, fix with proper view
-			var url = $(target).parents(".subscription-explorer-node").attr("js-item-link");
-			
-			window.location = url;
+			// TODO: Open viewer 
 		},
 		clickSubscription: function (target) {
 			var thisLinkElement = $(target);

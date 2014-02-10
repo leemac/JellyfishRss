@@ -12,6 +12,8 @@ define([
 			this.vent = options.vent;
 			this.template = _.template(htmlControls);
 			this.render();
+
+			console.log("here")
 		},
 
 		events : {
