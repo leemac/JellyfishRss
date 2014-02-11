@@ -1,0 +1,8 @@
+<div class="sidebar">
+	<div ng-repeat="folder in folders">
+		<div class="folder">{{folder.title}}</div>
+		<div ng-click="itemClick(subscription.id)" class="subscription" ng-repeat="subscription in folder.subscriptions">
+			{{subscription.title}}
+		</div>
+	</div>
+</div>

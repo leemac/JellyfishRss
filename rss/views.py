@@ -91,69 +91,65 @@ def add_subscription(request):
 # GET
 
 def get_subscription_items(request):
-	# TODO: Filter this based on user's subscription
-	if(request.is_ajax()):
-		subscription_id = request.POST["subscription_id"]
-		user_id = request.POST["user_id"]
+	subscription_id = request.GET["subscription_id"]
+	user_id = request.GET["user_id"]
 
-		if int(subscription_id) == 0:
+	if int(subscription_id) == 0:
 
-			subscription_ids = []
+		subscription_ids = []
 
-			for relation in SubscriptionUserRelation.objects.filter(user_id=user_id):
-				subscription_ids.append(relation.subscription_id)
+		for relation in SubscriptionUserRelation.objects.filter(user_id=user_id):
+			subscription_ids.append(relation.subscription_id)
 
-			itemset = SubscriptionItem.objects.filter(subscription_id__in=subscription_ids, is_read=False)
-		else:
-			subscriptions = Subscription.objects.get(id=subscription_id)
-			itemset = subscriptions.item.filter(is_read=False)
+		itemset = SubscriptionItem.objects.filter(subscription_id__in=subscription_ids, is_read=False)
+	else:
+		subscriptions = Subscription.objects.get(id=subscription_id)
+		itemset = subscriptions.item.filter(is_read=False)
 
-		results = [ob.as_json() for ob in itemset.order_by('-published')]
+	results = [ob.as_json() for ob in itemset.order_by('-published')]
 
-		return HttpResponse(json.dumps(results), mimetype='application/json')
-
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+	return HttpResponse(json.dumps(results), mimetype='application/json')
 
 def get_folders(request):
-	if(request.is_ajax()):
-		user_id = request.POST["user_id"]
+	#if(request.is_ajax()):
+	user_id = request.GET["user_id"]
 
-		folders = Folder.objects.filter(user_id=user_id)
+	folders = Folder.objects.filter(user_id=user_id)
 
-		results = []
+	results = []
 
-		# Could be replaced by built-in json in models
-		for folder in folders.all():
-			subscriptions = []
+	# Could be replaced by built-in json in models
+	for folder in folders.all():
+		subscriptions = []
 
-			for relation in SubscriptionUserRelation.objects.filter(folder_id=folder.id):
-				subObj = {}
-				subObj["title"] = relation.subscription.title
-				subObj["id"] = relation.subscription.id
-				subObj["favicon_url"] = relation.subscription.favicon_url
-				subscriptions.append(subObj)
+		for relation in SubscriptionUserRelation.objects.filter(folder_id=folder.id):
+			subObj = {}
+			subObj["title"] = relation.subscription.title
+			subObj["id"] = relation.subscription.id
+			subObj["favicon_url"] = relation.subscription.favicon_url
+			subscriptions.append(subObj)
 
-			folderObj = {}
-			folderObj["title"] = folder.title
-			folderObj["subscriptions"] = subscriptions
+		folderObj = {}
+		folderObj["title"] = folder.title
+		folderObj["subscriptions"] = subscriptions
 
-    		results.append(folderObj)
+		results.append(folderObj)
 
-		# TODO:
+	# TODO:
 
-		# Need Structure like:
+	# Need Structure like:
 
-		# Folder A
-		# -- Subscription 1
-		# -- Subscription 2
-		# Folder B
-		# -- Subscription 3
-		# Folder C
-		# (...)
+	# Folder A
+	# -- Subscription 1
+	# -- Subscription 2
+	# Folder B
+	# -- Subscription 3
+	# Folder C
+	# (...)
 
-		return HttpResponse(json.dumps(results), mimetype='application/json')
+	return HttpResponse(json.dumps(results), mimetype='application/json')
 
-	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
+#	return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
 
 # MISC
 

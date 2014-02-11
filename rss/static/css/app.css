@@ -26,25 +26,74 @@ h1
 	margin: 50px auto;
 	width: 1100px;
 }
-#sidebar
+.sidebar
 {
 	background-color: #30384a;
 	min-height: 600px;
 	width: 225px;
 	color: #FFF;
 }
+
+	.sidebar .folder
+	{
+		background-color: #262D3D;
+		color: #DFEAF5;
+		font-weight: bold;
+		font-size: 12px;
+		line-height: 18px;
+		margin: 10px 7px 4px;
+		padding: 7px 13px;
+	}
+	.sidebar .folder:hover
+	{	
+		background-color: #455069;
+		cursor: pointer;
+	}
+
+	.sidebar .folder.selected
+	{
+		background-color: #455069;
+	}
+
+	.sidebar .subscription
+	{
+		color: #DFEAF5;
+		font-size: 12px;
+		margin-left: 18px;
+		margin-right: 17px;
+		padding: 5px 8px;
+	}
+
+	.sidebar .subscription:hover
+	{	
+		background-color: #384157;
+		color: #EEE;
+		cursor: pointer;
+	}
+
+	.sidebar .subscription img
+	{
+		opacity: .8;
+	}
+
+	.sidebar .subscription.selected
+	{
+		background-color: #455069;
+	}
+
 #content 
 {
 	background-color: white;
 	width: 875px;
 }
-#explorer 
+.explorer 
 {
 	border-left: 2px solid #AAA;
 	border-right: 1px solid #DDD;
+	width: 850px;
 }
 
-#controls
+header
 {
 	background-color: #1c212c;
 	color: whitesmoke;
@@ -52,7 +101,7 @@ h1
 	padding: 5px;
 }
 
-#controls a
+header a
 {
 	color: #fff;
 	font-weight: bold;
@@ -60,17 +109,17 @@ h1
 	padding: 13px 20px;
 }
 
-#controls a:hover
+header a:hover
 {
 	background-color: #111;
 }
 
-#controls .button-add
+header .button-add
 {
 	background-color: #42CA52;
 }
 
-#controls .button-add:hover
+header .button-add:hover
 {
 	background-color: #49DA5A;
 }
@@ -136,53 +185,7 @@ h1
 	font-size: 12px;
 }
 
-.folder
-{
-	background-color: #262D3D;
-	border-radius: 4px;
-	color: #DFEAF5;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 24px;
-	margin: 10px 7px 4px;
-	padding: 7px 13px;
-}
-.folder:hover
-{	
-	background-color: #455069;
-	cursor: pointer;
-}
 
-.folder.selected
-{
-	background-color: #455069;
-}
-
-.subscription
-{
-	color: #DFEAF5;
-	font-size: 12px;
-	margin-left: 18px;
-	margin-right: 17px;
-	padding: 5px 8px;
-}
-
-.subscription:hover
-{	
-	background-color: #384157;
-	color: #EEE;
-	cursor: pointer;
-}
-
-.subscription img
-{
-	opacity: .8;
-}
-
-.subscription.selected
-{
-	background-color: #455069;
-}
 
 .subscription-explorer-node
 {

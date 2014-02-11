@@ -14,7 +14,77 @@
 	</script>
 	{% csrf_token %}
 
-	<div id="app" class="clearfix"></div>
+	<div id="main" ng-app="JellyFishApp">
+
+		<header class="clearfix" ng-controller="HeaderCtrl" ng-include="'static/templates/header.html'">
+
+		</header>
+		<div class="clearfix" style="margin-top: 10px">
+			<div class="sidebar pull-left" ng-controller="SidebarCtrl" 
+					ng-include="'static/templates/sidebar.html'"></div>
+
+			<div class="explorer pull-left" ng-controller="ExplorerCtrl" 
+					ng-include="'static/templates/explorer.html'"></div>
+		</div>
+
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+	<script>
+		var app = angular.module('JellyFishApp', [])
+	    .config(['$httpProvider', function($httpProvider) {
+	        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+	    }]);
+
+		app.controller("HeaderCtrl", function($scope) {
+		
+		});
+
+		app.controller("SidebarCtrl", function($scope, $rootScope, $http) {
+			$scope.itemClick = function (subscriptionId) {
+				$rootScope.$broadcast("subscription:click", subscriptionId);
+			};
+
+			$http.get("api/get_folders", {
+				params: {
+					csrfmiddlewaretoken: window.getCSRF(),
+					user_id: window.get_userId()
+				}
+			}).success(function(data)	{
+				$scope.folders = data;
+			}).error(function(){
+				console.log("something broke!")
+			})
+		});
+
+		app.controller("ExplorerCtrl", function($scope, $http) {
+			$scope.$on('subscription:click', function(event, subscriptionId) {
+				$http.get("api/get_subscription_items", {
+					params: {
+						csrfmiddlewaretoken: window.getCSRF(),
+						user_id: window.get_userId(),					
+						subscription_id: subscriptionId,
+					}
+					}).success(function(data)	{
+						$scope.items = data;
+					}).error(function(){
+						console.log("something broke!")
+					});			    
+		  	});
+
+		  	$http.get("api/get_subscription_items", {
+				params: {
+					csrfmiddlewaretoken: window.getCSRF(),
+					user_id: window.get_userId(),					
+					subscription_id: 0,
+				}
+			}).success(function(data)	{
+				$scope.items = data;
+			}).error(function(){
+				console.log("something broke!")
+			});
+		});
+	</script>
 
 	{% else %}
 		{% if form.errors %}

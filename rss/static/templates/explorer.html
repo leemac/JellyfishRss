@@ -1,0 +1,43 @@
+<div id="explorer">
+	<div class="subscription-header clearfix">
+		<div class="pull-left">
+			<span class="title strong"></span>
+		</div> 
+		<div class="pull-right">
+			<a href="#" class="control-link button-mark-all-read">Mark all as read</a> | 
+			<a href="#" class="control-link button-unsubscribe">Unsubscribe</a>
+		</div>
+	</div>
+	<div class="feed">
+		<div ng-repeat="item in items">
+			<div class="subscription-explorer-node">
+				<div class="clearfix">
+					<div class="subscription-explorer-node-subscription" style="color: {{ item.subscriptionColor }} !important">
+						<div ng-if="item.thumbnail_url" style="background-image: url({{ item.thumbnail_url }});background-size: cover;
+			background-position: 50% 30%; height: 104px; width: 200px"></div>
+						<div ng-if="!item.thumbnail_url" style="text-align:center; color: #AAA; font-size: 12px; height:104px; line-height: 104px; width: 200px">{{ item.subscriptionTitle }}</div>
+					</div>
+					<div class="subscription-explorer-node-title">
+						<div>	
+							<a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+						</div>
+						<div style="color: #999; font-size: 11px;">
+							{{ item.subscriptionTitle }}
+						</div>
+						<div style="color:#AAA; font-size: 11px;">
+							{{ item.content_short }}
+						</div>
+					</div>
+					<div style="display:none">
+						<!-- TODO: Add these back on 'hover' -->
+						<i class="fa fa-star-o button-favorite"></i>
+						
+						<abbr class="timeago" title="{{ item.published }}">{{ item.published }}</abbr>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
