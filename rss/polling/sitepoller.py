@@ -77,11 +77,6 @@ class SitePoller:
 
 			print "Adding: " + item.link
 
-			thumbnail_url = self.get_story_thumbnail(link, item)
-
-			if thumbnail_url:
-				print "Found story image: " + thumbnail_url
-
 			object = SubscriptionItem()
 			object.title=item.title
 			object.url=item.link
@@ -106,17 +101,22 @@ class SitePoller:
 			object.save()
 
 	def poll_thumb(self, subscription):
-		
-		for subscription in Subscription.objects.all():			
-			self.poll_site(subscription)
 
+		for object in SubscriptionItem.objects.filter(subscription_id=subscription.id, thumbnail_processed=False):	
 
-	def get_story_thumbnail(self, rootUrl, item):
+			object.thumbnail_url = self.get_story_thumbnail(object.url)
+			object.thumbnail_processed = True
+			object.save()
 
-		print "Locating story image: " + item.link
+	def get_story_thumbnail(self, url):
+
+		hostname = urlparse(url).hostname
+		rootUrl = "http://" + hostname
+
+		print "Locating story image: " + url
 
 		try:
-			page = BeautifulSoup(urllib2.urlopen(item.link))			
+			page = BeautifulSoup(urllib2.urlopen(url))			
 		except urllib2.URLError:
 			return ""
 
@@ -139,11 +139,13 @@ class SitePoller:
 			else:
 				image_url = imageSource
 
-			print "Processing Image: " + image_url
 
 			# Skip blacklisted keywords in image path
-			if ("css" in imageSource) or ("advert" in imageSource) or ("php" in imageSource) or ("logo" in imageSource):
+			if ("css" in imageSource) or ("arrow" in imageSource) or ("advert" in imageSource) or ("bttn" in imageSource) or ("php" in imageSource) or ("logo" in imageSource):
+				print "SKipping Image"
 				continue
+
+			print "Processing Image: " + image_url
 
 			try:
 				file = cStringIO.StringIO(urllib2.urlopen(image_url).read())
@@ -179,7 +181,7 @@ class SitePoller:
 		for subscription in Subscription.objects.all():			
 			self.poll_site(subscription)
 
-	def poll_thumbs(self, logger):
+	def poll_thumbs(self):
 
 		for subscription in Subscription.objects.all():			
-			self.poll_site(subscription)
+			self.poll_thumb(subscription)

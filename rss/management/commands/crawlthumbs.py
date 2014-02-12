@@ -12,6 +12,6 @@ class Command(BaseCommand):
 
 		poller = sitepoller.SitePoller()
 
-		poller.poll()
+		poller.poll_thumbs()
 
 		return
