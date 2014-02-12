@@ -106,9 +106,15 @@ class SitePoller:
 			object.save()
 
 	def get_story_thumbnail(self, rootUrl, item):
+
 		print "Locating story image: " + item.link
 
-		page = BeautifulSoup(urllib2.urlopen(item.link))			
+		try:
+			page = BeautifulSoup(urllib2.urlopen(item.link))			
+		except urllib2.URLError:
+			return ""
+
+		print "Page loaded...parsing images..."
 		images = page.findAll('img')
 
 		largest_image_size = 0
@@ -126,6 +132,8 @@ class SitePoller:
 				image_url = str(rootUrl + "/" + imageSource)
 			else:
 				image_url = imageSource
+
+			print "Processing Image: " + image_url
 
 			# Skip blacklisted keywords in image path
 			if ("css" in imageSource) or ("advert" in imageSource) or ("php" in imageSource) or ("logo" in imageSource):

@@ -29,11 +29,32 @@
 
 	<script src="static/js/vendor/angular.min.js"></script>
 	<script src="static/js/vendor/angular.bootstrap.min.js"></script>
+	<script src="static/js/vendor/angular.sanitize.min.js"></script>
 	<script>
-		var app = angular.module('JellyFishApp', ['ui.bootstrap'])
+		var app = angular.module('JellyFishApp', ['ui.bootstrap', 'ngSanitize'])
 	    .config(['$httpProvider', function($httpProvider) {
 	        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 	    }]);
+
+		app.directive('bindHtmlUnsafe', function( $compile ) {
+		    return function( $scope, $element, $attrs ) {
+
+		        var compile = function( newHTML ) { // Create re-useable compile function
+		            newHTML = $compile(newHTML)($scope); // Compile html
+		            $element.html('').append(newHTML); // Clear and append it
+		        };
+
+		        var htmlName = $attrs.bindHtmlUnsafe; // Get the name of the variable 
+		                                              // Where the HTML is stored
+
+		        $scope.$watch(htmlName, function( newHTML ) { // Watch for changes to 
+		                                                      // the HTML
+		            if(!newHTML) return;
+		            compile(newHTML);   // Compile it
+		        });
+
+		    };
+		});
 
 		app.controller("HeaderCtrl", function($scope, $modal) {
 			$scope.addSubscription = function (){
@@ -102,6 +123,13 @@
 						console.log("something broke!")
 					});			    
 		  	});
+
+			$scope.expandItem = function(item){
+				if(!item.IsExpanded)
+					item.IsExpanded = false;
+				
+				item.IsExpanded = !item.IsExpanded;
+			}
 
 		  	$http.get("api/get_subscription_items", {
 				params: {

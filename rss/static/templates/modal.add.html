@@ -3,10 +3,10 @@
 </div>
 <div class="modal-body">
     <input type="text" ng-model="subscriptionUrl" class="form-control input-add-subscription" placeholder="Enter RSS feed URL (http://)" />
-    <div ng-show="currentStatus.invalidUrl" class="alert alert-danger">
+    <div ng-show="currentStatus.invalidUrl" class="alert alert-danger margin-top-2">
       <strong>Invalid Url:</strong> Please enter a valid feed URL.
     </div>
-    <div ng-show="currentStatus.importing">
+    <div ng-show="currentStatus.importing" class="margin-top-2">
       <progressbar animate="false" class="progress-striped active" max="100" value="100" type="success"><i>Subscribing to Feed</i></progressbar>  
     </div>
 </div>

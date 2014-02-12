@@ -7,7 +7,28 @@ h1
 {
 	font-size: 18px;
 	font-weight: 700;
-	margin: 0;
+	line-height: 24px;
+	margin: 0 5px;
+}
+
+h1 .jelly
+{
+	color: rgb(40, 198, 228);
+}
+
+a:hover
+{
+	cursor: pointer;
+}
+
+.margin-top-1
+{
+	margin-top: 5px;
+}
+
+.margin-top-2
+{
+	margin-top: 10px;
 }
 
 #userbar
@@ -185,44 +206,54 @@ header .button-add:hover
 	font-size: 12px;
 }
 
-
-
-.subscription-explorer-node
+.story-summary
 {
-	border-bottom: 1px solid #CCC;
+	background-color: whitesmoke;
+	margin: 0 10px 10px;
 	padding: 8px 10px;
 }
 
-.subscription-explorer-node:hover
+.story:hover
 {	
-	background-color: #EFEFEF;
+	background-color: #DDD;
+	transition: background-color 250ms linear;
 	cursor: pointer;
 }
 
-.subscription-explorer-node-none
+.story .thumb
 {
-	padding: 50px 10px;
-	text-align: center;	
+	float: left;
+	width: 14%;
 }
 
-.subscription-explorer-node-subscription
+.story .thumb .image
 {
-	float:left;
-	margin-right: 5px;
-	font-weight:bold;
-	width: 24%;
+	background-size: cover;
+	background-position: 50% 30%; 
+	border: 3px solid #DDD;
+	height: 54px; 
 }
 
-.subscription-explorer-node-fav
+.story .title h3
 {
-	float:left;
-	margin-right: 5px;
+	margin: 0;
 }
 
-.subscription-explorer-node-title
+.story .summary
+{
+	font-size: 14px;
+}
+
+.story .content
 {
 	float:left;
-	width: 72%;
+	margin-left: 10px;
+	width: 73%;
+}
+
+.story .title
+{
+	font-weight: 700;
 	word-wrap:break-word;
 }
 
