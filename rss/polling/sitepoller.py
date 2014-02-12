@@ -96,7 +96,7 @@ class SitePoller:
 
 			# Content may/may not be where we'd like
 			try:
-				object.content = item.content[0]
+				object.content = item.content[0].value
 			except AttributeError:
 				try:
 					object.content = item.description

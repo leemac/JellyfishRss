@@ -1,34 +1,34 @@
 <div id="explorer">
 	<div class="feed">
 		<div ng-repeat="item in items">
-			<a href="{{ item.url }}" target="_blank">
-				<div class="story" ng-click="expandItem(item)">
-					<div class="story-summary">
-						<div class="clearfix">
-							<div class="thumb">
-								<div ng-if="item.thumbnail_url" class="image" style="background-image: url({{ item.thumbnail_url }});"></div>
-								<div ng-if="!item.thumbnail_url" style="text-align:center; color: #AAA; font-size: 12px; height:104px; line-height: 44px; width: 100px">{{ item.subscriptionTitle }}</div>
+			<div class="story" ng-click="expandItem(item)">
+				<div class="story-summary">
+					<div class="clearfix">
+						<div class="thumb">
+							<div ng-if="item.thumbnail_url" class="image" style="background-image: url({{ item.thumbnail_url }});"></div>
+							<div ng-if="!item.thumbnail_url" style="text-align:center; color: #AAA; font-size: 12px; height:104px; line-height: 44px; width: 100px">{{ item.subscriptionTitle }}</div>
+						</div>
+						<div class="content">
+							<div class="title">	
+								<h3>
+									<a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+								</h3>
 							</div>
-							<div class="content">
-								<div class="title">	
-									<h3>
-										{{ item.title }}
-									</h3>
-								</div>
-								<div class="site-title">
-									{{ item.subscriptionTitle }}
-								</div>
+							<div class="site-title">
+								{{ item.subscriptionTitle }}
 							</div>
-							<div style="display:none">
-								<!-- TODO: Add these back on 'hover' -->
-								<i class="fa fa-star-o button-favorite"></i>
-								
-								<abbr class="timeago" title="{{ item.published }}">{{ item.published }}</abbr>
+							<div ng-bind-html="item.content">
 							</div>
+						</div>
+						<div style="display:none">
+							<!-- TODO: Add these back on 'hover' -->
+							<i class="fa fa-star-o button-favorite"></i>
+							
+							<abbr class="timeago" title="{{ item.published }}">{{ item.published }}</abbr>
 						</div>
 					</div>
 				</div>
-			</a>
+			</div>
 		</div>
 	</div>
 </div>
