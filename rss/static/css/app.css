@@ -257,6 +257,11 @@ header .button-add:hover
 	word-wrap:break-word;
 }
 
+.story .site-title
+{
+	color: #AAA;
+}
+
 .subscription-explorer-node-time
 {
 	float:right;
