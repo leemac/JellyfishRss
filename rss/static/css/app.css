@@ -215,7 +215,7 @@ header .button-add:hover
 
 .story:hover
 {	
-	background-color: #DDD;
+	background-color: #00FF00;
 	transition: background-color 250ms linear;
 	cursor: pointer;
 }

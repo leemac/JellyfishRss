@@ -105,6 +105,12 @@ class SitePoller:
 
 			object.save()
 
+	def poll_thumb(self, subscription):
+		
+		for subscription in Subscription.objects.all():			
+			self.poll_site(subscription)
+
+
 	def get_story_thumbnail(self, rootUrl, item):
 
 		print "Locating story image: " + item.link
@@ -168,7 +174,12 @@ class SitePoller:
 
 		return image_url
 
-	def poll(self, logger):
+	def poll(self):
+
+		for subscription in Subscription.objects.all():			
+			self.poll_site(subscription)
+
+	def poll_thumbs(self, logger):
 
 		for subscription in Subscription.objects.all():			
 			self.poll_site(subscription)
