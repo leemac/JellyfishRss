@@ -1,6 +1,21 @@
-<div id="main" class="clearfix">
-	<div id="sidebar" class="pull-left">
+<div id="main">
+	<header class="clearfix">
+		<div class="pull-left">
+			<h1>
+				<span class="jelly">Jellyfish</span>
+			</h1>
+		</div>
+		<div class="pull-right">
+			<a ng-click="addSubscription()" class="button-add" title="Add Subscription"><i class="fa fa-plus"></i></a>
+			<a href="#" class='button-settings' title="Account Settings"><i class="fa fa-cog"></i></a>
+			<a href="#" class="button-logout" title="Logout"><i class="fa fa-sign-out"></i></a>
+		</div>
+	</header>
+
+	<div class="clearfix">
+		<div id="sidebar" class="pull-left">
+		</div>
+		<div id="content" class="pull-left"></div>
 	</div>
-	<div id="content" class="pull-left"></div>
+	<div id="modal"></div>
 </div>
-<div id="modal"></div>
