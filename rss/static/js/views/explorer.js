@@ -3,10 +3,9 @@ define([
   'underscore',
   'backbone',
   'text!views/templates/explorer.html',
-  'text!views/templates/explorer.row.html',
   'text!views/templates/explorer.row.all.html',
   'text!views/templates/explorer.row.none.html'
-], function($, _, Backbone, htmlExplorer, htmlRow, htmlRowAll, htmlRowNone){
+], function($, _, Backbone, htmlExplorer, htmlRow, htmlRowNone){
 
 	var ExplorerView = Backbone.View.extend({
 		initialize: function(options, el){
@@ -119,10 +118,6 @@ define([
 						exploreElement.html(html);
 
 						return;
-					}
-					else if(ref.subscriptionId == 0)
-					{
-						template = _.template(htmlRowAll);
 					}
 					else
 					{
