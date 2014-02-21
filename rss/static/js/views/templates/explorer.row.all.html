@@ -2,8 +2,11 @@
 	<div class="story-summary">
 		<div class="clearfix">
 			<div class="thumb">
-				<div ng-if="data.thumbnail_url" class="image" style="background-image: url({{ data.thumbnail_url }});"></div>
-				<div ng-if="!data.thumbnail_url" style="text-align:center; color: #AAA; font-size: 12px; height:104px; line-height: 44px; width: 100px">{{ data.subscriptionTitle }}</div>
+				{% if(data.thumbnail_url) { %}
+				<div class="image" style="background-image: url({{ data.thumbnail_url }});"></div>
+				{% } else { %}
+				<div style="text-align:center; color: #AAA; font-size: 12px; height:104px; line-height: 44px; width: 100px">&nbsp;</div>
+				{% } %}
 			</div>
 			<div class="content">
 				<div class="title">	
