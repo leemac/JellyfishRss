@@ -41,7 +41,7 @@ define([
 			
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/get_folders",
+				url : "/api/get_folders",
 				data : {
 					csrfmiddlewaretoken: window.getCSRF(),
 					user_id: window.get_userId()

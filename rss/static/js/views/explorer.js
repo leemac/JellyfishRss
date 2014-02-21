@@ -34,7 +34,7 @@ define([
 
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/unsubscribe",
+				url : "/api/unsubscribe",
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					subscription_id: ref.subscriptionId,
@@ -68,7 +68,7 @@ define([
 
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/mark_subscription_read",
+				url : "/api/mark_subscription_read",
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					subscription_id: ref.subscriptionId
@@ -95,7 +95,7 @@ define([
 
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/get_subscription_items",
+				url : "/api/get_subscription_items",
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					subscription_id: ref.subscriptionId,
@@ -134,7 +134,6 @@ define([
 					$(".button-favorite").click(function () {
 						alert("favorite marked..")
 					});
-					//$("abbr.timeago").timeago();
 				}
 			});
 		},

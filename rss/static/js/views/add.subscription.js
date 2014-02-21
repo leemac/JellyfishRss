@@ -45,7 +45,7 @@ define([
 
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/add_subscription",
+				url : "/api/add_subscription",
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					url: value,
