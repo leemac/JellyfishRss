@@ -77,17 +77,11 @@ class SitePoller:
 
 			print "Adding: " + item.link
 
-			thumbnail_url = self.get_story_thumbnail(link, item)
-
-			if thumbnail_url:
-				print "Found story image: " + thumbnail_url
-
 			object = SubscriptionItem()
 			object.title=item.title
 			object.url=item.link
 			object.subscription_id = subscription.id
-			object.thumbnail_url = thumbnail_url
-
+			object.thumbnail_url = ""
 			# Published may/may not be where we'd like
 			try :
 				object.published = datetime.fromtimestamp(mktime(item.published_parsed))
@@ -96,7 +90,7 @@ class SitePoller:
 
 			# Content may/may not be where we'd like
 			try:
-				object.content = item.content[0]
+				object.content = item.content[0].value
 			except AttributeError:
 				try:
 					object.content = item.description
@@ -105,10 +99,27 @@ class SitePoller:
 
 			object.save()
 
-	def get_story_thumbnail(self, rootUrl, item):
-		print "Locating story image..."
+	def poll_thumb(self, subscription):
 
-		page = BeautifulSoup(urllib2.urlopen(item.link))			
+		for object in SubscriptionItem.objects.filter(subscription_id=subscription.id, thumbnail_processed=False):	
+
+			object.thumbnail_url = self.get_story_thumbnail(object.url)
+			object.thumbnail_processed = True
+			object.save()
+
+	def get_story_thumbnail(self, url):
+
+		hostname = urlparse(url).hostname
+		rootUrl = "http://" + hostname
+
+		print "Locating story image: " + url
+
+		try:
+			page = BeautifulSoup(urllib2.urlopen(url))			
+		except urllib2.URLError:
+			return ""
+
+		print "Page loaded...parsing images..."
 		images = page.findAll('img')
 
 		largest_image_size = 0
@@ -127,9 +138,21 @@ class SitePoller:
 			else:
 				image_url = imageSource
 
+
 			# Skip blacklisted keywords in image path
-			if ("css" in imageSource) or ("advert" in imageSource) or ("php" in imageSource) or ("logo" in imageSource):
+			if 	("css" in imageSource or 
+				"arrow" in imageSource or 
+				"advert" in imageSource or 
+				"bttn" in imageSource or 
+				"php" in imageSource or 
+				"gif" in imageSource or 
+				"footer" in imageSource or 
+				"logo" in imageSource):
+
+				print "SKipping Image"
 				continue
+
+			print "Processing Image: " + image_url
 
 			try:
 				file = cStringIO.StringIO(urllib2.urlopen(image_url).read())
@@ -144,7 +167,7 @@ class SitePoller:
 			if (height < 75) or (width < 75):
 				continue;
 
-			#  Store produce of height/width
+			#  Store product of height/width for comparison
 			size = height*width
 
 			# Compare product with largest found thus far
@@ -154,13 +177,18 @@ class SitePoller:
 				largest_image_src = image_url
 
 				# Stop searching if big enough image is found
-				if (size > 80000):
+				if (size > 70000):
 					print "Large image found, stop searching"
 					break
 
 		return image_url
 
-	def poll(self, logger):
+	def poll(self):
 
 		for subscription in Subscription.objects.all():			
 			self.poll_site(subscription)
+
+	def poll_thumbs(self):
+
+		for subscription in Subscription.objects.all():			
+			self.poll_thumb(subscription)
