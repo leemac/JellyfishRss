@@ -1,22 +1,21 @@
 var AppView = Backbone.View.extend({
-el: "#app",
+    el: "#app",
 
-initialize: function() {
+    initialize: function() {
 
-    this.template = Handlebars.compile($("#app-template").html());
+        this.template = Handlebars.compile($("#app-template").html());
 
-    this.vent = _.extend({}, Backbone.Events);
-          
+        this.vent = _.extend({}, Backbone.Events);
 
-    this.render();
+        this.render();
 
-    // View Setup   
-    this.sidebarView = new SideBarView({vent: this.vent, el: "#sidebar" });    
-    this.explorerView = new ExplorerView({vent: this.vent, el: "#content" });     
+        // View Setup
+        this.sidebarView = new SideBarView({vent: this.vent, el: "#sidebar" });
+        this.explorerView = new ExplorerView({vent: this.vent, el: "#content" });
 
-},
+    },
 
-render: function() {
-    $(this.el).html(this.template());
-},
+    render: function() {
+        $(this.el).html(this.template());
+    }
 });

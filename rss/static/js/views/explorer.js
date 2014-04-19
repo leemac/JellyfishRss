@@ -2,11 +2,12 @@ define([
   'jquery', 
   'underscore',
   'backbone',
+  'views/explorer-item',
   'text!views/templates/explorer.html',
   'text!views/templates/explorer.row.html',
   'text!views/templates/explorer.row.all.html',
   'text!views/templates/explorer.row.none.html'
-], function($, _, Backbone, htmlExplorer, htmlRow, htmlRowAll, htmlRowNone){
+], function($, _, Backbone, ExplorerItemView, htmlExplorer, htmlRow, htmlRowAll, htmlRowNone){
 
 	var ExplorerView = Backbone.View.extend({
 		initialize: function(options, el){
@@ -24,6 +25,7 @@ define([
 		events : {
 			"click .subscription-explorer-node" : "openItem",
 			"click .button-mark-all-read" : "markAllAsRead",
+            "click .button-show-as-collapsed" : "showAsCollapsed",
 			"click .button-unsubscribe" : "unsubscribe"
 		},
 
@@ -60,7 +62,9 @@ define([
 
 			this.loadItems();
 		},
+        showAsCollapsed : function() {
 
+        },
 		markAllAsRead : function () {
 			var ref = this;
 
@@ -87,7 +91,7 @@ define([
 			});
 		},
 
-		loadItems: function ()
+		loadItems: function()
 		{		
 			var exploreElement = $(this.el).find(".feed");
 			var titleElement = $(this.el).find(".title");
@@ -100,7 +104,8 @@ define([
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					subscription_id: ref.subscriptionId,
-					user_id: window.get_userId()
+					user_id: window.get_userId(),
+                    page_size: 25
 				},
 				beforeSend: function (){
 					exploreElement.html("");
@@ -130,10 +135,8 @@ define([
 					}			
 
 					for(var i = 0; i < msg.length; i ++)
-					{		
-						var html = template({ data : msg[i] });
-
-						exploreElement.append(html);
+					{
+						new ExplorerItemView({ template: template, model: msg[i], el : exploreElement });
 					}
 
 					$(".button-favorite").click(function () {
