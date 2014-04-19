@@ -50,6 +50,8 @@ class SubscriptionItem(models.Model):
 	published = 	models.DateTimeField()
 	title = 		models.TextField()
 	url = 			models.TextField()
+	thumbnail_url = models.TextField(blank=True)
+	thumbnail_processed = models.BooleanField(default=False)
 	is_read = 		models.BooleanField(default=False)
 	is_favorite = 	models.BooleanField(default=False)
 	subscription = 	models.ForeignKey(Subscription, related_name="item")
@@ -61,10 +63,12 @@ class SubscriptionItem(models.Model):
 				url=self.url,
 				title=self.title,
 				content=self.content,
+				content_short=self.content[:256] + "...",
 				published= str(self.published),
 				is_read=self.is_read,
 				is_favorite = self.is_favorite,
-				subscriptionTitle = self.subscription.title
+				subscriptionTitle = self.subscription.title,
+				thumbnail_url = self.thumbnail_url
 			)
 
 	def __str__(self):

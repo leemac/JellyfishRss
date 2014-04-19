@@ -4,7 +4,6 @@ define([
   'backbone',
   'views/explorer-item',
   'text!views/templates/explorer.html',
-  'text!views/templates/explorer.row.html',
   'text!views/templates/explorer.row.all.html',
   'text!views/templates/explorer.row.none.html'
 ], function($, _, Backbone, ExplorerItemView, htmlExplorer, htmlRow, htmlRowAll, htmlRowNone){
@@ -37,7 +36,7 @@ define([
 
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/unsubscribe",
+				url : "/api/unsubscribe",
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					subscription_id: ref.subscriptionId,
@@ -73,7 +72,7 @@ define([
 
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/mark_subscription_read",
+				url : "/api/mark_subscription_read",
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					subscription_id: ref.subscriptionId
@@ -100,7 +99,7 @@ define([
 
 			$.ajax({
 				type: "POST",
-				url : "http://localhost:8000/api/get_subscription_items",
+				url : "/api/get_subscription_items",
 				data : {
 					csrfmiddlewaretoken: getCSRF(),
 					subscription_id: ref.subscriptionId,
@@ -125,10 +124,6 @@ define([
 
 						return;
 					}
-					else if(ref.subscriptionId == 0)
-					{
-						template = _.template(htmlRowAll);
-					}
 					else
 					{
 						template = _.template(htmlRow);
@@ -142,7 +137,6 @@ define([
 					$(".button-favorite").click(function () {
 						alert("favorite marked..")
 					});
-					//$("abbr.timeago").timeago();
 				}
 			});
 		},
@@ -175,7 +169,7 @@ define([
 			$(element).html(this.template());
 
 			return this;
-		},
+		}
 	});
 
 	return ExplorerView;

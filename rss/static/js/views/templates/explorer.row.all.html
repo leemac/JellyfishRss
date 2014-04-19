@@ -1,16 +1,31 @@
-<div js-item-link="{{ data.url }}" class="subscription-explorer-node">
-	<div class="clearfix">
-		<div class="subscription-explorer-node-fav">
-			<i class="fa fa-star-o button-favorite"></i>
-		</div>
-		<div class="subscription-explorer-node-subscription" style="color: {{ data.subscriptionColor }} !important">
-			{{ data.subscriptionTitle }}
-		</div>
-		<div class="subscription-explorer-node-title">
-			{{ data.title }}
-		</div>
-		<div class="subscription-explorer-node-time">
-			<abbr class="timeago" title="{{ data.published }}">{{ data.published }}</abbr>
+<div class="story">
+	<div class="story-summary">
+		<div class="clearfix">
+			<div class="thumb">
+				{% if(data.thumbnail_url) { %}
+				<div class="image" style="background-image: url({{ data.thumbnail_url }});"></div>
+				{% } else { %}
+				<div style="text-align:center; color: #AAA; font-size: 12px; height:104px; line-height: 44px; width: 100px">&nbsp;</div>
+				{% } %}
+			</div>
+			<div class="content">
+				<div class="title">	
+					<h3>
+						<a href="{{ data.url }}" target="_blank">{{ data.title }}</a>
+					</h3>
+				</div>
+				<div class="site-title">
+					{{ data.subscriptionTitle }}
+				</div>
+				<div ng-bind-html="data.content_short">
+				</div>
+			</div>
+			<div style="display:none">
+				<!-- TODO: Add these back on 'hover' -->
+				<i class="fa fa-star-o button-favorite"></i>
+				
+				<abbr class="timeago" title="{{ data.published }}">{{ data.published }}</abbr>
+			</div>
 		</div>
 	</div>
 </div>

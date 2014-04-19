@@ -12,8 +12,6 @@ class Command(BaseCommand):
 
 		poller = sitepoller.SitePoller()
 
-		logger.info("--Crawling sites! \n")
-
-		poller.poll()
+		poller.poll_thumbs()
 
 		return
