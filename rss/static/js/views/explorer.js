@@ -118,9 +118,9 @@ define([
 
 					if(msg.length === 0)
 					{
-						template = _.template(htmlRowNone);
-						var html = template();
-						exploreElement.html(html);
+						//template = _.template(htmlRowNone);
+						//var html = template();
+						exploreElement.html("Nothin' here!");
 
 						return;
 					}

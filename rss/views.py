@@ -136,7 +136,7 @@ def get_folders(request):
             folderObj["title"] = folder.title
             folderObj["subscriptions"] = subscriptions
 
-        results.append(folderObj)
+            results.append(folderObj)
 
         # TODO:
 
