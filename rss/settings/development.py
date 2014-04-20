@@ -24,4 +24,4 @@ DATABASES = {
 MEDIA_URL = 'http://localhost:8000/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = ''
+SECRET_KEY = 'REPLACE_ME'
