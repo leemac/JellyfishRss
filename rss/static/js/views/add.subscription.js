@@ -10,6 +10,8 @@ define([
 		initialize: function(options){
 			this.vent = options.vent;
 			this.template = _.template(htmlAdd);
+
+            this.render();
 		},
 
 		events : {
@@ -23,11 +25,21 @@ define([
 		},
 
 		addNewUrl: function () {
-			var value = $(this.el).find('.input-add-subscription').val();
-			if(value === "")
-				return;
 
 			var alertBox = $(this.el).find(".alert");
+
+			var value = $(this.el).find('.input-add-subscription').val();
+			if(value === "")
+            {
+				alertBox.addClass("alert-danger");
+				alertBox.removeClass("alert-success");
+
+				alertBox.html("<strong>Empty Feed:</strong> Please enter a valid feed URL.");
+				alertBox.show();
+
+                return;
+            }
+
 
 			if(value.indexOf("http://") === -1)
 			{
@@ -102,7 +114,7 @@ define([
 	  			}	
 			});
 		    return this;
-		},
+		}
 	});
 
 	return AddSubscriptionView;
