@@ -17,178 +17,178 @@ import lxml.html as lh
 import urllib2
 import feedparser
 
+
 class SitePoller:
+    def add_site_and_poll(self, rss_url):
+        self.add_site(rss_url)
 
-	def add_site_and_poll(self, rss_url):
-		self.add_site(rss_url)
-		
-		subscription = Subscription.objects.get(url=rss_url)
-		self.poll_site(subscription)
+        subscription = Subscription.objects.get(url=rss_url)
+        self.poll_site(subscription)
 
-	def add_site(self, rss_url):
-		try:
-			subscription = Subscription.objects.get(url=rss_url)
-		except Subscription.DoesNotExist:
-			d = feedparser.parse(rss_url)
+    def add_site(self, rss_url):
+        try:
+            subscription = Subscription.objects.get(url=rss_url)
+        except Subscription.DoesNotExist:
+            d = feedparser.parse(rss_url)
 
-			subscription = Subscription()
-			subscription.title = d.feed.title
-			subscription.url = rss_url
-			subscription.color = "#333"
-			subscription.save()
+            subscription = Subscription()
+            subscription.title = d.feed.title
+            subscription.url = rss_url
+            subscription.color = "#333"
+            subscription.save()
 
-	def poll_site(self, subscription):
-		d = feedparser.parse(subscription.url)
+    def poll_site(self, subscription):
+        d = feedparser.parse(subscription.url)
 
-		link = d.feed.link
+        link = d.feed.link
 
-		hostname = urlparse(d.feed.link).hostname
-		link = "http://" + hostname
+        hostname = urlparse(d.feed.link).hostname
+        link = "http://" + hostname
 
-		if not subscription.favicon_url:
-									
-			doc = lh.parse(link)
+        if not subscription.favicon_url:
 
-			favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
+            doc = lh.parse(link)
 
-			if len(favicons) == 0:
-				favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
+            favicons = doc.xpath('//link[@rel="Shortcut Icon"]/@href')
 
-			if len(favicons) > 0:
-				favicon = favicons[0]
-			else:
-				favicon = link + "/favicon.ico"
+            if len(favicons) == 0:
+                favicons = doc.xpath('//link[@rel="shortcut icon"]/@href')
 
-			if favicon:
-				fav_url = favicon
+            if len(favicons) > 0:
+                favicon = favicons[0]
+            else:
+                favicon = link + "/favicon.ico"
 
-				if not fav_url.startswith("http"):
-					fav_url = link + favicon
-					
-				subscription.favicon_url = fav_url
-				subscription.save()
+            if favicon:
+                fav_url = favicon
 
-		for item in d.entries:
+                if not fav_url.startswith("http"):
+                    fav_url = link + favicon
 
-			existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
+                subscription.favicon_url = fav_url
+                subscription.save()
 
-			if(existingItem != 0):
-				continue
+        for item in d.entries:
 
-			print "Adding: " + item.link
+            existingItem = SubscriptionItem.objects.filter(url=item.link).filter(url=item.link).count()
 
-			object = SubscriptionItem()
-			object.title=item.title
-			object.url=item.link
-			object.subscription_id = subscription.id
-			object.thumbnail_url = ""
-			# Published may/may not be where we'd like
-			try :
-				object.published = datetime.fromtimestamp(mktime(item.published_parsed))
-			except AttributeError:
-				object.published = datetime.fromtimestamp(mktime(item.date_parsed))
+            if (existingItem != 0):
+                continue
 
-			# Content may/may not be where we'd like
-			try:
-				object.content = item.content[0].value
-			except AttributeError:
-				try:
-					object.content = item.description
-				except AttributeError:
-					object.content = ""
+            print "Adding: " + item.link
 
-			object.save()
+            object = SubscriptionItem()
+            object.title = item.title
+            object.url = item.link
+            object.subscription_id = subscription.id
+            object.thumbnail_url = ""
+            # Published may/may not be where we'd like
+            try:
+                object.published = datetime.fromtimestamp(mktime(item.published_parsed))
+            except AttributeError:
+                object.published = datetime.fromtimestamp(mktime(item.date_parsed))
 
-	def poll_thumb(self, subscription):
+            # Content may/may not be where we'd like
+            try:
+                object.content = item.content[0].value
+            except AttributeError:
+                try:
+                    object.content = item.description
+                except AttributeError:
+                    object.content = ""
 
-		for object in SubscriptionItem.objects.filter(subscription_id=subscription.id, thumbnail_processed=False):	
+            object.save()
 
-			object.thumbnail_url = self.get_story_thumbnail(object.url)
-			object.thumbnail_processed = True
-			object.save()
+    def poll_thumb(self, subscription):
 
-	def get_story_thumbnail(self, url):
+        for object in SubscriptionItem.objects.filter(subscription_id=subscription.id, thumbnail_processed=False):
+            object.thumbnail_url = self.get_story_thumbnail(object.url)
+            object.thumbnail_processed = True
+            object.save()
 
-		hostname = urlparse(url).hostname
-		rootUrl = "http://" + hostname
+    def get_story_thumbnail(self, url):
 
-		print "Locating story image: " + url
+        hostname = urlparse(url).hostname
+        rootUrl = "http://" + hostname
 
-		try:
-			page = BeautifulSoup(urllib2.urlopen(url))			
-		except urllib2.URLError:
-			return ""
+        print "Locating story image: " + url
 
-		print "Page loaded...parsing images..."
-		images = page.findAll('img')
+        try:
+            page = BeautifulSoup(urllib2.urlopen(url))
+        except urllib2.URLError:
+            return ""
 
-		largest_image_size = 0
-		largest_image_src = ""
+        print "Page loaded...parsing images..."
+        images = page.findAll('img')
 
-		# Locate story image
-		for img in images:
+        largest_image_size = 0
+        largest_image_src = ""
 
-			imageSource = img.get("src")
+        # Locate story image
+        for img in images:
 
-			if (imageSource is None):
-				continue;
+            imageSource = img.get("src")
 
-			if not "http" in imageSource:
-				image_url = str(rootUrl + "/" + imageSource)
-			else:
-				image_url = imageSource
+            if (imageSource is None):
+                continue;
+
+            if not "http" in imageSource:
+                image_url = str(rootUrl + "/" + imageSource)
+            else:
+                image_url = imageSource
 
 
-			# Skip blacklisted keywords in image path
-			if 	("css" in imageSource or 
-				"arrow" in imageSource or 
-				"advert" in imageSource or 
-				"bttn" in imageSource or 
-				"php" in imageSource or 
-				"gif" in imageSource or 
-				"footer" in imageSource or 
-				"logo" in imageSource):
+            # Skip blacklisted keywords in image path
+            if ("css" in imageSource or
+                        "arrow" in imageSource or
+                        "advert" in imageSource or
+                        "bttn" in imageSource or
+                        "php" in imageSource or
+                        "gif" in imageSource or
+                        "footer" in imageSource or
+                        "logo" in imageSource):
+                print "SKipping Image"
+                continue
 
-				print "SKipping Image"
-				continue
+            print "Processing Image: " + image_url
 
-			print "Processing Image: " + image_url
+            try:
+                file = cStringIO.StringIO(urllib2.urlopen(image_url).read())
+                image = Image.open(file)
+            except IOError:
+                print "No image found: " + imageSource
+                continue
 
-			try:
-				file = cStringIO.StringIO(urllib2.urlopen(image_url).read())
-				image = Image.open(file)
-			except IOError:
-				print "No image found: " + imageSource
-				continue			
+            height, width = image.size
 
-			height, width = image.size
+            # skip icons or avatars
+            if (height < 75) or (width < 75):
+                continue;
 
-			# skip icons or avatars
-			if (height < 75) or (width < 75):
-				continue;
+            #  Store product of height/width for comparison
+            size = height * width
 
-			#  Store product of height/width for comparison
-			size = height*width
+            # Compare product with largest found thus far
+            # and make note of it if it is the largest
+            if largest_image_size < size:
+                largest_image_size = size
+                largest_image_src = image_url
 
-			# Compare product with largest found thus far
-			# and make note of it if it is the largest
-			if largest_image_size < size:
-				largest_image_size = size
-				largest_image_src = image_url
+                # Stop searching if big enough image is found
+                if (size > 70000):
+                    print "Large image found, stop searching"
+                    break
 
-				# Stop searching if big enough image is found
-				if (size > 70000):
-					print "Large image found, stop searching"
-					break
+        return image_url
 
-		return image_url
+    def poll(self):
 
-	def poll(self):
+        for subscription in Subscription.objects.all():
+            self.poll_site(subscription)
 
-		for subscription in Subscription.objects.all():			
-			self.poll_site(subscription)
+        self.poll_thumbs()
 
-	def poll_thumbs(self):
+    def poll_thumbs(self):
 
-		for subscription in Subscription.objects.all():			
-			self.poll_thumb(subscription)
+        for subscription in Subscription.objects.all():
+            self.poll_thumb(subscription)
