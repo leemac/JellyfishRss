@@ -25,6 +25,7 @@ class Subscription(models.Model):
 	site_url = 		models.TextField()
 	title = 		models.TextField()
 	favicon_url = 	models.TextField(blank=True)
+	color = 	models.TextField(max_length=20,blank=True)
 	
 	def as_json(self):
 		return dict(

@@ -34,7 +34,7 @@ class SitePoller:
 			subscription = Subscription()
 			subscription.title = d.feed.title
 			subscription.url = rss_url
-			subscription.color = ""
+			subscription.color = "#333"
 			subscription.save()
 
 	def poll_site(self, subscription):

@@ -9,10 +9,8 @@ logger = get_task_logger(__name__)
 
 @task(name='rss.tasks.poll')
 def poll():
-	poller = sitepoller.SitePoller()
+    poller = sitepoller.SitePoller()
 
-	logger.info("Crawling sites! \n")
+    poller.poll()
 
-	poller.poll(logger)
-
-	return
+    return

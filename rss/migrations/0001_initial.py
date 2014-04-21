@@ -21,7 +21,6 @@ class Migration(SchemaMigration):
         db.create_table(u'rss_subscription', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('last_crawled', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('color', self.gf('django.db.models.fields.TextField')(max_length=20, blank=True)),
             ('url', self.gf('django.db.models.fields.TextField')()),
             ('site_url', self.gf('django.db.models.fields.TextField')()),
             ('title', self.gf('django.db.models.fields.TextField')()),
