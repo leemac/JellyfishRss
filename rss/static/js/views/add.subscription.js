@@ -40,7 +40,6 @@ define([
                 return;
             }
 
-
 			if(value.indexOf("http://") === -1)
 			{
 				alertBox.addClass("alert-danger");
@@ -89,10 +88,19 @@ define([
 				}
 			});
 		},
+        destroy_view: function() {
+            this.undelegateEvents();
 
+            this.$el.removeData().unbind();
+
+            //Remove view from DOM
+            this.remove();
+            Backbone.View.prototype.remove.call(this);
+        },
 		buttonCancelClick: function () 
 		{
 			$(this.el).find('#window-add-subscription').modal('hide')
+            this.destroy_view();
 		},
 
 		render: function() {

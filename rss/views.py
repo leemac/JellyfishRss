@@ -57,6 +57,12 @@ def add_subscription(request):
         if existingSubscriptionCount == 0:
             poller = sitepoller.SitePoller()
             poller.add_site_and_poll(subscription_url)
+        else:
+            thisSubscription = Subscription.objects.get(url=subscription_url)
+            existingRelation = SubscriptionUserRelation.objects.filter(user_id=user_id, subscription_id=thisSubscription.id)
+
+            if existingRelation.exists():
+                return HttpResponse(json.dumps("ok"), mimetype='application/json')
 
         # Get default folder
         existingFolderCount = Folder.objects.filter(user_id=user_id).count()
@@ -194,9 +200,10 @@ def unsubscribe(request):
         subscription_id = request.POST["subscription_id"]
         user_id = request.POST["user_id"]
 
-        relation = SubscriptionUserRelation.objects.get(subscription_id=subscription_id, user_id=user_id)
+        relations = SubscriptionUserRelation.objects.filter(subscription_id=subscription_id, user_id=user_id)
 
-        relation.delete()
+        for relation in relations:
+            relation.delete()
 
         return HttpResponse(json.dumps("ok"), mimetype='application/json')
 

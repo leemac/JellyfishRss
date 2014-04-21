@@ -6,12 +6,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class Command(BaseCommand):
+    def handle(self, *args, **options):
+        poller = sitepoller.SitePoller()
 
-	def handle(self, *args, **options):
+        poller.poll_thumbs()
 
-		poller = sitepoller.SitePoller()
-
-		poller.poll_thumbs()
-
-		return
+        return

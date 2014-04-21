@@ -7,13 +7,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
+    def handle(self, *args, **options):
+        poller = sitepoller.SitePoller()
 
-	def handle(self, *args, **options):
+        logger.info("--Crawling sites! \n")
 
-		poller = sitepoller.SitePoller()
+        poller.poll()
 
-		logger.info("--Crawling sites! \n")
-
-		poller.poll()
-
-		return
+        return
