@@ -16,54 +16,69 @@
 
 	<div id="app" class="clearfix"></div>
 
+	<script data-main="{{ STATIC_URL }}js/main" src="{{ STATIC_URL }}js/vendor/require.min.js"></script>
+
 	{% else %}
 		{% if form.errors %}
 		<p>Your username and password didn't match. Please try again.</p>
 		{% endif %}
 
-		<form class="form-signin" role="form" method="post" action="{% url 'login-user' %}">
-			{% csrf_token %}
+		<div class="form-signin">
 			<header>
 				<h1>
 					Jellyfish Reader
 				</h1>
 			</header>
 
-			<div class="content">				
+			<div class="content panel-signin">				
 				<h5 class="form-signin-heading">Please Login</h5>
-				<input id="id_username" class="form-control" maxlength="254" name="username" type="text" clickev="true" placeholder="Username" autofocus>
-				
-				<input id="id_password" class="form-control" name="password" type="password" clickev="true" placeholder=Password>
+				<form role="form" method="post" action="{% url 'login-user' %}">
+					{% csrf_token %}
+					<input id="id_username" class="form-control" maxlength="254" name="username" type="text" clickev="true" placeholder="Username" autofocus>
+					
+					<input id="id_password" class="form-control" name="password" type="password" clickev="true" placeholder=Password>
 
-				<input id="id_password_again" class="form-control control-signup hidden" name="password_again" type="password" clickev="true" placeholder="Password (again)">
+					<input id="id_password_again" class="form-control hidden" name="password_again" type="password" clickev="true" placeholder="Password (again)">
 
-				<button type="submit" class="btn btn-default btn-success control-signin">Sign in</button>
+					<button type="submit" class="btn btn-default btn-success">Sign in</button>
 
-				<button type="button" class="btn btn-signup">Sign up</button>
+					<button type="button" class="btn btn-signup">Sign up</button>
 
-				<button type="button" class="btn btn-cancel control-signup" style="display:none">Cancel</button>
-
-				<button class="btn control-signin">Forgot Password</button>
+					<button class="btn control-signin">Forgot Password</button>
+				</form>
 			</div>
-		</form>
+
+
+			<div class="content panel-signup" style="display:none">				
+				<h5 class="form-signin-heading">Signup Below</h5>
+				<form role="form" method="post" action="{% url 'signup-user' %}">
+					{% csrf_token %}
+					<input id="id_username" class="form-control" maxlength="254" name="username" type="text" clickev="true" placeholder="Username" autofocus>
+					
+					<input id="id_password" class="form-control" name="password" type="password" clickev="true" placeholder=Password>
+
+					<input id="id_password_again" class="form-control" name="password_again" type="password" clickev="true" placeholder="Password (again)">
+
+					<button type="submit" class="btn btn-default btn-success">Sign up</button>
+
+					<button type="button" class="btn btn-cancel">Cancel</button>
+				</form>
+			</div>
+		</div>
 
 		<script src="{{ STATIC_URL }}js/vendor/jquery.min.js"></script>
 
 		<script>
 			function showSignup(){
-				$(".btn-signup").addClass("btn-success");
-
-				$(".control-signin").hide();
-				$(".control-signup").show();
+				$(".panel-signin").hide();
+				$(".panel-signup").show();
 
 				$("#id_username").focus();
 			}
 
 			function hideSignup(){
-				$(".btn-signup").removeClass("btn-success");
-
-				$(".control-signin").show();
-				$(".control-signup").hide();
+				$(".panel-signup").hide();
+				$(".panel-signin").show();
 
 				$("#id_username").focus();
 			}

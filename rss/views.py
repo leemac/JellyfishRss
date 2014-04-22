@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 from rss.polling import sitepoller
 
@@ -37,10 +38,8 @@ def home(request):
 def about(request):
     return render_to_response('static/index.html')
 
-
 def login_redirect(request):
     return render_to_response('static/login.html')
-
 
 #-----API
 
@@ -238,6 +237,34 @@ def login_user(request):
         username = request.POST['username']
         password = request.POST['password']
 
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            logger.info("User " + username + " authenticated successfully.")
+            if user.is_active:
+                login(request, user)
+                return render_to_response('static/login.html', context_instance=context)
+
+    logger.info("Showing user index with login form....")
+
+    from django.contrib.auth.forms import AuthenticationForm
+
+    context['form'] = AuthenticationForm()
+
+    return render_to_response('static/index.html', context_instance=context)
+
+def signup_user(request):
+    logout(request)
+    username = password = ""
+
+    context = RequestContext(request)
+
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        password_again = request.POST['password_again']
+
+        user = User.objects.create_user(username, "", password)
+        
         user = authenticate(username=username, password=password)
         if user is not None:
             logger.info("User " + username + " authenticated successfully.")

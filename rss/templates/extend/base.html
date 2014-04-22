@@ -14,21 +14,16 @@
 </head>
 
 <body>
-<!--
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.11/require.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}js/main-built.js"></script>-->
-	<content>
-		{% block content %}
-
-		{% endblock %}
-	</content>
-
 	<script>
 		function getCSRF()
 		{
 			return document.getElementsByName('csrfmiddlewaretoken')[0].value;
 		}
 	</script>
-	<script data-main="{{ STATIC_URL }}js/main" src="{{ STATIC_URL }}js/vendor/require.min.js"></script>
+	<content>
+		{% block content %}
+
+		{% endblock %}
+	</content>	
 </body>
 </html>
