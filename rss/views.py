@@ -41,6 +41,79 @@ def about(request):
 def login_redirect(request):
     return render_to_response('static/login.html')
 
+
+#-----AUTHENTICATION
+
+def login_user(request):
+    logout(request)
+    username = password = ""
+
+    context = RequestContext(request)
+
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            logger.info("User " + username + " authenticated successfully. test")
+
+            if user.is_active:
+                logger.info("User " + username + " is active. Logging in...")
+                login(request, user)
+                context['user'] = user
+                return redirect('static/index.html', context_instance=context)
+            else:
+                logger.info("User " + username + " is not active!")                
+                return render_to_response('static/index.html', context_instance=context)
+
+    logger.info("Showing user index with login form....")
+
+    from django.contrib.auth.forms import AuthenticationForm
+
+    context['form'] = AuthenticationForm()
+
+    return render_to_response('static/index.html', context_instance=context)
+
+def signup_user(request):
+    logout(request)
+    username = password = ""
+
+    context = RequestContext(request)
+
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        password_again = request.POST['password_again']
+
+        user = User.objects.create_user(username, "", password)
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            logger.info("User " + username + " authenticated successfully.")
+            if user.is_active:
+                login(request, user)
+                logger.info("User " + username + " is active and authenticated!")
+                return render_to_response('static/login.html', context_instance=context)
+            else:
+                logger.info("User " + username + " is not active and authenticated!")                
+                return render_to_response('static/inactive_account.html', context_instance=context)
+
+    logger.info("Showing user index with login form....")
+
+    from django.contrib.auth.forms import AuthenticationForm
+
+    context['form'] = AuthenticationForm()
+
+    return render_to_response('static/index.html', context_instance=context)
+
+
+def logout_user(request):
+    logout(request)
+
+    context = RequestContext(request)
+    return render_to_response('static/index.html', context_instance=context)
+
 #-----API
 
 # POST
@@ -207,82 +280,3 @@ def unsubscribe(request):
         return HttpResponse(json.dumps("ok"), mimetype='application/json')
 
     return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-
-def change_subscription_color(request):
-    if (request.is_ajax()):
-        subscription_id = request.POST["subscription_id"]
-        color = request.POST["color"]
-
-        subscription = Subscription.objects.get(id=subscription_id)
-
-        subscription.color = color
-
-        subscription.save()
-
-        return HttpResponse(json.dumps("ok"), mimetype='application/json')
-
-    return HttpResponse(json.dumps("Direct access is forbidden"), mimetype='application/json')
-
-
-#-----AUTHENTICATION
-
-def login_user(request):
-    logout(request)
-    username = password = ""
-
-    context = RequestContext(request)
-
-    if request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            logger.info("User " + username + " authenticated successfully.")
-            if user.is_active:
-                login(request, user)
-                return render_to_response('static/login.html', context_instance=context)
-
-    logger.info("Showing user index with login form....")
-
-    from django.contrib.auth.forms import AuthenticationForm
-
-    context['form'] = AuthenticationForm()
-
-    return render_to_response('static/index.html', context_instance=context)
-
-def signup_user(request):
-    logout(request)
-    username = password = ""
-
-    context = RequestContext(request)
-
-    if request.POST:
-        username = request.POST['username']
-        password = request.POST['password']
-        password_again = request.POST['password_again']
-
-        user = User.objects.create_user(username, "", password)
-        
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            logger.info("User " + username + " authenticated successfully.")
-            if user.is_active:
-                login(request, user)
-                return render_to_response('static/login.html', context_instance=context)
-
-    logger.info("Showing user index with login form....")
-
-    from django.contrib.auth.forms import AuthenticationForm
-
-    context['form'] = AuthenticationForm()
-
-    return render_to_response('static/index.html', context_instance=context)
-
-
-def logout_user(request):
-    logout(request)
-
-    context = RequestContext(request)
-    return render_to_response('static/index.html', context_instance=context)
