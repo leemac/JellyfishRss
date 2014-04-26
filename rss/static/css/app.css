@@ -45,14 +45,13 @@ a:hover
 #main
 {
 	margin: 50px auto;
-	width: 1100px;
+	width: 600px;
 }
 .sidebar
 {
 	background-color: #30384a;
-	min-height: 600px;
-	width: 225px;
 	color: #FFF;
+	padding: 10px;
 }
 
 	.sidebar .folder
@@ -105,8 +104,8 @@ a:hover
 #content 
 {
 	background-color: white;
-	width: 875px;
 }
+
 .explorer 
 {
 	border-left: 2px solid #AAA;
@@ -127,7 +126,7 @@ header a
 	color: #fff;
 	font-weight: bold;
 	margin-right: 10px;
-	padding: 13px 20px;
+	padding: 10px;
 }
 
 header a:hover
@@ -206,11 +205,25 @@ header .button-add:hover
 	font-size: 12px;
 }
 
-.story-summary
+.story
 {
-	font-family: 'Droid Serif', serif;
-	margin: 0 10px 10px;
-	padding: 8px 10px;
+	padding: 5px 20px;
+}
+
+.story-title
+{
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.story-site
+{
+	font-size: 11px;
+}
+
+.story-info
+{
+	font-size: 11px;
 }
 
 /* 24_3Y<4t.:5v@r */
